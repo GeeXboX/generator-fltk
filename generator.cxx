@@ -87,8 +87,6 @@ void generator_exit(GeneratorUI *ui)
     exit(0);
 }
 
-#include <FL/fl_ask.H>
-
 static int init_tabs(GeneratorUI *ui)
 {
     return init_language_tab(ui)

@@ -32,18 +32,23 @@ class GeneratorUI {open
           label Interface open
           xywh {15 40 565 265} hide
         } {
-          Fl_Choice sub_charset {
-            label {Subtitle charset:} open
-            xywh {150 130 130 25} down_box BORDER_BOX
+          Fl_Choice theme {
+            label {Theme:} open
+            xywh {150 60 130 25} down_box BORDER_BOX
           } {}
           Fl_Choice menu_lang {
             label {Menu language:} open
             xywh {150 95 130 25} down_box BORDER_BOX
           } {}
-          Fl_Choice theme {
-            label {Theme:} open
-            xywh {150 60 130 25} down_box BORDER_BOX
+          Fl_Choice sub_charset {
+            label {Subtitle charset:} open
+            xywh {150 130 130 25} down_box BORDER_BOX
           } {}
+          Fl_Check_Button override_sub_font {
+            label {Override subtitle font}
+            callback {update_tabs_status(this);}
+            xywh {150 180 185 25} down_box DOWN_BOX
+          }
           Fl_Output sub_font {
             label {Subtitle font:}
             xywh {150 210 185 25}
@@ -53,10 +58,10 @@ class GeneratorUI {open
             callback {change_font(sub_font, override_sub_font);}
             xywh {355 210 90 25}
           }
-          Fl_Check_Button override_sub_font {
-            label {Override subtitle font}
+          Fl_Check_Button override_menu_font {
+            label {Override menu font}
             callback {update_tabs_status(this);}
-            xywh {150 180 185 25} down_box DOWN_BOX
+            xywh {150 240 185 25} down_box DOWN_BOX
           }
           Fl_Output menu_font {
             label {Menu font:}
@@ -67,16 +72,15 @@ class GeneratorUI {open
             callback {change_font(menu_font, override_menu_font);}
             xywh {355 270 90 25}
           }
-          Fl_Check_Button override_menu_font {
-            label {Override menu font}
-            callback {update_tabs_status(this);}
-            xywh {150 240 185 25} down_box DOWN_BOX
-          }
         }
         Fl_Group {} {
           label Audio open
           xywh {15 40 565 265} hide
         } {
+          Fl_Value_Input alsacard_id {
+            label {ALSA Soundcard ID:}
+            xywh {185 65 150 25} maximum 9 step 1
+          }
           Fl_Choice soundcard_mode {
             label {Audio Output mode:}
             callback {update_tabs_status(this);} open
@@ -90,10 +94,6 @@ class GeneratorUI {open
               label SPDIF
               xywh {0 0 100 20} value 1
             }
-          }
-          Fl_Value_Input alsacard_id {
-            label {ALSA Soundcard ID:}
-            xywh {185 65 150 25} maximum 9 step 1
           }
           Fl_Choice channels {
             label {Number of Channels:}
@@ -154,32 +154,6 @@ class GeneratorUI {open
               xywh {0 0 100 20} value 1
             }
           }
-          Fl_Group wifi_settings {
-            label {WiFi settings} open
-            xywh {365 115 205 180} box ENGRAVED_FRAME align 5
-          } {
-            Fl_Choice wifi_mode {
-              label {Mode:} open
-              xywh {440 130 120 25} down_box BORDER_BOX
-            } {
-              menuitem {} {
-                label Managed
-                xywh {0 0 100 20}
-              }
-              menuitem {} {
-                label {ad-hoc}
-                xywh {0 0 100 20} value 1
-              }
-            }
-            Fl_Input wifi_wep {
-              label {WEP key:}
-              xywh {440 165 120 25}
-            }
-            Fl_Input wifi_ssid {
-              label {SSID:}
-              xywh {440 200 120 25}
-            }
-          }
           Fl_Group {} {
             label {Connection Settings} open
             xywh {30 115 320 180} box ENGRAVED_FRAME align 5
@@ -215,6 +189,32 @@ class GeneratorUI {open
               xywh {170 265 165 20}
             }
           }
+          Fl_Group wifi_settings {
+            label {WiFi settings} open
+            xywh {365 115 205 180} box ENGRAVED_FRAME align 5
+          } {
+            Fl_Choice wifi_mode {
+              label {Mode:} open
+              xywh {440 130 120 25} down_box BORDER_BOX
+            } {
+              menuitem {} {
+                label Managed
+                xywh {0 0 100 20}
+              }
+              menuitem {} {
+                label {ad-hoc}
+                xywh {0 0 100 20} value 1
+              }
+            }
+            Fl_Input wifi_wep {
+              label {WEP key:}
+              xywh {440 165 120 25}
+            }
+            Fl_Input wifi_ssid {
+              label {SSID:}
+              xywh {440 200 120 25}
+            }
+          }
         }
         Fl_Group {} {
           label Services open selected
@@ -241,13 +241,13 @@ class GeneratorUI {open
               label {FTP server}
               xywh {325 85 125 25} down_box DOWN_BOX
             }
-            Fl_Check_Button server_http {
-              label {Web server}
-              xywh {325 145 125 25} down_box DOWN_BOX
-            }
             Fl_Check_Button server_telnet {
               label {Telnet server}
               xywh {325 115 125 25} down_box DOWN_BOX
+            }
+            Fl_Check_Button server_http {
+              label {Web server}
+              xywh {325 145 125 25} down_box DOWN_BOX
             }
           }
         }

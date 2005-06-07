@@ -1,0 +1,151 @@
+#include "generatorUI.h"
+
+#include "audio.h"
+#include "compile.h"
+#include "config.h"
+#include "language.h"
+#include "network.h"
+#include "remote.h"
+#include "theme.h"
+#include "utils.h"
+
+#include <sys/types.h>
+#include <sys/stat.h> /* mkdir */
+#include <unistd.h> /* unlink rmdir */
+#include <stdlib.h> /* system */
+
+#include <FL/fl_ask.H> /* fl_alert */
+
+#ifdef __WIN32__
+#include <windows.h> /* Sleep */
+#define SLEEP_TIME (55)
+#else
+#define SLEEP_TIME (55000)
+#endif
+
+void update_progress(GeneratorUI *ui, const char *msg)
+{
+    ui->progress->value(ui->progress->value() + 1);
+    ui->progress->label(msg);
+    Fl::flush();
+
+    fprintf(stderr, "%d = %s\n", (int)ui->progress->value(), msg);
+
+#ifdef __WIN32__
+    Sleep(SLEEP_TIME);
+#else
+    usleep(SLEEP_TIME);
+#endif
+}
+
+static int write_geexbox_files(GeneratorUI *ui)
+{
+    const struct {
+	const char *name;
+	int (*func) (GeneratorUI *ui);
+    } funcs[] = {
+      { "Copying theme files...", copy_theme_files },
+      { "Copying language files...", copy_language_files },
+      { "Copying remote files...", copy_remote_files },
+      { "Writing audio settings...", write_audio_settings },
+      { "Writing network settings...", write_network_settings },
+    };
+    unsigned int i;
+    for (i = 0; i < sizeof(funcs)/sizeof(funcs[0]); i++)
+    {
+	update_progress(ui, funcs[i].name);
+	if (!(funcs[i].func)(ui) || copy_errors > 0)
+	    return 0;
+    }
+    return 1;
+}
+
+static void cleanup_files(void)
+{
+    multi_delete(PATH_BASEISO "/usr/share/iconv/", NULL, NULL, 0);
+    multi_delete(PATH_BASEISO "/usr/share/fonts/", NULL, ".ttf", 0);
+    multi_delete(PATH_BASEISO "/usr/share/mplayer/", "help_", ".txt", 0);
+    multi_delete(PATH_BASEISO "/etc/mplayer/", "menu_", ".conf", 0);
+    multi_delete(PATH_BASEISO "/etc/", "lirc", NULL, 0);
+
+    unlink(PATH_BASEISO "/usr/share/mplayer/background.avi");
+    unlink(PATH_BASEISO "/usr/share/mplayer/background-audio.avi");
+    unlink(PATH_BASEISO "/usr/share/grub-splash.xpm.gz");
+    unlink(PATH_BASEISO "/etc/theme.conf");
+    unlink(PATH_BASEISO "/etc/lang.conf");
+    unlink(PATH_BASEISO "/etc/lang");
+    unlink(PATH_BASEISO "/etc/subfont");
+}
+
+static int compile_zisotree(void)
+{
+    char buf[256];
+
+    sprintf(buf, PATH_MKZFTREE " " PATH_BASEISO " ziso/GEEXBOX");
+    return system(buf) == 0;
+}
+
+static int compile_isoimage(GeneratorUI *ui)
+{
+    char buf[2048];
+    char iso_image[256];
+
+    sprintf(iso_image, "geexbox-custom-%s.iso", ((struct lang_info*)ui->menu_lang->mvalue()->user_data())->shortname);
+
+    sprintf(buf, PATH_MKISOFS " -quiet -no-pad -V GEEXBOX -volset GEEXBOX -P \"The GeeXboX team (www.geexbox.org)\" -p \"The GeeXboX team (www.geexbox.org)\" -A \"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER\" -z -f -D -r -J -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog -sort sort -no-emul-boot -boot-load-size 4 -boot-info-table ziso > %s", iso_image);
+    return system(buf) == 0;
+}
+
+int compile_iso(GeneratorUI *ui)
+{
+    ui->progress->minimum(0);
+    ui->progress->maximum(12);
+    ui->progress->value(0);
+
+    copy_errors = 0;
+
+    update_progress(ui, "Cleaning work tree...");
+    cleanup_files();
+
+    if (!write_geexbox_files(ui))
+	return 0;
+
+    update_progress(ui, "Creating ziso tree...");
+    multi_delete("ziso/", NULL, NULL, 1);
+    rmdir("ziso");
+    if (my_mkdir("ziso", 0700) < 0) {
+	fl_alert("Failed to create temporery ziso directory.\n");
+	return 0;
+    }
+
+    if (!compile_zisotree()) {
+	fl_alert("Failed to create ziso tree.\n");
+	return 0;
+    }
+
+    update_progress(ui, "Cleaning temporery files...");
+    cleanup_files();
+
+    update_progress(ui, "Copying boot files...");
+    my_mkdir("ziso/GEEXBOX/boot", 0700);
+    multi_copy("iso/GEEXBOX/boot/", "ziso/GEEXBOX/boot/", "");
+    multi_copy("iso/", "ziso/", "GEEXBOX");
+
+    if (copy_errors > 0)
+	return 0;
+
+    update_progress(ui, "Compiling iso file...");
+    if (!compile_isoimage(ui)) {
+	fl_alert("Failed to create ISO image.\n");
+	return 0;
+    }
+
+    update_progress(ui, "Cleaning ziso tree...");
+
+    multi_delete("ziso/", NULL, NULL, 1);
+    rmdir("ziso");
+
+    update_progress(ui, "DONE");
+
+    return 1;
+}

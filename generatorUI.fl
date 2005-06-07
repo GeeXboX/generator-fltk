@@ -1,0 +1,274 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0106 
+header_name {.h} 
+code_name {.cxx}
+decl {\#include "generator.h"} {} 
+
+decl {\#include "language.h"} {} 
+
+decl {\#include "compile.h"} {} 
+
+class GeneratorUI {open
+} {
+  decl {enum { SOUNDCARD_MODE_ANALOG = 0, SOUNDCARD_MODE_SPDIF = 1 };} {public
+  }
+  decl {enum { CHANNELS_2 = 0, CHANNELS_4, CHANNELS_6 };} {public
+  }
+  decl {enum { NETWORK_PHY_IFACE_AUTO = 0, NETWORK_PHY_IFACE_WIFI, NETWORK_PHY_IFACE_ETHER };} {public
+  }
+  decl {enum { NETWORK_CONF_MANUAL = 0, NETWORK_CONF_DHCP };} {public
+  }
+  decl {enum { WIFI_MODE_MANAGED = 0, WIFI_MODE_ADHOC };} {public
+  }
+  Function {GeneratorUI()} {open
+  } {
+    Fl_Window mainWindow {open
+      xywh {430 99 590 360} type Double visible
+    } {
+      Fl_Tabs {} {open
+        xywh {15 20 565 285}
+      } {
+        Fl_Group interface_tab {
+          label Interface open
+          xywh {15 40 565 265} hide
+        } {
+          Fl_Choice sub_charset {
+            label {Subtitle charset:} open
+            xywh {150 130 130 25} down_box BORDER_BOX
+          } {}
+          Fl_Choice menu_lang {
+            label {Menu language:} open
+            xywh {150 95 130 25} down_box BORDER_BOX
+          } {}
+          Fl_Choice theme {
+            label {Theme:} open
+            xywh {150 60 130 25} down_box BORDER_BOX
+          } {}
+          Fl_Output sub_font {
+            label {Subtitle font:}
+            xywh {150 210 185 25}
+          }
+          Fl_Button {} {
+            label {Change ...}
+            callback {change_font(sub_font, override_sub_font);}
+            xywh {355 210 90 25}
+          }
+          Fl_Check_Button override_sub_font {
+            label {Override subtitle font}
+            callback {update_tabs_status(this);}
+            xywh {150 180 185 25} down_box DOWN_BOX
+          }
+          Fl_Output menu_font {
+            label {Menu font:}
+            xywh {150 270 185 25}
+          }
+          Fl_Button {} {
+            label {Change ...}
+            callback {change_font(menu_font, override_menu_font);}
+            xywh {355 270 90 25}
+          }
+          Fl_Check_Button override_menu_font {
+            label {Override menu font}
+            callback {update_tabs_status(this);}
+            xywh {150 240 185 25} down_box DOWN_BOX
+          }
+        }
+        Fl_Group {} {
+          label Audio open
+          xywh {15 40 565 265} hide
+        } {
+          Fl_Choice soundcard_mode {
+            label {Audio Output mode:}
+            callback {update_tabs_status(this);} open
+            xywh {185 105 150 25} down_box BORDER_BOX
+          } {
+            menuitem {} {
+              label Analog
+              xywh {0 0 100 20}
+            }
+            menuitem {} {
+              label SPDIF
+              xywh {0 0 100 20} value 1
+            }
+          }
+          Fl_Value_Input alsacard_id {
+            label {ALSA Soundcard ID:}
+            xywh {185 65 150 25} maximum 9 step 1
+          }
+          Fl_Choice channels {
+            label {Number of Channels:}
+            callback {update_tabs_status(this);} open
+            xywh {185 150 150 25} down_box BORDER_BOX
+          } {
+            menuitem {} {
+              label {Stereo (2)}
+              xywh {5 5 100 20} value 1
+            }
+            menuitem {} {
+              label {Surround (4)}
+              xywh {5 5 100 20} value 1
+            }
+            menuitem {} {
+              label {5.1 Surround (6)}
+              xywh {5 5 100 20} value 1
+            }
+          }
+          Fl_Check_Button hwac3 {
+            label {AC3/DTS passthrough}
+            callback {update_tabs_status(this);}
+            xywh {40 190 205 25} down_box DOWN_BOX value 1
+          }
+        }
+        Fl_Group {} {
+          label {Remote Control} open
+          xywh {15 40 565 265} hide
+        } {
+          Fl_Choice lirc_remote {
+            label {Remote Controller:} open
+            xywh {180 85 140 25} down_box BORDER_BOX
+          } {}
+          Fl_Choice lirc_receiver {
+            label {Receiver:} open
+            xywh {180 135 140 25} down_box BORDER_BOX
+          } {}
+        }
+        Fl_Group {} {
+          label Network open
+          xywh {15 40 565 265} hide
+        } {
+          Fl_Choice phy_iface {
+            label {Physical interface:}
+            callback {update_tabs_status(this);}
+            xywh {240 55 160 25} down_box BORDER_BOX
+          } {
+            menuitem {} {
+              label AUTODETECT
+              xywh {0 0 100 20}
+            }
+            menuitem {} {
+              label WiFi
+              xywh {0 0 100 20} value 1
+            }
+            menuitem {} {
+              label Ethernet
+              xywh {0 0 100 20} value 1
+            }
+          }
+          Fl_Group wifi_settings {
+            label {WiFi settings} open
+            xywh {365 115 205 180} box ENGRAVED_FRAME align 5
+          } {
+            Fl_Choice wifi_mode {
+              label {Mode:} open
+              xywh {440 130 120 25} down_box BORDER_BOX
+            } {
+              menuitem {} {
+                label Managed
+                xywh {0 0 100 20}
+              }
+              menuitem {} {
+                label {ad-hoc}
+                xywh {0 0 100 20} value 1
+              }
+            }
+            Fl_Input wifi_wep {
+              label {WEP key:}
+              xywh {440 165 120 25}
+            }
+            Fl_Input wifi_ssid {
+              label {SSID:}
+              xywh {440 200 120 25}
+            }
+          }
+          Fl_Group {} {
+            label {Connection Settings} open
+            xywh {30 115 320 180} box ENGRAVED_FRAME align 5
+          } {
+            Fl_Choice network_conf {
+              label {Configruation:}
+              callback {update_tabs_status(this);} open
+              xywh {170 130 165 25} down_box BORDER_BOX
+            } {
+              menuitem {} {
+                label Manual
+                xywh {5 5 100 20}
+              }
+              menuitem {} {
+                label {Automatic (DHCP)}
+                xywh {5 5 100 20} value 1
+              }
+            }
+            Fl_Input network_ip {
+              label {IP address:}
+              xywh {170 165 165 25}
+            }
+            Fl_Input network_subnet {
+              label {Subnet mask:}
+              xywh {170 200 165 25}
+            }
+            Fl_Input network_gateway {
+              label {Gateway address:}
+              xywh {170 235 165 20}
+            }
+            Fl_Input network_dns {
+              label {DNS Server:}
+              xywh {170 265 165 20}
+            }
+          }
+        }
+        Fl_Group {} {
+          label Services open selected
+          xywh {15 40 565 265}
+        } {
+          Fl_Group {} {
+            label {Windows shares:} open
+            xywh {30 75 260 105} box ENGRAVED_FRAME align 5
+          } {
+            Fl_Input samba_user {
+              label {Username:}
+              xywh {120 95 150 25}
+            }
+            Fl_Input samba_pass {
+              label {Password:}
+              xywh {120 135 150 25}
+            }
+          }
+          Fl_Group {} {
+            label {Network services:} open
+            xywh {310 75 245 105} box ENGRAVED_FRAME align 5
+          } {
+            Fl_Check_Button server_ftp {
+              label {FTP server}
+              xywh {325 85 125 25} down_box DOWN_BOX
+            }
+            Fl_Check_Button server_http {
+              label {Web server}
+              xywh {325 145 125 25} down_box DOWN_BOX
+            }
+            Fl_Check_Button server_telnet {
+              label {Telnet server}
+              xywh {325 115 125 25} down_box DOWN_BOX
+            }
+          }
+        }
+      }
+      Fl_Button {} {
+        label {Compile !}
+        callback {compile_iso(this);}
+        xywh {505 320 75 30}
+      }
+      Fl_Button {} {
+        label Exit
+        callback {generator_exit(this);}
+        xywh {415 320 75 30}
+      }
+      Fl_Progress progress {
+        xywh {15 320 385 30}
+      }
+    }
+  }
+  Function {show(int argc, char **argv)} {open
+  } {
+    code {mainWindow->show(argc, argv);} {}
+  }
+} 

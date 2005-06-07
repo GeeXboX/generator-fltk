@@ -1,0 +1,13 @@
+# DO NOT DELETE
+
+audio.o: generatorUI.h audio.h config.h utils.h
+compile.o: generatorUI.h audio.h compile.h config.h language.h network.h
+compile.o: remote.h theme.h utils.h
+generator.o: generatorUI.h audio.h config.h language.h network.h remote.h
+generator.o: theme.h utils.h
+language.o: generatorUI.h config.h language.h theme.h utils.h
+network.o: generatorUI.h config.h network.h utils.h
+remote.o: generatorUI.h config.h remote.h utils.h
+theme.o: generatorUI.h config.h language.h theme.h utils.h
+utils.o: utils.h
+generatorUI.o: generatorUI.h generator.h language.h compile.h

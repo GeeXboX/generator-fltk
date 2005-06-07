@@ -1,0 +1,41 @@
+PROJ=generator
+OBJS=audio.o compile.o generator.o language.o network.o remote.o theme.o utils.o
+FLOBJS=generatorUI.fl
+
+FLTKDIR?=/usr
+FLUID?=fluid
+FLTKCXXFLAGS?=-I$(FLTKDIR)/include
+FLTKLDFLAGS?=-L$(FLTKDIR)/lib -lfltk
+
+CXX?=g++
+STRIP?=strip
+LDFLAGS+=$(FLTKLDFLAGS)
+CXXFLAGS+=-Wall -Werror -ansi -pedantic $(FLTKCXXFLAGS)
+EXEEXT?=
+
+PROGOBJS=$(OBJS) $(FLOBJS:.fl=.o)
+
+all: $(PROJ)$(EXEEXT)
+
+$(PROJ)$(EXEEXT): $(PROGOBJS)
+	$(CXX) $(CXXFLAGS) $(PROGOBJS) -o $@ $(LDFLAGS)
+	$(STRIP) $@
+
+.SUFFIXES: .fl
+.SUFFIXES: .cxx
+
+%.cxx %.h: %.fl
+	$(FLUID) -c $<
+
+%.o: %.cxx
+	$(CXX) $(CXXFLAGS) -c $<
+
+.PHONY: clean
+clean:
+	rm -f $(PROJ)$(EXEEXT) $(PROGOBJS) $(FLOBJS:.fl=.cxx) $(FLOBJS:.fl=.h)
+
+.PHONY: depend
+depend: $(PROGOBJS:.o=.cxx)
+	makedepend -Y -f Dependencies -- $(PROGOBJS:.o=.cxx)
+
+include Dependencies

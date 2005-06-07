@@ -106,11 +106,11 @@ nget_shvar_value (FILE *fp, const char *var, char *dst, size_t dstlen)
       *end = '\0';
 
       strncpy (dst, value, --dstlen);
-      return 0;
+      return 1;
     }
 
   *dst = '\0';
-  return 1;
+  return 0;
 }
 
 int file_exists(const char *file)

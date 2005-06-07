@@ -73,15 +73,18 @@ int init_language_tab(GeneratorUI *ui)
 	    c->codename = my_strdup(word);
 
 	    sprintf(buf2, "%s_menufont", word);
-	    if (get_shvar_value(f, buf2, buf3) && buf3[0])
+	    get_shvar_value(f, buf2, buf3);
+	    if (buf3[0])
 		c->menu_font = my_strdup(buf3);
 
 	    sprintf(buf2, "%s_subfont", word);
-	    if (get_shvar_value(f, buf2, buf3) && buf3[0])
+	    get_shvar_value(f, buf2, buf3);
+	    if (buf3[0])
 		c->sub_font = my_strdup(buf3);
 
 	    sprintf(buf2, "%s_font", word);
-	    if (!get_shvar_value(f, buf2, buf3) || !buf3[0])
+	    get_shvar_value(f, buf2, buf3);
+	    if (!buf3[0])
 	        get_shvar_value(f, "DEFAULT_FONT", buf3);
 	    if (!c->menu_font)
 	        c->menu_font = my_strdup(buf3);

@@ -73,7 +73,8 @@ char *valid_theme_font(const char *theme_name, struct charset_info *c)
     if (!fp)
 	return NULL;
 
-    if (!get_shvar_value(fp, "FONT_CHARSETS", buf) || !buf[0])
+    get_shvar_value(fp, "FONT_CHARSETS", buf);
+    if (!buf[0])
 	strcpy(buf, "iso-8859-1 ");
     else
 	strcat(buf, " ");

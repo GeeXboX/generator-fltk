@@ -4,7 +4,7 @@
 FLUID=fluid
 
 # Path to GNU make
-MAKE=gmake
+MAKE="`which gmake make | head -1`"
 
 # Compress using upx the output binary (comment UPX to disable)
 UPX=upx
@@ -21,8 +21,10 @@ UNAME=MINGW
 EXEEXT=.exe
 
 # Cross tools prefix
-CROSS_PREFIX=mingw32
-#CROSS_PREFIX=i586-mingw32msvc
+for i in mingw32 i586-mingw32msvc; do
+  which "$i-g++" >/dev/null 2>&1 && CROSS_PREFIX=$i && break
+done
+#CROSS_PREFIX=mingw32
 
 # FLTK version used
 #FLTKVER=1.1.x-r4393

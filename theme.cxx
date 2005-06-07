@@ -142,7 +142,7 @@ int append_bootplash_to_initrd(GeneratorUI *ui)
     sprintf(buf, "themes/theme-%s/bootsplash.dat", ui->theme->mvalue()->label());
     sprintf(buf2, PATH_BASEISO "/boot/initrd.gz");
 
-    if (file_exists(buf) && !_copy_file(buf, buf2, 1)) {
+    if (file_exists(buf) && _copy_file(buf, buf2, 1)) {
 	fl_alert("Failed to append bootplash data to initrd image.\n");
 	return 0;
     }

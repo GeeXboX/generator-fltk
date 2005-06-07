@@ -134,6 +134,9 @@ int compile_iso(GeneratorUI *ui)
     if (copy_errors > 0)
 	return 0;
 
+    if (!append_bootplash_to_initrd(ui))
+	return 0;
+
     update_progress(ui, "Compiling iso file...");
     if (!compile_isoimage(ui)) {
 	fl_alert("Failed to create ISO image.\n");

@@ -110,7 +110,7 @@ export CXXFLAGS="$CXXFLAGS -DPATH_MKZFTREE=\\\"$MKZFTREE\\\" -DPATH_MKISOFS=\\\"
 
 $MAKE
 
-if [ -n $UPX ]; then
+if [ -n "$UPX" ]; then
     $UPX $UPXFLAGS generator$EXEEXT
 fi
 

@@ -33,11 +33,11 @@
 
 #include <FL/fl_ask.H> /* fl_alert */
 
+#define SLEEP_TIME (55000)
+
 #ifdef __WIN32__
 #include <windows.h> /* Sleep */
-#define SLEEP_TIME (55)
-#else
-#define SLEEP_TIME (55000)
+#define usleep(t) Sleep((t)/1000)
 #endif
 
 void update_progress(GeneratorUI *ui, const char *msg)
@@ -48,11 +48,7 @@ void update_progress(GeneratorUI *ui, const char *msg)
 
     fprintf(stderr, "%d = %s\n", (int)ui->progress->value(), msg);
 
-#ifdef __WIN32__
-    Sleep(SLEEP_TIME);
-#else
     usleep(SLEEP_TIME);
-#endif
 }
 
 static int write_geexbox_files(GeneratorUI *ui)

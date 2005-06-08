@@ -252,15 +252,15 @@ class GeneratorUI {open
           }
         }
       }
-      Fl_Button compile_button {
-        label {Compile !}
-        callback {compile_iso(this);}
-        xywh {505 320 75 30}
-      }
       Fl_Button {} {
         label Exit
         callback {generator_exit(this);}
         xywh {415 320 75 30}
+      }
+      Fl_Button compile_button {
+        label {Compile !}
+        callback {compile_iso(this);}
+        xywh {505 320 75 30}
       }
       Fl_Progress progress {
         xywh {15 320 385 30}

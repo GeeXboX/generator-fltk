@@ -1,13 +1,27 @@
 # DO NOT DELETE
 
-audio.o: generatorUI.h audio.h config.h utils.h
-compile.o: generatorUI.h audio.h compile.h config.h language.h network.h
-compile.o: remote.h theme.h utils.h
-generator.o: generatorUI.h audio.h config.h language.h network.h remote.h
-generator.o: theme.h utils.h
-language.o: generatorUI.h config.h language.h theme.h utils.h
-network.o: generatorUI.h config.h network.h utils.h
-remote.o: generatorUI.h config.h remote.h utils.h
-theme.o: generatorUI.h config.h language.h theme.h utils.h
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_crv_off.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_crv_on.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/lt_crv_off.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/lt_crv_on.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/ct_mid_off.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/ct_mid_on.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_sep_off.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_sep_on.xpm
+audio.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h config.h utils.h
+compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h compile.h
+compile.o: config.h language.h network.h remote.h theme.h utils.h
+generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h config.h
+generator.o: language.h network.h remote.h theme.h utils.h
+language.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h language.h
+language.o: theme.h utils.h
+network.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h network.h
+network.o: utils.h
+remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h remote.h
+remote.o: utils.h
+theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h language.h
+theme.o: theme.h utils.h
 utils.o: utils.h
-generatorUI.o: generatorUI.h generator.h language.h compile.h
+generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H generator.h
+generatorUI.o: language.h compile.h

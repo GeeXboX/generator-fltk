@@ -1,5 +1,5 @@
 PROJ=generator
-OBJS=audio.o compile.o generator.o language.o network.o remote.o theme.o utils.o
+OBJS=Fl_Gel_Tabs/Fl_Gel_Tabs.o audio.o compile.o generator.o language.o network.o remote.o theme.o utils.o
 FLOBJS=generatorUI.fl
 
 FLTKDIR?=/usr
@@ -7,10 +7,11 @@ FLUID?=fluid
 FLTKCXXFLAGS?=-I$(FLTKDIR)/include
 FLTKLDFLAGS?=-L$(FLTKDIR)/lib -lfltk
 
+SED?=sed
 CXX?=g++
 STRIP?=strip
 LDFLAGS+=$(FLTKLDFLAGS)
-CXXFLAGS+=-Wall -Werror -ansi -pedantic $(FLTKCXXFLAGS)
+CXXFLAGS+=-Wall -Werror -ansi -pedantic -IFl_Gel_Tabs $(FLTKCXXFLAGS)
 EXEEXT?=
 
 PROGOBJS=$(OBJS) $(FLOBJS:.fl=.o)
@@ -26,9 +27,13 @@ $(PROJ)$(EXEEXT): $(PROGOBJS)
 
 %.cxx %.h: %.fl
 	$(FLUID) -c $<
+	$(SED) 's%Fl_Tabs%Fl_Gel_Tabs%g' $(<:.fl=.cxx) > $(<:.fl=.cxx).new
+	$(SED) 's%Fl_Tabs%Fl_Gel_Tabs%g' $(<:.fl=.h) > $(<:.fl=.h).new
+	mv $(<:.fl=.cxx).new $(<:.fl=.cxx)
+	mv $(<:.fl=.h).new $(<:.fl=.h)
 
 %.o: %.cxx
-	$(CXX) $(CXXFLAGS) -c $<
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:

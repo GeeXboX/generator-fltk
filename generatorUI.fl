@@ -25,7 +25,7 @@ class GeneratorUI {open
     Fl_Window mainWindow {open
       xywh {430 99 590 360} type Double visible
     } {
-      Fl_Tabs {} {open
+      Fl_Tabs setting_tabs {open
         xywh {15 20 565 285}
       } {
         Fl_Group interface_tab {
@@ -252,7 +252,7 @@ class GeneratorUI {open
           }
         }
       }
-      Fl_Button {} {
+      Fl_Button compile_button {
         label {Compile !}
         callback {compile_iso(this);}
         xywh {505 320 75 30}

@@ -44,7 +44,7 @@ void update_progress(GeneratorUI *ui, const char *msg)
 {
     ui->progress->value(ui->progress->value() + 1);
     ui->progress->label(msg);
-    Fl::flush();
+    Fl::check();
 
     fprintf(stderr, "%d = %s\n", (int)ui->progress->value(), msg);
 
@@ -113,7 +113,7 @@ static int compile_isoimage(GeneratorUI *ui)
     return system(buf) == 0;
 }
 
-int compile_iso(GeneratorUI *ui)
+static int real_compile_iso(GeneratorUI *ui)
 {
     ui->progress->minimum(0);
     ui->progress->maximum(12);
@@ -168,4 +168,20 @@ int compile_iso(GeneratorUI *ui)
     update_progress(ui, "DONE");
 
     return 1;
+}
+
+int compile_iso(GeneratorUI *ui)
+{
+    int rc;
+
+    ui->setting_tabs->deactivate();
+    ui->compile_button->deactivate();
+    Fl::check();
+
+    rc = real_compile_iso(ui);
+
+    ui->setting_tabs->activate();
+    ui->compile_button->activate();
+
+    return rc;
 }

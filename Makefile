@@ -11,7 +11,7 @@ SED?=sed
 CXX?=g++
 STRIP?=strip
 LDFLAGS+=$(FLTKLDFLAGS)
-CXXFLAGS+=-Wall -Werror -ansi -pedantic -IFl_Gel_Tabs $(FLTKCXXFLAGS)
+CXXFLAGS+=-Wall -Werror -pedantic -IFl_Gel_Tabs $(FLTKCXXFLAGS)
 EXEEXT?=
 
 PROGOBJS=$(OBJS) $(FLOBJS:.fl=.o)

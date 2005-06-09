@@ -121,22 +121,6 @@ int file_exists(const char *file)
     return 1;
 }
 
-const char *find_basename(const char *file)
-{
-    const char *fname;
-
-    fname = strrchr(file, '/');
-    if (!fname)
-	fname = strrchr(file, '\\');
-
-    if (fname)
-	fname++;
-    else
-	fname = file;
-
-    return file;
-}
-
 int _copy_file(const char *src, const char *dst, int append)
 {
     struct stat st;

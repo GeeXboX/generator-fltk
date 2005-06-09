@@ -227,7 +227,7 @@ int copy_language_files(GeneratorUI *ui)
     }
 
     if (ui->override_sub_font->value()) {
-	filename = find_basename(ui->sub_font->value());
+	filename = fl_filename_name(ui->sub_font->value());
 
 	sprintf(buf, PATH_BASEISO "/usr/share/fonts/%s", filename);
 	copy_file(ui->sub_font->value(), buf);
@@ -248,7 +248,7 @@ int copy_language_files(GeneratorUI *ui)
 
     /* Menu Font */
     if (ui->override_menu_font->value()) {
-	filename = find_basename(ui->menu_font->value());
+	filename = fl_filename_name(ui->menu_font->value());
 
 	sprintf(buf, PATH_BASEISO "/usr/share/fonts/%s", filename);
 	copy_file(ui->menu_font->value(), buf);

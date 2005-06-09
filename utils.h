@@ -22,7 +22,6 @@
 
 extern int copy_errors;
 
-const char *find_basename(const char *str);
 int file_exists(const char *file);
 
 int _copy_file(const char *src, const char *dst, int append);

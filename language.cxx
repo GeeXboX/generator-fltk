@@ -66,30 +66,30 @@ int init_language_tab(GeneratorUI *ui)
 	    ui->sub_charset->add(word, 0, NULL, c);
 
 	    c->menu_font = c->sub_font = NULL;
-	    c->name = my_strdup(word);
+	    c->name = strdup(word);
 
 	    replace_char(word, '-', '_');
 
-	    c->codename = my_strdup(word);
+	    c->codename = strdup(word);
 
 	    sprintf(buf2, "%s_menufont", word);
 	    get_shvar_value(f, buf2, buf3);
 	    if (buf3[0])
-		c->menu_font = my_strdup(buf3);
+		c->menu_font = strdup(buf3);
 
 	    sprintf(buf2, "%s_subfont", word);
 	    get_shvar_value(f, buf2, buf3);
 	    if (buf3[0])
-		c->sub_font = my_strdup(buf3);
+		c->sub_font = strdup(buf3);
 
 	    sprintf(buf2, "%s_font", word);
 	    get_shvar_value(f, buf2, buf3);
 	    if (!buf3[0])
 	        get_shvar_value(f, "DEFAULT_FONT", buf3);
 	    if (!c->menu_font)
-	        c->menu_font = my_strdup(buf3);
+	        c->menu_font = strdup(buf3);
 	    if (!c->sub_font)
-	        c->sub_font = my_strdup(buf3);
+	        c->sub_font = strdup(buf3);
 	}
     }
 
@@ -105,7 +105,7 @@ int init_language_tab(GeneratorUI *ui)
 	    l->c = NULL;
 	    ui->menu_lang->add(buf3, 0, NULL, l);
 
-	    l->shortname = my_strdup(word);
+	    l->shortname = strdup(word);
 
 	    sprintf(buf2, "%s_charset", word);
 	    get_shvar_value(f, buf2, buf3);

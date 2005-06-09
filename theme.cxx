@@ -96,7 +96,7 @@ char *valid_theme_font(const char *theme_name, struct charset_info *c)
 	{
 	    sprintf(buf2, "%s/%s", buf, dp->d_name);
 	    closedir(dirp);
-	    return my_strdup(buf2);
+	    return strdup(buf2);
 	}
     }
     closedir(dirp);

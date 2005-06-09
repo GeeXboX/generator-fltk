@@ -33,7 +33,6 @@ void multi_delete(const char *dir, const char *prefix, const char *suffix, int r
 void replace_char (char *str, char o, char n);
 
 int my_strcasecmp (const char *s1, const char *s2);
-char *my_strdup (const char *str);
 int my_mkdir(const char *path, int mode);
 
 int nget_shvar_value (FILE *fp, const char *var, char *dst, size_t dstlen);

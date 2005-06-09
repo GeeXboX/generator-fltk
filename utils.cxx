@@ -48,16 +48,6 @@ int my_strcasecmp (const char *s1, const char *s2)
     return (tolower(*us1) - tolower(*--us2));
 }
 
-char *my_strdup (const char *str)
-{
-    size_t len;
-    char *copy;
-
-    if ((copy = (char*)malloc((len = strlen(str) + 1))))
-	memcpy(copy, str, len);
-    return copy;
-}
-
 int my_mkdir (const char *path, int mode)
 {
 #ifdef __WIN32__

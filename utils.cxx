@@ -36,18 +36,6 @@
 
 int copy_errors = 0;
 
-int my_strcasecmp (const char *s1, const char *s2)
-{
-    const unsigned char
-	*us1 = (const unsigned char *)s1,
-	*us2 = (const unsigned char *)s2;
-
-    while (tolower(*us1) == tolower(*us2++))
-	if (*us1++ == '\0')
-	    return (0);
-    return (tolower(*us1) - tolower(*--us2));
-}
-
 int my_mkdir (const char *path, int mode)
 {
 #ifdef __WIN32__

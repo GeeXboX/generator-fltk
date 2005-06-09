@@ -18,12 +18,13 @@
 #include "generatorUI.h"
 
 #include "config.h"
+#include "fs.h"
 #include "remote.h"
-#include "utils.h"
 
 #include <sys/types.h>
 #include <dirent.h> /* opendir */
 #include <string.h> /* strcmp, strncmp, strlen */
+#include <stdio.h> /* sprintf */
 
 #include <FL/fl_ask.H> /* fl_alert */
 

@@ -20,25 +20,17 @@
 #include "audio.h"
 #include "compile.h"
 #include "config.h"
+#include "fs.h"
 #include "language.h"
 #include "network.h"
 #include "remote.h"
 #include "theme.h"
-#include "utils.h"
+#include "system.h"
 
-#include <sys/types.h>
-#include <sys/stat.h> /* mkdir */
-#include <unistd.h> /* unlink rmdir */
 #include <stdlib.h> /* system */
+#include <stdio.h> /* FILE */
 
 #include <FL/fl_ask.H> /* fl_alert */
-
-#define SLEEP_TIME (55000)
-
-#ifdef __WIN32__
-#include <windows.h> /* Sleep */
-#define usleep(t) Sleep((t)/1000)
-#endif
 
 void update_progress(GeneratorUI *ui, const char *msg)
 {
@@ -48,7 +40,7 @@ void update_progress(GeneratorUI *ui, const char *msg)
 
     fprintf(stderr, "%d = %s\n", (int)ui->progress->value(), msg);
 
-    usleep(SLEEP_TIME);
+    my_msleep(55);
 }
 
 static int write_geexbox_files(GeneratorUI *ui)

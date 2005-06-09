@@ -18,6 +18,7 @@
 #include "generatorUI.h"
 
 #include "config.h"
+#include "fs.h"
 #include "language.h"
 #include "theme.h"
 #include "utils.h"

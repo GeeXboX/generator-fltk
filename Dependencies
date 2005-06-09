@@ -11,16 +11,16 @@ Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_sep_off.xpm
 Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_sep_on.xpm
 audio.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h config.h utils.h
 compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h compile.h
-compile.o: config.h language.h network.h remote.h theme.h utils.h
-generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h config.h
-generator.o: language.h network.h remote.h theme.h utils.h
-language.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h language.h
-language.o: theme.h utils.h
+compile.o: config.h fs.h language.h network.h remote.h theme.h system.h
+fs.o: fs.h system.h
+generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h language.h
+generator.o: network.h remote.h theme.h
+language.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h fs.h
+language.o: language.h theme.h utils.h
 network.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h network.h
 network.o: utils.h
-remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h remote.h
-remote.o: utils.h
-theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h language.h
+remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h fs.h remote.h
+theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h fs.h language.h
 theme.o: theme.h utils.h
 utils.o: utils.h
 generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H generator.h

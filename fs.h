@@ -1,5 +1,5 @@
 /*
- *  Utilities for GeeXboX FLTK Generator
+ *  Filesystem code for GeeXboX FLTK Generator
  *  Copyright (C) 2005  Amir Shalem
  *
  *   This program is free software; you can redistribute it and/or modify
@@ -15,16 +15,17 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef UTILS_H_
-#define UTILS_H_
+#ifndef fs_h
+#define fs_h
 
-#include <stdio.h>
+extern int copy_errors;
 
-void replace_char (char *str, char o, char n);
+int file_exists(const char *file);
 
-int nget_shvar_value (FILE *fp, const char *var, char *dst, size_t dstlen);
+int _copy_file(const char *src, const char *dst, int append);
+int copy_file(const char *src, const char *dst);
 
-#define get_shvar_value(fp, var, dst) \
-  nget_shvar_value ((fp), (var), (dst), sizeof(dst))
+int multi_copy(const char *srcdir, const char *dstdir, const char *exclude);
+void multi_delete(const char *dir, const char *prefix, const char *suffix, int recursive);
 
 #endif

@@ -18,14 +18,13 @@
 #include "generatorUI.h"
 
 #include "audio.h"
-#include "config.h"
 #include "language.h"
 #include "network.h"
 #include "remote.h"
 #include "theme.h"
-#include "utils.h"
 
 #include <stdlib.h> /* exit */
+#include <stdio.h> /* fprintf */
 
 void update_tabs_status(GeneratorUI *ui)
 {

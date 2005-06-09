@@ -1,5 +1,5 @@
 PROJ=generator
-OBJS=Fl_Gel_Tabs/Fl_Gel_Tabs.o audio.o compile.o generator.o language.o network.o remote.o theme.o utils.o
+OBJS=Fl_Gel_Tabs/Fl_Gel_Tabs.o audio.o compile.o fs.o generator.o language.o network.o remote.o theme.o utils.o
 FLOBJS=generatorUI.fl
 
 FLTKDIR?=/usr

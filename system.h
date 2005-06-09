@@ -1,5 +1,5 @@
 /*
- *  Utilities for GeeXboX FLTK Generator
+ *  System specfic code for GeeXboX FLTK Generator
  *  Copyright (C) 2005  Amir Shalem
  *
  *   This program is free software; you can redistribute it and/or modify
@@ -15,16 +15,33 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef UTILS_H_
-#define UTILS_H_
+#ifndef system_h
+#define system_h
 
-#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h> /* mkdir */
 
-void replace_char (char *str, char o, char n);
+#ifdef __WIN32__
+#include <windows.h> /* Sleep */
+#endif
 
-int nget_shvar_value (FILE *fp, const char *var, char *dst, size_t dstlen);
+static inline int my_mkdir (const char *path, int mode)
+{
+#ifdef __WIN32__
+  return mkdir(path);
+#else
+  return mkdir(path, mode);
+#endif
+}
 
-#define get_shvar_value(fp, var, dst) \
-  nget_shvar_value ((fp), (var), (dst), sizeof(dst))
+static inline void my_msleep (unsigned int mseconds)
+{
+#ifdef __WIN32__
+  Sleep(mseconds);
+#else
+  usleep(mseconds*1000);
+#endif
+}
 
 #endif

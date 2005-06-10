@@ -8,7 +8,7 @@ MAKE="`which gmake make | head -1`"
 
 # Compress using upx the output binary (comment UPX to disable)
 UPX=upx
-UPXFLAGS="--best --crp-ms=999999 --nrv2b"
+UPXFLAGS="--best --crp-ms=999999 --nrv2d"
 
 # Those aren't really used, just need to have them diffrent to enable cross.
 CROSS_TARGET=i386-pc-mingw32

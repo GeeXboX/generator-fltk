@@ -103,6 +103,7 @@ void destroy_bg_program(void)
     if (!bg_program)
 	return;
     TerminateProcess(pi.hProcess, 100);
+    WaitForSingleObject(pi.hProcess, INFINITE);
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
     bg_program--;
@@ -113,5 +114,4 @@ void destroy_bg_program(void)
     kill(bg_pid, SIGKILL);
     catch_bg_program(SIGCHLD); /* wait & resets bg_pid */
 #endif
-    my_msleep(40); /* give the system chance to kill the process */
 }

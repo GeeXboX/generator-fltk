@@ -18,6 +18,7 @@
 #include "generatorUI.h"
 
 #include "audio.h"
+#include "compile.h"
 #include "language.h"
 #include "network.h"
 #include "remote.h"
@@ -83,6 +84,7 @@ void update_tabs_status(GeneratorUI *ui)
 
 void generator_exit(GeneratorUI *ui)
 {
+    cleanup_compile();
     exit(0);
 }
 

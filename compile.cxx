@@ -65,7 +65,7 @@ static int write_geexbox_files(GeneratorUI *ui)
     return 1;
 }
 
-static void cleanup_files(void)
+static void cleanup_isotree(void)
 {
     multi_delete(PATH_BASEISO "/usr/share/iconv/", NULL, NULL, 0);
     multi_delete(PATH_BASEISO "/usr/share/fonts/", NULL, ".ttf", 0);
@@ -80,6 +80,12 @@ static void cleanup_files(void)
     unlink(PATH_BASEISO "/etc/lang.conf");
     unlink(PATH_BASEISO "/etc/lang");
     unlink(PATH_BASEISO "/etc/subfont");
+}
+
+static void cleanup_zisotree(void)
+{
+    multi_delete("ziso/", NULL, NULL, 1);
+    rmdir("ziso");
 }
 
 static int compile_zisotree(void)
@@ -110,14 +116,13 @@ static int real_compile_iso(GeneratorUI *ui)
     copy_errors = 0;
 
     update_progress(ui, "Cleaning work tree...");
-    cleanup_files();
+    cleanup_isotree();
 
     if (!write_geexbox_files(ui))
 	return 0;
 
     update_progress(ui, "Creating ziso tree...");
-    multi_delete("ziso/", NULL, NULL, 1);
-    rmdir("ziso");
+    cleanup_zisotree();
     if (my_mkdir("ziso", 0700) < 0) {
 	fl_alert("Failed to create temporery ziso directory.\n");
 	return 0;
@@ -129,7 +134,7 @@ static int real_compile_iso(GeneratorUI *ui)
     }
 
     update_progress(ui, "Cleaning temporery files...");
-    cleanup_files();
+    cleanup_isotree();
 
     update_progress(ui, "Copying boot files...");
     my_mkdir("ziso/GEEXBOX/boot", 0700);
@@ -150,8 +155,7 @@ static int real_compile_iso(GeneratorUI *ui)
 
     update_progress(ui, "Cleaning ziso tree...");
 
-    multi_delete("ziso/", NULL, NULL, 1);
-    rmdir("ziso");
+    cleanup_zisotree();
 
     update_progress(ui, "DONE");
 
@@ -172,4 +176,10 @@ int compile_iso(GeneratorUI *ui)
     ui->compile_button->activate();
 
     return rc;
+}
+
+void cleanup_compile(void)
+{
+    cleanup_isotree();
+    cleanup_zisotree();
 }

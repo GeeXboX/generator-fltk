@@ -13,8 +13,8 @@ audio.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h config.h utils.h
 compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h compile.h
 compile.o: config.h fs.h language.h network.h remote.h theme.h system.h
 fs.o: fs.h system.h
-generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h language.h
-generator.o: network.h remote.h theme.h
+generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h compile.h
+generator.o: language.h network.h remote.h theme.h
 language.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h fs.h
 language.o: language.h theme.h utils.h
 network.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h network.h

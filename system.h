@@ -44,4 +44,7 @@ static inline void my_msleep (unsigned int mseconds)
 #endif
 }
 
+int execute_bg_program(char *string);
+void destroy_bg_program(void);
+
 #endif

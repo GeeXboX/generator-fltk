@@ -27,7 +27,6 @@
 #include "theme.h"
 #include "system.h"
 
-#include <stdlib.h> /* system */
 #include <stdio.h> /* FILE */
 
 #include <FL/fl_ask.H> /* fl_alert */
@@ -93,7 +92,7 @@ static int compile_zisotree(void)
     char buf[256];
 
     sprintf(buf, PATH_MKZFTREE " " PATH_BASEISO " ziso/GEEXBOX");
-    return system(buf) == 0;
+    return execute_bg_program(buf) == 0;
 }
 
 static int compile_isoimage(GeneratorUI *ui)
@@ -104,7 +103,7 @@ static int compile_isoimage(GeneratorUI *ui)
     sprintf(iso_image, "geexbox-custom-%s.iso", ((struct lang_info*)ui->menu_lang->mvalue()->user_data())->shortname);
 
     sprintf(buf, PATH_MKISOFS " -o \"%s\" -quiet -no-pad -V GEEXBOX -volset GEEXBOX -publisher \"The GeeXboX team (www.geexbox.org)\" -p \"The GeeXboX team (www.geexbox.org)\" -A \"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER\" -z -f -D -r -J -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog -sort sort -no-emul-boot -boot-load-size 4 -boot-info-table ziso", iso_image);
-    return system(buf) == 0;
+    return execute_bg_program(buf) == 0;
 }
 
 static int real_compile_iso(GeneratorUI *ui)
@@ -180,6 +179,7 @@ int compile_iso(GeneratorUI *ui)
 
 void cleanup_compile(void)
 {
+    destroy_bg_program();
     cleanup_isotree();
     cleanup_zisotree();
 }

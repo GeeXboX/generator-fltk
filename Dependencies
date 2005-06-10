@@ -22,6 +22,7 @@ network.o: utils.h
 remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h fs.h remote.h
 theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h fs.h language.h
 theme.o: theme.h utils.h
+system.o: system.h
 utils.o: utils.h
 generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H generator.h
 generatorUI.o: language.h compile.h

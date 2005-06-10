@@ -18,12 +18,13 @@
 #ifndef system_h
 #define system_h
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h> /* mkdir */
-
 #ifdef _WIN32
 #include <windows.h> /* Sleep */
+#include <direct.h> /* mkdir */
+#else
+#include <sys/types.h>
+#include <sys/stat.h> /* mkdir */
+#include <unistd.h> /* usleep */
 #endif
 
 static inline int my_mkdir (const char *path, int mode)

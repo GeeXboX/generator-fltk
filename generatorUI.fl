@@ -22,7 +22,8 @@ class GeneratorUI {open
   }
   Function {GeneratorUI()} {open
   } {
-    Fl_Window mainWindow {open
+    Fl_Window mainWindow {
+      callback {generator_exit(this);} open
       xywh {430 99 590 360} type Double visible
     } {
       Fl_Tabs setting_tabs {open

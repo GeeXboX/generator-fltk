@@ -19,7 +19,7 @@
 
 #include <FL/Fl.H> /* Fl::check */
 
-#ifdef __WIN32__
+#ifdef _WIN32
 #include <windows.h> /* CreateProcess TerminateProcess */
 #else
 #include <sys/types.h>
@@ -28,7 +28,7 @@
 #include <paths.h> /* BSHELL path */
 #endif
 
-#ifdef __WIN32__
+#ifdef _WIN32
 static PROCESS_INFORMATION pi;
 static int bg_program = 0;
 #else
@@ -43,7 +43,7 @@ static void catch_bg_program(int sig)
 
 int execute_bg_program(char *string)
 {
-#ifdef __WIN32__
+#ifdef _WIN32
     STARTUPINFO si;
     DWORD exitcode;
 
@@ -99,7 +99,7 @@ int execute_bg_program(char *string)
 
 void destroy_bg_program(void)
 {
-#ifdef __WIN32__
+#ifdef _WIN32
     if (!bg_program)
 	return;
     TerminateProcess(pi.hProcess, 100);

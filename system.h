@@ -22,13 +22,13 @@
 #include <sys/stat.h>
 #include <unistd.h> /* mkdir */
 
-#ifdef __WIN32__
+#ifdef _WIN32
 #include <windows.h> /* Sleep */
 #endif
 
 static inline int my_mkdir (const char *path, int mode)
 {
-#ifdef __WIN32__
+#ifdef _WIN32
   return mkdir(path);
 #else
   return mkdir(path, mode);
@@ -37,7 +37,7 @@ static inline int my_mkdir (const char *path, int mode)
 
 static inline void my_msleep (unsigned int mseconds)
 {
-#ifdef __WIN32__
+#ifdef _WIN32
   Sleep(mseconds);
 #else
   usleep(mseconds*1000);

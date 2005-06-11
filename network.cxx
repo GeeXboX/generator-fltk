@@ -19,9 +19,8 @@
 
 #include "config.h"
 #include "network.h"
+#include "system.h"
 #include "utils.h"
-
-#include <string.h> /* strcasecmp */
 
 #include <FL/fl_ask.H> /* fl_alert */
 
@@ -39,14 +38,14 @@ int init_network_tab(GeneratorUI *ui)
     }
 
     get_shvar_value(f, "PHY_TYPE", buf);
-    ui->phy_iface->value(!strcasecmp(buf, "wifi") ? 
+    ui->phy_iface->value(!my_strcasecmp(buf, "wifi") ? 
 				GeneratorUI::NETWORK_PHY_IFACE_WIFI :
-                         !strcasecmp(buf, "ethernet") ?
+                         !my_strcasecmp(buf, "ethernet") ?
 				GeneratorUI::NETWORK_PHY_IFACE_ETHER :
 				GeneratorUI::NETWORK_PHY_IFACE_AUTO);
 
     get_shvar_value(f, "WIFI_MODE", buf);
-    ui->wifi_mode->value(!strcasecmp(buf, "ad-hoc") ? 
+    ui->wifi_mode->value(!my_strcasecmp(buf, "ad-hoc") ? 
 				GeneratorUI::WIFI_MODE_ADHOC :
 				GeneratorUI::WIFI_MODE_MANAGED);
 
@@ -75,13 +74,13 @@ int init_network_tab(GeneratorUI *ui)
     ui->samba_pass->value(buf);
 
     get_shvar_value(f, "TELNET_SERVER", buf);
-    ui->server_telnet->value(!strcasecmp(buf, "yes"));
+    ui->server_telnet->value(!my_strcasecmp(buf, "yes"));
 
     get_shvar_value(f, "FTP_SERVER", buf);
-    ui->server_ftp->value(!strcasecmp(buf, "yes"));
+    ui->server_ftp->value(!my_strcasecmp(buf, "yes"));
 
     get_shvar_value(f, "HTTP_SERVER", buf);
-    ui->server_http->value(!strcasecmp(buf, "yes"));
+    ui->server_http->value(!my_strcasecmp(buf, "yes"));
 
     return 1;
 }

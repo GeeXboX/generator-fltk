@@ -21,10 +21,12 @@
 #ifdef _WIN32
 #include <windows.h> /* Sleep */
 #include <direct.h> /* mkdir */
+#include <string.h> /* stricmp */
 #else
 #include <sys/types.h>
 #include <sys/stat.h> /* mkdir */
 #include <unistd.h> /* usleep */
+#include <string.h> /* strcasecmp */
 #endif
 
 static inline int my_mkdir (const char *path)
@@ -42,6 +44,15 @@ static inline void my_msleep (unsigned int mseconds)
   Sleep(mseconds);
 #else
   usleep(mseconds*1000);
+#endif
+}
+
+static inline int my_strcasecmp (const char *s, const char *t)
+{
+#ifdef _WIN32
+  return stricmp(s, t);
+#else
+  return strcasecmp(s, t);
 #endif
 }
 

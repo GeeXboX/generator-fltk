@@ -19,10 +19,10 @@
 
 #include "audio.h"
 #include "config.h"
+#include "system.h"
 #include "utils.h"
 
 #include <stdlib.h> /* atoi */
-#include <string.h> /* strcasecmp */
 
 #include <FL/fl_ask.H> /* fl_alert */
 
@@ -42,12 +42,12 @@ int init_audio_tab(GeneratorUI *ui)
     ui->alsacard_id->value(atoi(buf));
 
     get_shvar_value(f, "SOUNDCARD_MODE", buf);
-    ui->soundcard_mode->value(strcasecmp(buf, "spdif") ? 
+    ui->soundcard_mode->value(my_strcasecmp(buf, "spdif") ? 
 				GeneratorUI::SOUNDCARD_MODE_ANALOG :
 				GeneratorUI::SOUNDCARD_MODE_SPDIF);
 
     get_shvar_value(f, "AC3_DECODER", buf);
-    ui->hwac3->value(!strcasecmp(buf, "hardware"));
+    ui->hwac3->value(!my_strcasecmp(buf, "hardware"));
 
     get_shvar_value(f, "CHANNELS", buf);
     i = atoi(buf);

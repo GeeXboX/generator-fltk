@@ -19,12 +19,17 @@
 #include "system.h"
 
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stat.h> /* fstat */
 #include <fcntl.h> /* open creat */
-#include <unistd.h> /* fstat */
 #include <ctype.h> /* isspace */
 #include <string.h> /* strchr strcmp strncpy strrchr */
 #include <stdlib.h> /* free */
+
+#ifdef _WIN32
+#include <io.h> /* open read write close */
+#else
+#include <unistd.h> /* open read write close */
+#endif
 
 #include <FL/fl_ask.H> /* fl_alert */
 #include <FL/filename.H> /* fl_filename_list */

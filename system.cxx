@@ -25,6 +25,7 @@
 #include <sys/types.h>
 #include <sys/wait.h> /* waitpid */
 #include <signal.h> /* kill */
+#include <unistd.h> /* vfork execl _exit */
 #include <paths.h> /* BSHELL path */
 #endif
 

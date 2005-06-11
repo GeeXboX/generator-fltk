@@ -97,7 +97,6 @@ int copy_file(const char *src, const char *dst)
 
 int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
 {
-    struct stat st;
     char srcfile[100], dstfile[100];
     const char *fname;
     int num_files, i;
@@ -119,10 +118,7 @@ int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
 	    strcpy(dstfile, dstdir);
 	    strcat(dstfile, fname);
 
-	    if (stat(srcfile, &st) < 0)
-		continue;
-
-	    if (S_ISDIR(st.st_mode)) {
+	    if (fl_filename_isdir(srcfile)) {
 		my_mkdir(dstfile);
 		strcat(srcfile, "/");
 		strcat(dstfile, "/");
@@ -140,7 +136,6 @@ int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
 
 void multi_delete(const char *dir, const char *prefix, const char *suffix, const int recursive)
 {
-    struct stat st;
     char file[100];
     const char *fname;
     int num_files, i;
@@ -160,9 +155,7 @@ void multi_delete(const char *dir, const char *prefix, const char *suffix, const
 	{ 
 	    strcpy(file, dir);
 	    strcat(file, fname);
-	    if (stat(file, &st) < 0)
-		continue;
-	    if (S_ISDIR(st.st_mode)) {
+	    if (fl_filename_isdir(file)) {
 		if (recursive) {
 		    strcat(file, "/");
 		    multi_delete(file, prefix, suffix, recursive);

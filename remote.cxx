@@ -22,32 +22,33 @@
 #include "remote.h"
 
 #include <sys/types.h>
-#include <dirent.h> /* opendir */
 #include <string.h> /* strcmp, strncmp, strlen */
 #include <stdio.h> /* sprintf */
+#include <stdlib.h> /* free */
 
 #include <FL/fl_ask.H> /* fl_alert */
+#include <FL/filename.H> /* fl_filename_list */
 
 int init_remote_tab(GeneratorUI *ui)
 {
-    DIR *dirp;
-    struct dirent *dp;
     const char *fname;
+    int num_files, i;
+    dirent **files;
     const Fl_Menu_Item *m;
 
-    dirp = opendir("lirc");
-    if (dirp)
+    if ((num_files = fl_filename_list("lirc/", &files, NULL)) > 0)
     {
-	while ((dp = readdir(dirp)) != NULL)
-        {
-	    fname = dp->d_name;
+	for (i = 0; i < num_files; i++)
+	{
+	    fname = files[i]->d_name;
 	    if (!strncmp("lircd_", fname, 6) &&
 		    strcmp(".conf", &fname[strlen(fname)-5]))
 		ui->lirc_receiver->add(&fname[6]);
 	    else if (!strncmp("lircrc_", fname, 7))
 		ui->lirc_remote->add(&fname[7]);
+	    free((void*)files[i]);
 	}
-	closedir(dirp);
+	free((void*)files);
     }
 
     if (ui->lirc_receiver->size() < 1 || ui->lirc_remote->size() < 1) {

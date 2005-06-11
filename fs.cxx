@@ -24,10 +24,10 @@
 #include <unistd.h> /* fstat */
 #include <ctype.h> /* isspace */
 #include <string.h> /* strchr strcmp strncpy strrchr */
-#include <dirent.h> /* opendir */
-#include <stdlib.h> /* malloc */
+#include <stdlib.h> /* free */
 
 #include <FL/fl_ask.H> /* fl_alert */
+#include <FL/filename.H> /* fl_filename_list */
 
 /* this is required on windows */
 #ifndef O_BINARY
@@ -94,24 +94,25 @@ int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
 {
     struct stat st;
     char srcfile[100], dstfile[100];
-    DIR *dirp;
-    struct dirent *dp;
+    const char *fname;
+    int num_files, i;
+    dirent **files;
     int errors = 0;
 
-    dirp = opendir(srcdir);
-    if (!dirp)
+    if ((num_files = fl_filename_list(srcdir, &files, NULL)) <= 0)
 	return 0;
 
-    while ((dp = readdir(dirp)) != NULL)
+    for (i = 0; i < num_files; i++)
     {
-	if (strcmp(dp->d_name, ".")
-	    && strcmp(dp->d_name, "..") 
-	    && strcmp(dp->d_name, exclude))
+	fname = files[i]->d_name;
+	if (strcmp(fname, ".") && strcmp(fname, "./")
+	    && strcmp(fname, "..") && strcmp(fname, "../")
+	    && strcmp(fname, exclude))
 	{ 
 	    strcpy(srcfile, srcdir);
-	    strcat(srcfile, dp->d_name);
+	    strcat(srcfile, fname);
 	    strcpy(dstfile, dstdir);
-	    strcat(dstfile, dp->d_name);
+	    strcat(dstfile, fname);
 
 	    if (stat(srcfile, &st) < 0)
 		continue;
@@ -125,8 +126,9 @@ int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
 		errors += copy_file(srcfile, dstfile);
 	    }
 	}
+	free((void*)files[i]);
     }
-    closedir(dirp);
+    free((void*)files);
 
     return errors;
 }
@@ -135,23 +137,24 @@ void multi_delete(const char *dir, const char *prefix, const char *suffix, const
 {
     struct stat st;
     char file[100];
-    DIR *dirp;
-    struct dirent *dp;
+    const char *fname;
+    int num_files, i;
+    dirent **files;
 
-    dirp = opendir(dir);
-    if (!dirp)
+    if ((num_files = fl_filename_list(dir, &files, NULL)) <= 0)
 	return;
 
-    while ((dp = readdir(dirp)) != NULL)
+    for (i = 0; i < num_files; i++)
     {
-	if (strcmp(dp->d_name, ".")
-	    && strcmp(dp->d_name, "..")
-	    && (!prefix || !strncmp(prefix, dp->d_name, strlen(prefix)))
-            && (!suffix || !strcmp(suffix, &dp->d_name[strlen(dp->d_name)-strlen(suffix)]))
+	fname = files[i]->d_name;
+	if (strcmp(fname, ".") && strcmp(fname, "./")
+	    && strcmp(fname, "..") && strcmp(fname, "../")
+	    && (!prefix || !strncmp(prefix, fname, strlen(prefix)))
+            && (!suffix || !strcmp(suffix, &fname[strlen(fname)-strlen(suffix)]))
 	    )
 	{ 
 	    strcpy(file, dir);
-	    strcat(file, dp->d_name);
+	    strcat(file, fname);
 	    if (stat(file, &st) < 0)
 		continue;
 	    if (S_ISDIR(st.st_mode)) {
@@ -164,6 +167,7 @@ void multi_delete(const char *dir, const char *prefix, const char *suffix, const
 		unlink(file);
 	    }
 	}
+	free((void*)files[i]);
     }
-    closedir(dirp);
+    free((void*)files);
 }

@@ -24,26 +24,29 @@
 #include "utils.h"
 
 #include <sys/types.h>
-#include <dirent.h> /* opendir */
 #include <string.h> /* strcmp strncmp strlen strcpy strcat strstr */
+#include <stdlib.h> /* free */
 
 #include <FL/fl_ask.H> /* fl_alert */
+#include <FL/filename.H> /* fl_filename_list */
 
 int init_theme_tab(GeneratorUI *ui)
 {
     char buf[50];
-    DIR *dirp;
-    struct dirent *dp;
+    int num_files, i;
+    dirent **files;
     FILE *f;
     const Fl_Menu_Item *m;
 
-    dirp = opendir("themes");
-    if (dirp)
+    if ((num_files = fl_filename_list("themes/", &files, NULL)) > 0)
     {
-	while ((dp = readdir(dirp)) != NULL)
-	    if (!strncmp("theme-", dp->d_name, 6))
-		ui->theme->add(&dp->d_name[6]);
-	closedir(dirp);
+	for (i = 0; i < num_files; i++)
+	{
+	    if (!strncmp("theme-", files[i]->d_name, 6))
+		ui->theme->add(&files[i]->d_name[6]);
+	    free((void*)files[i]);
+	}
+	free((void*)files);
     }
 
     if (ui->theme->size() < 1) {
@@ -65,8 +68,10 @@ int init_theme_tab(GeneratorUI *ui)
 char *valid_theme_font(const char *theme_name, struct charset_info *c)
 {
     char buf[256], buf2[256];
-    DIR *dirp;
-    struct dirent *dp;
+    int num_files, i;
+    dirent **files;
+    const char *fname;
+    char *font;
     FILE *fp;
 
     sprintf(buf, "themes/theme-%s/config", theme_name);
@@ -86,23 +91,28 @@ char *valid_theme_font(const char *theme_name, struct charset_info *c)
     if (!strstr(buf, buf2))
 	return NULL;
 
-    sprintf(buf, "themes/theme-%s", theme_name);
-    dirp = opendir(buf);
-    if (!dirp)
+    sprintf(buf, "themes/theme-%s/", theme_name);
+    if ((num_files = fl_filename_list(buf, &files, NULL)) <= 0)
 	return NULL;
 
-    while ((dp = readdir(dirp)) != NULL)
+    font = NULL;
+    i = num_files;
+    while (i--)
     {
-	if (!strcmp(".ttf", &dp->d_name[strlen(dp->d_name)-4]))
+	fname = files[i]->d_name;
+	if (!strcmp(".ttf", &fname[strlen(fname)-4]))
 	{
-	    sprintf(buf2, "%s/%s", buf, dp->d_name);
-	    closedir(dirp);
-	    return strdup(buf2);
+	    sprintf(buf2, "%s/%s", buf, fname);
+	    font = strdup(buf2);
+	    break;
 	}
+	free((void*)files[i]);
     }
-    closedir(dirp);
+    while (i--)
+	free((void*)files[i]);
+    free((void*)files);
 
-    return NULL;
+    return font;
 }
 
 int copy_theme_files(GeneratorUI *ui)

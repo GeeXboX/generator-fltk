@@ -27,12 +27,12 @@
 #include <unistd.h> /* usleep */
 #endif
 
-static inline int my_mkdir (const char *path, int mode)
+static inline int my_mkdir (const char *path)
 {
 #ifdef _WIN32
   return mkdir(path);
 #else
-  return mkdir(path, mode);
+  return mkdir(path, 0777);
 #endif
 }
 

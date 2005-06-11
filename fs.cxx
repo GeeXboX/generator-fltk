@@ -123,7 +123,7 @@ int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
 		continue;
 
 	    if (S_ISDIR(st.st_mode)) {
-		my_mkdir(dstfile, st.st_mode);
+		my_mkdir(dstfile);
 		strcat(srcfile, "/");
 		strcat(dstfile, "/");
 		errors += multi_copy(srcfile, dstfile, exclude);

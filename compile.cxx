@@ -122,7 +122,7 @@ static int real_compile_iso(GeneratorUI *ui)
 
     update_progress(ui, "Creating ziso tree...");
     cleanup_zisotree();
-    if (my_mkdir("ziso", 0700) < 0) {
+    if (my_mkdir("ziso") < 0) {
 	fl_alert("Failed to create temporery ziso directory.\n");
 	return 0;
     }
@@ -136,7 +136,7 @@ static int real_compile_iso(GeneratorUI *ui)
     cleanup_isotree();
 
     update_progress(ui, "Copying boot files...");
-    my_mkdir("ziso/GEEXBOX/boot", 0700);
+    my_mkdir("ziso/GEEXBOX/boot");
     multi_copy("iso/GEEXBOX/boot/", "ziso/GEEXBOX/boot/", "");
     multi_copy("iso/", "ziso/", "GEEXBOX");
 

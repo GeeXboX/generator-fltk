@@ -35,6 +35,7 @@ int init_theme_tab(GeneratorUI *ui)
     char buf[50];
     int num_files, i;
     dirent **files;
+    char *fname;
     FILE *f;
     const Fl_Menu_Item *m;
 
@@ -42,8 +43,13 @@ int init_theme_tab(GeneratorUI *ui)
     {
 	for (i = 0; i < num_files; i++)
 	{
-	    if (!strncmp("theme-", files[i]->d_name, 6))
-		ui->theme->add(&files[i]->d_name[6]);
+	    fname = files[i]->d_name;
+	    if (!strncmp("theme-", fname, 6))
+	    {
+		if (fname[strlen(fname)-1] == '/')
+		    fname[strlen(fname)-1] = '\0';
+		ui->theme->add(&fname[6]);
+	    }
 	    free((void*)files[i]);
 	}
 	free((void*)files);

@@ -24,6 +24,7 @@
 #include "utils.h"
 
 #include <FL/fl_ask.H> /* fl_alert */
+#include <FL/filename.H> /* fl_filename_name */
 #include <FL/Fl_File_Chooser.H> /* fl_file_chooser */
 
 void change_font(Fl_Output *o, Fl_Check_Button *b)

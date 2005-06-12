@@ -30,6 +30,7 @@
 #include <stdio.h> /* FILE */
 
 #include <FL/fl_ask.H> /* fl_alert */
+#include <FL/Fl.H> /* Fl::check */
 
 void update_progress(GeneratorUI *ui, const char *msg)
 {

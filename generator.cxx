@@ -27,6 +27,8 @@
 #include <stdlib.h> /* exit */
 #include <stdio.h> /* fprintf */
 
+#include <FL/Fl.H> /* Fl::run Fl::scheme */
+
 void update_tabs_status(GeneratorUI *ui)
 {
     if (ui->override_sub_font->value())

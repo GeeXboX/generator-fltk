@@ -140,10 +140,7 @@ static int real_compile_iso(GeneratorUI *ui)
     multi_copy("iso/GEEXBOX/boot/", "ziso/GEEXBOX/boot/", "");
     multi_copy("iso/", "ziso/", "GEEXBOX");
 
-    if (copy_errors > 0)
-	return 0;
-
-    if (!append_bootplash_to_initrd(ui))
+    if (!copy_theme_boot_files(ui) || copy_errors > 0)
 	return 0;
 
     update_progress(ui, "Compiling iso file...");

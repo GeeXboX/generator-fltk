@@ -151,14 +151,6 @@ int copy_theme_files(GeneratorUI *ui)
     if (file_exists(buf))
 	copy_file(buf, buf2);
 
-    sprintf(buf, "themes/theme-%s/splash-isolinux.rle", theme);
-    sprintf(buf2, PATH_BASEISO "/boot/splash.rle");
-    if (!file_exists(buf)) {
-	fl_alert("Theme %s is missing theme %s file.\n", theme, "splash-isolinux.rle");
-	return 0;
-    }
-    copy_file(buf, buf2);
-
     sprintf(buf, "themes/theme-%s/config", theme);
     sprintf(buf2, PATH_BASEISO "/etc/theme.conf");
     if (!file_exists(buf)) {
@@ -170,17 +162,23 @@ int copy_theme_files(GeneratorUI *ui)
     return 1;
 }
 
-int append_bootplash_to_initrd(GeneratorUI *ui)
+int copy_theme_boot_files(GeneratorUI *ui)
 {
     char buf[256], buf2[256];
+    const char *theme = ui->theme->mvalue()->label();
 
-    sprintf(buf, "themes/theme-%s/bootsplash.dat", ui->theme->mvalue()->label());
+    sprintf(buf, "themes/theme-%s/bootsplash.dat", theme);
     sprintf(buf2, "ziso/GEEXBOX/boot/initrd.gz");
 
     if (file_exists(buf) && _copy_file(buf, buf2, 1)) {
 	fl_alert("Failed to append bootplash data to initrd image.\n");
 	return 0;
     }
+
+    sprintf(buf, "themes/theme-%s/splash-isolinux.rle", theme);
+    sprintf(buf2, "ziso/GEEXBOX/boot/splash.rle");
+    if (file_exists(buf))
+	copy_file(buf, buf2);
 
     return 1;
 }

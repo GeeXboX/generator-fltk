@@ -21,4 +21,6 @@
 int compile_iso(GeneratorUI *ui);
 void cleanup_compile(void);
 
+int tree_corrupted(void);
+
 #endif

@@ -29,6 +29,7 @@
 
 #include <stdio.h> /* FILE */
 
+#include <FL/filename.H> /* fl_filename_isdir */
 #include <FL/fl_ask.H> /* fl_alert */
 #include <FL/Fl.H> /* Fl::check */
 
@@ -180,4 +181,43 @@ void cleanup_compile(void)
     destroy_bg_program();
     cleanup_isotree();
     cleanup_zisotree();
+}
+
+
+int tree_corrupted(void)
+{
+    char buf[30];
+    const char *msg = NULL, *msg2 = NULL;
+    int err = 0;
+    FILE *f;
+
+    f = fopen(PATH_BASEISO "/sbin/init", "rb");
+    if (f) {
+	if (fgets(buf, sizeof(buf)-1, f)) {
+	    if (strchr(buf, '\r'))
+	    {
+		msg = "CR/LF";
+		err++;
+	    }
+	} else {
+	    err++;
+	}
+	fclose(f);
+    } else {
+	err++;
+    }
+
+    if (!fl_filename_isdir(PATH_BASEISO "/usr/share/fonts")) {
+	msg2 = "empty directories";
+	err++;
+    }
+
+    if (msg || msg2)
+	fl_alert("GeeXboX generator files are corrupted.\nThis probably means you have extracted the archive with WinZIP\n"
+		 "or any kind of unarchiver that can't handle %s%s%s properly.\n\nPlease use real software like 7Zip (http://www.7-zip.org).",
+		 msg ? msg : (msg2 ? msg2 : ""), (msg && msg2) ? " and " : "", (msg && msg2) ? msg2 : "");
+    else if (err)
+	fl_alert("GeeXboX generator files are corrupted.\n\nPlease use real software like 7Zip (http://www.7-zip.org) to extract the archive.");
+
+    return (err > 0);
 }

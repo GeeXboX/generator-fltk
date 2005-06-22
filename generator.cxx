@@ -106,6 +106,9 @@ main(int argc, char **argv)
 
     Fl::scheme("plastic");
 
+    if (tree_corrupted())
+	return 1;
+
     if (!init_tabs(ui)) {
 	fprintf(stderr, "Tabs initilizing failed.\n");
 	return 1;

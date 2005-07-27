@@ -2,10 +2,10 @@ PROJ=generator
 OBJS=Fl_Gel_Tabs/Fl_Gel_Tabs.o audio.o compile.o fs.o generator.o language.o network.o remote.o theme.o system.o utils.o
 FLOBJS=generatorUI.fl
 
-FLTKDIR?=/usr
+FLTKCONFIG?=fltk-config
 FLUID?=fluid
-FLTKCXXFLAGS?=-I$(FLTKDIR)/include
-FLTKLDFLAGS?=-L$(FLTKDIR)/lib -lfltk
+FLTKCXXFLAGS?=$(shell $(FLTKCONFIG) --cxxflags)
+FLTKLDFLAGS?=$(shell $(FLTKCONFIG) --ldstaticflags)
 
 SED?=sed
 CXX?=g++

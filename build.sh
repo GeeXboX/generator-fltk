@@ -56,18 +56,19 @@ export ac_cv_path_AR=$AR
 [ ! -d $TMPDIR ] && mkdir $TMPDIR
 
 WORKDIR=$PWD
+INSTDIR=$PWD/$TMPDIR/target
 
 if [ ! -f $TMPDIR/.get ]; then
   wget --passive-ftp -c -P $TMPDIR $FLTKURL
   touch $TMPDIR/.get
-  rm -f $TMPDIR/.extract $TMPDIR/.patch $TMPDIR/.configure $TMPDIR/.build
+  rm -f $TMPDIR/.extract $TMPDIR/.patch $TMPDIR/.configure $TMPDIR/.build $TMPDIR/.install
 fi
 
 if [ ! -f $TMPDIR/.extract ]; then
   rm -rf $FLTKDIR
   tar -xjf $FLTKDIR*.tar.bz2 -C $TMPDIR
   touch $TMPDIR/.extract
-  rm -f $TMPDIR/.patch $TMPDIR/.configure $TMPDIR/.build
+  rm -f $TMPDIR/.patch $TMPDIR/.configure $TMPDIR/.build $TMPDIR/.install
 fi
 
 if [ ! -f $TMPDIR/.patch ]; then
@@ -79,7 +80,7 @@ if [ ! -f $TMPDIR/.patch ]; then
   mv src/Fl_win32.cxx.new src/Fl_win32.cxx
   cd $WORKDIR
   touch $TMPDIR/.patch
-  rm -f $TMPDIR/.configure $TMPDIR/.build
+  rm -f $TMPDIR/.configure $TMPDIR/.build $TMPDIR/.install
 fi
 
 if [ ! -f $TMPDIR/.configure ]; then
@@ -87,13 +88,14 @@ if [ ! -f $TMPDIR/.configure ]; then
   ./configure \
               --host=$CROSS_TARGET \
               --build=$CROSS_HOST \
+              --prefix=$INSTDIR \
               --disable-localjpeg \
               --disable-localzlib \
               --disable-localpng \
               --disable-gl 
   cd $WORKDIR
   touch $TMPDIR/.configure
-  rm -f $TMPDIR/.build
+  rm -f $TMPDIR/.build $TMPDIR/.install
 fi
 
 if [ ! -f $TMPDIR/.build ]; then
@@ -101,11 +103,19 @@ if [ ! -f $TMPDIR/.build ]; then
   $MAKE
   cd $WORKDIR
   touch $TMPDIR/.build
+  rm -f $TMPDIR/.install
   make clean
 fi
 
-export FLTKCXXFLAGS="`$FLTKDIR/fltk-config --cxxflags | sed s%/usr/local/include%$FLTKDIR%g`"
-export FLTKLDFLAGS="`$FLTKDIR/fltk-config --ldstaticflags | sed s%/usr/local%$FLTKDIR%g`"
+if [ ! -f $TMPDIR/.install ]; then
+  cd $FLTKDIR
+  $MAKE DIRS=src install
+  cd $WORKDIR
+  touch $TMPDIR/.install
+  make clean
+fi
+
+export FLTKCONFIG="$INSTDIR/bin/fltk-config"
 export CXXFLAGS="$CXXFLAGS -DPATH_MKZFTREE=\\\"$MKZFTREE\\\" -DPATH_MKISOFS=\\\"$MKISOFS\\\""
 
 $MAKE

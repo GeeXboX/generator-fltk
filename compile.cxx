@@ -44,6 +44,8 @@ static const char *get_target_arch_string(void)
 	return "i386";
     case TARGET_ARCH_PPC:
 	return "ppc";
+    default:
+	return NULL;
     }
 }
 
@@ -232,6 +234,9 @@ int init_compile(GeneratorUI *ui)
     if ((tmp = strchr(buf, '\n')))
 	*tmp = '\0';
     geexbox_version = strdup(buf);
+
+    sprintf(buf, "GeeXboX Generator %s %s", geexbox_version, get_target_arch_string());
+    ui->mainWindow->label(strdup(buf));
 
     return 1;
 }

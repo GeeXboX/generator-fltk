@@ -33,6 +33,7 @@
 #include <FL/fl_ask.H> /* fl_alert */
 #include <FL/Fl.H> /* Fl::check */
 
+static char *geexbox_version;
 target_arch_t target_arch;
 
 void update_progress(GeneratorUI *ui, const char *msg)
@@ -197,6 +198,9 @@ void cleanup_compile(void)
 
 int init_compile(GeneratorUI *ui)
 {
+    char buf[512], *tmp;
+    FILE *f;
+
     if (file_exists(PATH_BASEISO "/boot/isolinux.bin"))
 	target_arch = TARGET_ARCH_I386;
     else if (file_exists(PATH_BASEISO "/boot/yaboot"))
@@ -205,6 +209,19 @@ int init_compile(GeneratorUI *ui)
 	fl_alert("Failed to detect iso target arch");
 	return 0;
     }
+
+    f = fopen("VERSION", "r");
+    if (!f || !fgets(buf, sizeof(buf), f)) {
+	if (f)
+	    fclose(f);
+	fl_alert("Failed to detect geexbox version");
+	return 0;
+    }
+    fclose(f);
+    if ((tmp = strchr(buf, '\n')))
+	*tmp = '\0';
+    geexbox_version = strdup(buf);
+
     return 1;
 }
 

@@ -43,7 +43,7 @@ static char * lt_crv_off_xpm[] = {
 "a	c #C2C2C2",
 "b	c #DCDCDC",
 "c	c #D9D9D9",
-"     ",
+"    .",
 "   .+",
 "  .@#",
 " .$%&",

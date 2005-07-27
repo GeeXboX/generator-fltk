@@ -251,6 +251,7 @@ void Fl_Gel_Tabs::draw() {
   Fl_Widget *v = value();
   int H, yedge; tab_area(H, yedge);
   if (damage() & FL_DAMAGE_ALL) { // redraw the entire thing:
+    // Draw the tab's box
     draw_box(box(), x(), y()+(H>=0?H:0), w(), h()-(H>=0?H:-H), v ? v->color() : color());
     if (v) draw_child(*v);
   } else { // redraw the child
@@ -295,8 +296,12 @@ static void draw_tab_box(int x, int y, int w, int h, Fl_Color c,
     // LEFT
     if ( curveleft ) { lt_crv_on.draw(x,y); }
     else             { ct_mid_on.draw(x,y); ct_mid_on.draw(x+ct_w,y); }
+
     // CENTER
+    fl_push_clip(x,y,w-rt_w,h);
     for ( int xx=x+lt_w; xx<=x+w-rt_w; xx += ct_w ) ct_mid_on.draw(xx,y);
+    fl_pop_clip();
+
     // RIGHT
     if ( curveright ) rt_crv_on.draw(x+w-rt_w,y);
     else              rt_sep_on.draw(x+w-rt_w,y);
@@ -315,8 +320,12 @@ static void draw_tab_box(int x, int y, int w, int h, Fl_Color c,
     // LEFT
     if ( curveleft ) { lt_crv_off.draw(x,y); }
     else             { ct_mid_off.draw(x,y); ct_mid_off.draw(x+ct_w,y); }
+
     // CENTER
+    fl_push_clip(x,y,w-rt_w,h);
     for ( int xx=x+lt_w; xx<=x+w-rt_w; xx += ct_w ) ct_mid_off.draw(xx,y);
+    fl_pop_clip();
+
     // RIGHT
     if ( curveright ) rt_crv_off.draw(x+w-rt_w,y);
     else              rt_sep_off.draw(x+w-rt_w,y);

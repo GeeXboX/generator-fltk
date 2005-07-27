@@ -18,6 +18,14 @@
 #ifndef compile_h
 #define compile_h
 
+typedef enum {
+  TARGET_ARCH_I386,
+  TARGET_ARCH_PPC
+} target_arch_t;
+
+extern target_arch_t target_arch;
+
+int init_compile(GeneratorUI *ui);
 int compile_iso(GeneratorUI *ui);
 void cleanup_compile(void);
 

@@ -33,6 +33,8 @@
 #include <FL/fl_ask.H> /* fl_alert */
 #include <FL/Fl.H> /* Fl::check */
 
+target_arch_t target_arch;
+
 void update_progress(GeneratorUI *ui, const char *msg)
 {
     ui->progress->value(ui->progress->value() + 1);
@@ -101,10 +103,20 @@ static int compile_isoimage(GeneratorUI *ui)
 {
     char buf[2048];
     char iso_image[256];
+    char *mkisofs_arch = NULL;
+    switch (target_arch)
+    {
+    case TARGET_ARCH_I386:
+	mkisofs_arch = "-no-emul-boot -boot-info-table -boot-load-size 4 -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog";
+	break;
+    case TARGET_ARCH_PPC:
+	mkisofs_arch = "-hfs -part -no-desktop -map maps -hfs-volid GEEXBOX -hfs-bless ziso/GEEXBOX/boot";
+	break;
+    }
 
     sprintf(iso_image, "geexbox-custom-%s.iso", ((struct lang_info*)ui->menu_lang->mvalue()->user_data())->shortname);
 
-    sprintf(buf, PATH_MKISOFS " -o \"%s\" -quiet -no-pad -V GEEXBOX -volset GEEXBOX -publisher \"The GeeXboX team (www.geexbox.org)\" -p \"The GeeXboX team (www.geexbox.org)\" -A \"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER\" -z -f -D -r -J -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog -sort sort -no-emul-boot -boot-load-size 4 -boot-info-table ziso", iso_image);
+    sprintf(buf, PATH_MKISOFS " -o \"%s\" -quiet -no-pad -V GEEXBOX -volset GEEXBOX -publisher \"The GeeXboX team (www.geexbox.org)\" -p \"The GeeXboX team (www.geexbox.org)\" -A \"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER\" -z -D -r -J -sort sort %s ziso", iso_image, mkisofs_arch);
     return execute_bg_program(buf) == 0;
 }
 
@@ -183,6 +195,18 @@ void cleanup_compile(void)
     cleanup_zisotree();
 }
 
+int init_compile(GeneratorUI *ui)
+{
+    if (file_exists(PATH_BASEISO "/boot/isolinux.bin"))
+	target_arch = TARGET_ARCH_I386;
+    else if (file_exists(PATH_BASEISO "/boot/yaboot"))
+	target_arch = TARGET_ARCH_PPC;
+    else {
+	fl_alert("Failed to detect iso target arch");
+	return 0;
+    }
+    return 1;
+}
 
 int tree_corrupted(void)
 {

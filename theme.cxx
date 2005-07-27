@@ -17,6 +17,7 @@
 
 #include "generatorUI.h"
 
+#include "compile.h"
 #include "config.h"
 #include "fs.h"
 #include "language.h"
@@ -146,10 +147,12 @@ int copy_theme_files(GeneratorUI *ui)
     if (file_exists(buf))
 	copy_file(buf, buf2);
 
-    sprintf(buf, "themes/theme-%s/grub-splash.xpm.gz", theme);
-    sprintf(buf2, PATH_BASEISO "/usr/share/grub-splash.xpm.gz");
-    if (file_exists(buf))
-	copy_file(buf, buf2);
+    if (target_arch == TARGET_ARCH_I386) {
+	sprintf(buf, "themes/theme-%s/grub-splash.xpm.gz", theme);
+	sprintf(buf2, PATH_BASEISO "/usr/share/grub-splash.xpm.gz");
+	if (file_exists(buf))
+	    copy_file(buf, buf2);
+    }
 
     sprintf(buf, "themes/theme-%s/config", theme);
     sprintf(buf2, PATH_BASEISO "/etc/theme.conf");
@@ -175,10 +178,12 @@ int copy_theme_boot_files(GeneratorUI *ui)
 	return 0;
     }
 
-    sprintf(buf, "themes/theme-%s/splash-isolinux.rle", theme);
-    sprintf(buf2, "ziso/GEEXBOX/boot/splash.rle");
-    if (file_exists(buf))
-	copy_file(buf, buf2);
+    if (target_arch == TARGET_ARCH_I386) {
+	sprintf(buf, "themes/theme-%s/splash-isolinux.rle", theme);
+	sprintf(buf2, "ziso/GEEXBOX/boot/splash.rle");
+	if (file_exists(buf))
+	    copy_file(buf, buf2);
+    }
 
     return 1;
 }

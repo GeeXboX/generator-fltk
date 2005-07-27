@@ -36,6 +36,17 @@
 static char *geexbox_version;
 target_arch_t target_arch;
 
+static const char *get_target_arch_string(void)
+{
+    switch (target_arch)
+    {
+    case TARGET_ARCH_I386:
+	return "i386";
+    case TARGET_ARCH_PPC:
+	return "ppc";
+    }
+}
+
 void update_progress(GeneratorUI *ui, const char *msg)
 {
     ui->progress->value(ui->progress->value() + 1);
@@ -115,7 +126,7 @@ static int compile_isoimage(GeneratorUI *ui)
 	break;
     }
 
-    sprintf(iso_image, "geexbox-custom-%s.iso", ((struct lang_info*)ui->menu_lang->mvalue()->user_data())->shortname);
+    sprintf(iso_image, "geexbox-%s-%s.%s.iso", geexbox_version, ((struct lang_info*)ui->menu_lang->mvalue()->user_data())->shortname, get_target_arch_string());
 
     sprintf(buf, PATH_MKISOFS " -o \"%s\" -quiet -no-pad -V GEEXBOX -volset GEEXBOX -publisher \"The GeeXboX team (www.geexbox.org)\" -p \"The GeeXboX team (www.geexbox.org)\" -A \"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER\" -z -D -r -J -sort sort %s ziso", iso_image, mkisofs_arch);
     return execute_bg_program(buf) == 0;

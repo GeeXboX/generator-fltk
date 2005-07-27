@@ -122,6 +122,7 @@ int init_language_tab(GeneratorUI *ui)
     }
 
     if (ui->sub_charset->size() < 1 || ui->menu_lang->size() < 1) {
+	fclose(f);
 	fl_alert("No languages or character set found.\n");
 	return 0;
     }
@@ -241,6 +242,7 @@ int copy_language_files(GeneratorUI *ui)
 
 	if (!file_exists(buf2)) 
 	{
+	    fclose(fp);
 	    fl_alert("Font '%s' is missing.\nPlease visit README - EXTRA SUBTITLE FONT section.\n", c->sub_font);
 	    return 0;
 	}
@@ -267,6 +269,7 @@ int copy_language_files(GeneratorUI *ui)
 
 	if (!file_exists(buf2)) 
 	{
+	    fclose(fp);
 	    fl_alert("Font '%s' is missing.\nPlease visit README - EXTRA SUBTITLE FONT section.\n", l->c->menu_font);
 	    return 0;
 	}

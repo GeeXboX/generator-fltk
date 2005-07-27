@@ -82,6 +82,8 @@ int init_network_tab(GeneratorUI *ui)
     get_shvar_value(f, "HTTP_SERVER", buf);
     ui->server_http->value(!my_strcasecmp(buf, "yes"));
 
+    fclose(f);
+
     return 1;
 }
 

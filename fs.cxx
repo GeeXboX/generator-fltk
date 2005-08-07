@@ -102,6 +102,7 @@ int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
     int num_files, i;
     dirent **files;
     int errors = 0;
+    size_t exclude_len = strlen(exclude);
 
     if ((num_files = fl_filename_list(srcdir, &files, NULL)) <= 0)
 	return 0;
@@ -111,7 +112,7 @@ int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
 	fname = files[i]->d_name;
 	if (strcmp(fname, ".") && strcmp(fname, "./")
 	    && strcmp(fname, "..") && strcmp(fname, "../")
-	    && strcmp(fname, exclude))
+	    && (strncmp(fname, exclude, exclude_len) || (fname[exclude_len] != '/' && fname[exclude_len] != '\0')))
 	{ 
 	    strcpy(srcfile, srcdir);
 	    strcat(srcfile, fname);

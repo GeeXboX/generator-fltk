@@ -37,8 +37,8 @@ MKZFTREE='win32\\\\mkzftree.exe'
 MKISOFS='win32\\\\mkisofs.exe'
 
 export EXEEXT
-export CFLAGS="-Os"
-export CXXFLAGS="-Os"
+export CFLAGS="-Os -fomit-frame-pointer"
+export CXXFLAGS="$CFLAGS"
 export CC=$CROSS_PREFIX-gcc
 export CXX=$CROSS_PREFIX-g++
 export AR=$CROSS_PREFIX-ar

@@ -2,6 +2,13 @@
 
 DIR="`tla pristines | cut -f 2 -d /`"
 
+for i in generator.exe linux-generator generatorUI.cxx generatorUI.h; do
+  if [ ! -f "$i" ]; then
+    echo "$i is missing"
+    exit 1
+  fi
+done
+
 rm -rf "$DIR"
 mkdir -p "$DIR"
 cp -pPR *.cxx *.h *.fl linux-generator generator.exe Dependencies Makefile Fl_Gel_Tabs "$DIR"

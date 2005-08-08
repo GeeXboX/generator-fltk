@@ -10,7 +10,7 @@ FLTKLDFLAGS?=$(shell $(FLTKCONFIG) --ldstaticflags)
 SED?=sed
 CXX?=g++
 STRIP?=strip
-LDFLAGS+=$(FLTKLDFLAGS)
+LDFLAGS+=$(FLTKLDFLAGS) -static
 CXXFLAGS+=-Wall -Werror -pedantic -IFl_Gel_Tabs $(FLTKCXXFLAGS)
 EXEEXT?=
 

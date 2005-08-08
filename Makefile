@@ -37,7 +37,11 @@ $(PROJ)$(EXEEXT): $(PROGOBJS)
 
 .PHONY: clean
 clean:
-	rm -f $(PROJ)$(EXEEXT) $(PROGOBJS) $(FLOBJS:.fl=.cxx) $(FLOBJS:.fl=.h)
+	rm -f $(PROJ)$(EXEEXT) $(PROGOBJS)
+
+.PHONY: distclean
+distclean: clean
+	rm -f $(FLOBJS:.fl=.cxx) $(FLOBJS:.fl=.h)
 
 .PHONY: depend
 depend: $(PROGOBJS:.o=.cxx)

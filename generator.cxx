@@ -107,7 +107,7 @@ main(int argc, char **argv)
 
     Fl::scheme("plastic");
 
-    if (tree_corrupted())
+    if (!find_geexbox_tree(argv[0]) || tree_corrupted())
 	return 1;
 
     if (!init_tabs(ui)) {

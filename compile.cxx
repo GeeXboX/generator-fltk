@@ -28,6 +28,7 @@
 #include "system.h"
 
 #include <stdio.h> /* FILE */
+#include <stdlib.h> /* free */
 
 #include <FL/filename.H> /* fl_filename_isdir */
 #include <FL/fl_ask.H> /* fl_alert */
@@ -239,6 +240,35 @@ int init_compile(GeneratorUI *ui)
     ui->mainWindow->label(strdup(buf));
 
     return 1;
+}
+
+int find_geexbox_tree(const char *prog)
+{
+    char *orig_cwd;
+    char *prog_path, *tmp;
+
+    if (fl_filename_isdir(PATH_BASEISO)) 
+	return 1;
+
+    orig_cwd  = getcwd(0, 4096);
+    prog_path = strdup(prog);
+    if (prog_path) {
+	tmp = (char*)fl_filename_name(prog_path);
+	if (tmp != prog_path) {
+	    *tmp = '\0';
+	    if (!chdir(prog_path) && fl_filename_isdir(PATH_BASEISO)) {
+		free(prog_path);
+		if (orig_cwd)
+		    free(orig_cwd);
+		return 1;
+	    }
+	}
+	free(prog_path);
+    }
+    fl_alert("Failed to find GeeXboX iso directory.\norignal working directory is: %s\n", orig_cwd ? orig_cwd : "Unknown");
+    if (orig_cwd)
+	free(orig_cwd);
+    return 0;
 }
 
 int tree_corrupted(void)

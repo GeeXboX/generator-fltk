@@ -29,6 +29,7 @@ int init_compile(GeneratorUI *ui);
 int compile_iso(GeneratorUI *ui);
 void cleanup_compile(void);
 
+int find_geexbox_tree(const char *prog);
 int tree_corrupted(void);
 
 #endif

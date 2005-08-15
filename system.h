@@ -20,12 +20,13 @@
 
 #ifdef _WIN32
 #include <windows.h> /* Sleep */
+#include <io.h> /* getcwd chdir */
 #include <direct.h> /* mkdir */
 #include <string.h> /* stricmp */
 #else
 #include <sys/types.h>
 #include <sys/stat.h> /* mkdir */
-#include <unistd.h> /* usleep */
+#include <unistd.h> /* usleep getcwd chdir */
 #include <string.h> /* strcasecmp */
 #endif
 

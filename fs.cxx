@@ -121,8 +121,10 @@ int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
 
 	    if (fl_filename_isdir(srcfile)) {
 		my_mkdir(dstfile);
-		strcat(srcfile, "/");
-		strcat(dstfile, "/");
+		if (srcfile[strlen(srcfile)-1] != '/')
+		    strcat(srcfile, "/");
+		if (dstfile[strlen(dstfile)-1] != '/')
+		    strcat(dstfile, "/");
 		errors += multi_copy(srcfile, dstfile, exclude);
 	    } else {
 		errors += copy_file(srcfile, dstfile);
@@ -158,7 +160,8 @@ void multi_delete(const char *dir, const char *prefix, const char *suffix, const
 	    strcat(file, fname);
 	    if (fl_filename_isdir(file)) {
 		if (recursive) {
-		    strcat(file, "/");
+		    if (file[strlen(file)-1] != '/')
+			strcat(file, "/");
 		    multi_delete(file, prefix, suffix, recursive);
 		    rmdir(file);
 		}

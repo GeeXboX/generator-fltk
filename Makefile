@@ -21,6 +21,7 @@ all: $(PROJ)$(EXEEXT)
 $(PROJ)$(EXEEXT): $(PROGOBJS)
 	$(CXX) $(CXXFLAGS) $(PROGOBJS) -o $@ $(LDFLAGS)
 	$(STRIP) $@
+	$(FLTKCONFIG) --post $@
 
 .SUFFIXES: .fl
 .SUFFIXES: .cxx

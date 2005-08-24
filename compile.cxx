@@ -37,6 +37,8 @@
 static char *geexbox_version;
 target_arch_t target_arch;
 
+static const char *path_mkzftree, *path_mkisofs;
+
 static const char *get_target_arch_string(void)
 {
     switch (target_arch)
@@ -110,7 +112,7 @@ static int compile_zisotree(void)
 {
     char buf[256];
 
-    sprintf(buf, PATH_MKZFTREE " " PATH_BASEISO " ziso/GEEXBOX");
+    sprintf(buf, "%s " PATH_BASEISO " ziso/GEEXBOX", path_mkzftree);
     return execute_bg_program(buf) == 0;
 }
 
@@ -131,7 +133,7 @@ static int compile_isoimage(GeneratorUI *ui)
 
     sprintf(iso_image, "geexbox-%s-%s.%s.iso", geexbox_version, ((struct lang_info*)ui->menu_lang->mvalue()->user_data())->shortname, get_target_arch_string());
 
-    sprintf(buf, PATH_MKISOFS " -o \"%s\" -quiet -no-pad -V GEEXBOX -volset GEEXBOX -publisher \"The GeeXboX team (www.geexbox.org)\" -p \"The GeeXboX team (www.geexbox.org)\" -A \"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER\" -z -D -r -J -sort sort %s ziso", iso_image, mkisofs_arch);
+    sprintf(buf, "%s -o \"%s\" -quiet -no-pad -V GEEXBOX -volset GEEXBOX -publisher \"The GeeXboX team (www.geexbox.org)\" -p \"The GeeXboX team (www.geexbox.org)\" -A \"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER\" -z -D -r -J -sort sort %s ziso", path_mkisofs, iso_image, mkisofs_arch);
     return execute_bg_program(buf) == 0;
 }
 
@@ -210,6 +212,23 @@ void cleanup_compile(void)
     cleanup_zisotree();
 }
 
+static const char *find_program(const char *prog)
+{
+    char buf[100];
+
+#ifdef _WIN32
+    sprintf(buf, "win32\\%s.exe", prog);
+#elif defined(__APPLE__)
+    sprintf(buf, "macosx/%s", prog);
+#elif defined(__linux__) && defined(__i386__)
+    sprintf(buf, "linux/%s-i386", prog);
+#else
+    return prog;
+#endif
+
+    return file_exists(buf) ? strdup(buf) : prog;
+}
+
 int init_compile(GeneratorUI *ui)
 {
     char buf[512], *tmp;
@@ -238,6 +257,9 @@ int init_compile(GeneratorUI *ui)
 
     sprintf(buf, "GeeXboX Generator %s %s", geexbox_version, get_target_arch_string());
     ui->mainWindow->label(strdup(buf));
+
+    path_mkisofs  = find_program("mkisofs");
+    path_mkzftree = find_program("mkzftree");
 
     return 1;
 }

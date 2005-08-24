@@ -8,12 +8,4 @@
 
 #define PATH_BASEISO "iso/GEEXBOX"
 
-#ifndef PATH_MKZFTREE
-#define PATH_MKZFTREE "mkzftree"
-#endif
-
-#ifndef PATH_MKISOFS
-#define PATH_MKISOFS  "mkisofs"
-#endif
-
 #endif

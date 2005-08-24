@@ -32,10 +32,6 @@ done
 FLTKVER=1.1.6
 FLTKURL=http://ftp.easysw.com/pub/fltk/$FLTKVER/fltk-$FLTKVER-source.tar.bz2
 
-# Paths to mkzftree and mkisofs
-MKZFTREE='win32\\\\mkzftree.exe'
-MKISOFS='win32\\\\mkisofs.exe'
-
 export EXEEXT
 export CFLAGS="-Os -fomit-frame-pointer"
 export CXXFLAGS="$CFLAGS"
@@ -116,7 +112,6 @@ if [ ! -f $TMPDIR/.install ]; then
 fi
 
 export FLTKCONFIG="$INSTDIR/bin/fltk-config"
-export CXXFLAGS="$CXXFLAGS -DPATH_MKZFTREE=\\\"$MKZFTREE\\\" -DPATH_MKISOFS=\\\"$MKISOFS\\\""
 
 $MAKE
 

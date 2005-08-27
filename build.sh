@@ -41,6 +41,10 @@ export AR=$CROSS_PREFIX-ar
 export LD=$CROSS_PREFIX-ld
 export STRIP=$CROSS_PREFIX-strip
 export RANLIB=$CROSS_PREFIX-ranlib
+export OBJDUMP=$CROSS_PREFIX-objdump
+export AS=$CROSS_PREFIX-as
+export NM=$CROSS_PREFIX-nm
+export CPP=$CROSS_PREFIX-cpp
 
 TMPDIR=tmp
 FLTKDIR=$TMPDIR/fltk-$FLTKVER

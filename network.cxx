@@ -124,7 +124,7 @@ int write_network_settings(GeneratorUI *ui)
     fprintf(fp, "DNS_SERVER=\"%s\"\n", ui->network_dns->value());
     
     fprintf(fp, "SMB_USER=\"%s\"\n", ui->samba_user->value());
-    fprintf(fp, "SMB_PASS=\"%s\"\n", ui->samba_pass->value());
+    fprintf(fp, "SMB_PWD=\"%s\"\n", ui->samba_pass->value());
 
     fprintf(fp, "TELNET_SERVER=\"%s\"\n", yes_no(ui->server_telnet->value()));
     fprintf(fp, "FTP_SERVER=\"%s\"\n", yes_no(ui->server_ftp->value()));

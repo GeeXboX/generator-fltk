@@ -217,11 +217,11 @@ static const char *find_program(const char *prog)
     char buf[100];
 
 #ifdef _WIN32
-    sprintf(buf, "win32\\%s.exe", prog);
+    sprintf(buf, "tools\\win32\\%s.exe", prog);
 #elif defined(__APPLE__)
-    sprintf(buf, "macosx/%s", prog);
+    sprintf(buf, "tools/macosx/%s", prog);
 #elif defined(__linux__) && defined(__i386__)
-    sprintf(buf, "linux/%s-i386", prog);
+    sprintf(buf, "tools/linux/i386/%s", prog);
 #else
     return prog;
 #endif

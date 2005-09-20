@@ -89,6 +89,7 @@ int init_network_tab(GeneratorUI *ui)
 
 int write_network_settings(GeneratorUI *ui)
 {
+    int manual;
     FILE *fp;
     const char *str = NULL;
 
@@ -118,10 +119,11 @@ int write_network_settings(GeneratorUI *ui)
     fprintf(fp, "WIFI_WEP=\"%s\"\n", ui->wifi_wep->value());
     fprintf(fp, "WIFI_ESSID=\"%s\"\n", ui->wifi_ssid->value());
 
-    fprintf(fp, "HOST=\"%s\"\n", ui->network_ip->value());
-    fprintf(fp, "SUBNET=\"%s\"\n", ui->network_subnet->value());
-    fprintf(fp, "GATEWAY=\"%s\"\n", ui->network_gateway->value());
-    fprintf(fp, "DNS_SERVER=\"%s\"\n", ui->network_dns->value());
+    manual = (ui->network_conf->value() == GeneratorUI::NETWORK_CONF_MANUAL);
+    fprintf(fp, "HOST=\"%s\"\n", manual ? ui->network_ip->value() : "");
+    fprintf(fp, "SUBNET=\"%s\"\n", manual ? ui->network_subnet->value() : "");
+    fprintf(fp, "GATEWAY=\"%s\"\n", manual ? ui->network_gateway->value() : "");
+    fprintf(fp, "DNS_SERVER=\"%s\"\n", manual ? ui->network_dns->value() : "");
     
     fprintf(fp, "SMB_USER=\"%s\"\n", ui->samba_user->value());
     fprintf(fp, "SMB_PWD=\"%s\"\n", ui->samba_pass->value());

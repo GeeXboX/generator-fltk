@@ -61,6 +61,9 @@ int init_network_tab(GeneratorUI *ui)
     get_shvar_value(f, "DNS_SERVER", buf);
     ui->network_dns->value(buf);
 
+    get_shvar_value(f, "SUBNET", buf);
+    ui->network_subnet->value(buf);
+
     get_shvar_value(f, "HOST", buf);
     ui->network_ip->value(buf);
 

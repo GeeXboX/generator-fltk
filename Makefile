@@ -7,7 +7,6 @@ FLUID?=fluid
 FLTKCXXFLAGS?=$(shell $(FLTKCONFIG) --cxxflags)
 FLTKLDFLAGS?=$(shell $(FLTKCONFIG) --ldstaticflags)
 
-SED?=sed
 CXX?=g++
 STRIP?=strip
 LDFLAGS+=$(FLTKLDFLAGS) -static

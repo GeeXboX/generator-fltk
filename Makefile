@@ -28,10 +28,6 @@ $(PROJ)$(EXEEXT): $(PROGOBJS)
 
 %.cxx %.h: %.fl
 	$(FLUID) -c $<
-	$(SED) 's%Fl_Tabs%Fl_Gel_Tabs%g' $(<:.fl=.cxx) > $(<:.fl=.cxx).new
-	$(SED) 's%Fl_Tabs%Fl_Gel_Tabs%g' $(<:.fl=.h) > $(<:.fl=.h).new
-	mv $(<:.fl=.cxx).new $(<:.fl=.cxx)
-	mv $(<:.fl=.h).new $(<:.fl=.h)
 
 %.o: %.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@

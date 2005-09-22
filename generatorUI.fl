@@ -28,6 +28,8 @@ class GeneratorUI {open
     } {
       Fl_Tabs setting_tabs {open
         xywh {15 20 565 285}
+        code0 {\#include <FL/Fl_Gel_Tabs.H>}
+        class Fl_Gel_Tabs
       } {
         Fl_Group interface_tab {
           label Interface open

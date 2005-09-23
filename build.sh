@@ -76,11 +76,13 @@ fi
 
 if [ ! -f $TMPDIR/.patch ]; then
   cd $FLTKDIR
-  sed 's%uname=.*%uname=CYGWIN%g' configure > configure.new
+  sed -e 's%uname=.*%uname=CYGWIN%g' -e 's%-lwsock32%-lws2_32%' configure > configure.new
   mv configure.new configure
   chmod +x configure
-  sed 's%ShellApi.h%shellapi.h%' src/Fl_win32.cxx > src/Fl_win32.cxx.new
-  mv src/Fl_win32.cxx.new src/Fl_win32.cxx
+  for i in src/Fl_win32.cxx src/fl_dnd_win32.cxx; do
+    sed -e 's%ShellApi.h%shellapi.h%g' -e 's%winsock.h%winsock2.h%g' $i > $i.new
+    mv $i.new $i
+  done
   cd $WORKDIR
   touch $TMPDIR/.patch
   rm -f $TMPDIR/.configure $TMPDIR/.build $TMPDIR/.install

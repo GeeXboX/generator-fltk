@@ -108,6 +108,7 @@ if [ ! -f $TMPDIR/.build ]; then
 fi
 
 if [ ! -f $TMPDIR/.install ]; then
+  rm -rf $INSTDIR
   cd $FLTKDIR
   $MAKE DIRS=src install
   cd $WORKDIR

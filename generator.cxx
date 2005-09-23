@@ -97,7 +97,8 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_remote_tab(ui)
 	&& init_network_tab(ui)
 	&& init_theme_tab(ui)
-	&& init_compile(ui);
+	&& init_compile(ui)
+	;
 }
 
 int

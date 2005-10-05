@@ -175,6 +175,11 @@ static int copy_charset_iconv(const char *charset)
     return 1;
 }
 
+static void show_font_warning(const char *font)
+{
+    fl_alert("Font '%s' is missing.\nBut exists as an external package, please download it using the Packages tab.\n", font);
+}
+
 int copy_language_files(GeneratorUI *ui)
 {
     char buf[256], buf2[256], *tmp;
@@ -243,7 +248,7 @@ int copy_language_files(GeneratorUI *ui)
 	if (!file_exists(buf2)) 
 	{
 	    fclose(fp);
-	    fl_alert("Font '%s' is missing.\nPlease visit README - EXTRA SUBTITLE FONT section.\n", c->sub_font);
+	    show_font_warning(c->sub_font);
 	    return 0;
 	}
 
@@ -270,7 +275,7 @@ int copy_language_files(GeneratorUI *ui)
 	if (!file_exists(buf2)) 
 	{
 	    fclose(fp);
-	    fl_alert("Font '%s' is missing.\nPlease visit README - EXTRA SUBTITLE FONT section.\n", l->c->menu_font);
+	    show_font_warning(l->c->menu_font);
 	    return 0;
 	}
 

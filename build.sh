@@ -32,6 +32,10 @@ done
 FLTKVER=1.1.6
 FLTKURL=http://ftp.easysw.com/pub/fltk/$FLTKVER/fltk-$FLTKVER-source.tar.bz2
 
+# cURL version used
+CURLVER=7.14.1
+CURLURL=http://curl.haxx.se/download/curl-$CURLVER.tar.bz2
+
 export EXEEXT
 export CFLAGS="-Os -fomit-frame-pointer"
 export CXXFLAGS="$CFLAGS"
@@ -51,6 +55,7 @@ export CPP=$CROSS_PREFIX-cpp
 
 TMPDIR=tmp
 FLTKDIR=$TMPDIR/fltk-$FLTKVER
+CURLDIR=$TMPDIR/curl-$CURLVER
 
 set -e
 
@@ -63,6 +68,7 @@ INSTDIR=$PWD/$TMPDIR/target
 
 if [ ! -f $TMPDIR/.get ]; then
   wget --passive-ftp -c -P $TMPDIR $FLTKURL
+  wget --passive-ftp -c -P $TMPDIR $CURLURL
   touch $TMPDIR/.get
   rm -f $TMPDIR/.extract $TMPDIR/.patch $TMPDIR/.configure $TMPDIR/.build $TMPDIR/.install
 fi
@@ -70,6 +76,8 @@ fi
 if [ ! -f $TMPDIR/.extract ]; then
   rm -rf $FLTKDIR
   tar -xjf $FLTKDIR*.tar.bz2 -C $TMPDIR
+  rm -rf $CURLDIR
+  tar -xjf $CURLDIR*.tar.bz2 -C $TMPDIR
   touch $TMPDIR/.extract
   rm -f $TMPDIR/.patch $TMPDIR/.configure $TMPDIR/.build $TMPDIR/.install
 fi
@@ -99,12 +107,43 @@ if [ ! -f $TMPDIR/.configure ]; then
               --disable-localpng \
               --disable-gl 
   cd $WORKDIR
+  cd $CURLDIR
+  ./configure \
+              --host=$CROSS_TARGET \
+              --build=$CROSS_HOST \
+              --prefix=$INSTDIR \
+              --disable-shared \
+              --enable-static \
+              --enable-http \
+              --disable-ftp \
+              --disable-gopher \
+              --disable-file \
+              --disable-ldap \
+              --disable-dict \
+              --disable-telnet \
+              --disable-manual \
+              --disable-ipv6 \
+              --enable-nonblocking \
+              --disable-ares \
+              --enable-verbose \
+              --disable-sspi \
+              --disable-debug \
+              --disable-crypto-auth \
+              --disable-cookies \
+              --without-ssl \
+              --without-gnutls \
+              --without-zlib \
+              --without-libidn
+  cd $WORKDIR
   touch $TMPDIR/.configure
   rm -f $TMPDIR/.build $TMPDIR/.install
 fi
 
 if [ ! -f $TMPDIR/.build ]; then
   cd $FLTKDIR/src
+  $MAKE
+  cd $WORKDIR
+  cd $CURLDIR/lib
   $MAKE
   cd $WORKDIR
   touch $TMPDIR/.build
@@ -117,11 +156,19 @@ if [ ! -f $TMPDIR/.install ]; then
   cd $FLTKDIR
   $MAKE DIRS=src install
   cd $WORKDIR
+  cd $CURLDIR/lib
+  $MAKE install
+  cd ../include
+  $MAKE install
+  cd ../
+  $MAKE install-exec-am
+  cd $WORKDIR
   touch $TMPDIR/.install
   make clean
 fi
 
 export FLTKCONFIG="$INSTDIR/bin/fltk-config"
+export CURLCONFIG="$INSTDIR/bin/curl-config"
 
 $MAKE
 

@@ -22,6 +22,10 @@ network.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 network.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 network.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h network.h
 network.o: system.h utils.h
+packages.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+packages.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+packages.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h curl.h
+packages.o: packages.h utils.h
 remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 remote.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 remote.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h fs.h

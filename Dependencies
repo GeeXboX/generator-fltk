@@ -13,7 +13,7 @@ fs.o: fs.h system.h
 generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generator.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generator.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h compile.h
-generator.o: language.h network.h remote.h theme.h
+generator.o: curl.h language.h network.h packages.h remote.h theme.h
 language.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 language.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 language.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h fs.h

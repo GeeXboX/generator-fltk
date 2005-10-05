@@ -19,8 +19,10 @@
 
 #include "audio.h"
 #include "compile.h"
+#include "curl.h"
 #include "language.h"
 #include "network.h"
+#include "packages.h"
 #include "remote.h"
 #include "theme.h"
 
@@ -98,6 +100,8 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_network_tab(ui)
 	&& init_theme_tab(ui)
 	&& init_compile(ui)
+	&& init_curl()
+	&& init_packages_tab(ui)
 	;
 }
 

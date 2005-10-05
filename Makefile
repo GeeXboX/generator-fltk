@@ -1,5 +1,6 @@
 PROJ=generator
-OBJS=Fl_Gel_Tabs/Fl_Gel_Tabs.o audio.o compile.o fs.o generator.o language.o network.o remote.o theme.o system.o utils.o
+OBJS=audio.o compile.o fs.o generator.o language.o network.o remote.o theme.o system.o utils.o
+OBJS+=Fl_Gel_Tabs/Fl_Gel_Tabs.o 
 FLOBJS=generatorUI.fl
 
 FLTKCONFIG?=fltk-config
@@ -7,10 +8,14 @@ FLUID?=fluid
 FLTKCXXFLAGS?=$(shell $(FLTKCONFIG) --cxxflags)
 FLTKLDFLAGS?=$(shell $(FLTKCONFIG) --ldstaticflags)
 
+INCFLAGS+=-IFl_Gel_Tabs
+
 CXX?=g++
 STRIP?=strip
-LDFLAGS+=$(FLTKLDFLAGS) -static
-CXXFLAGS+=-Wall -Werror -pedantic -IFl_Gel_Tabs $(FLTKCXXFLAGS)
+LDFLAGS+=-static
+LDFLAGS+=$(FLTKLDFLAGS)
+CXXFLAGS+=-Wall -Werror -pedantic $(INCFLAGS)
+CXXFLAGS+=$(FLTKCXXFLAGS)
 EXEEXT?=
 
 PROGOBJS=$(OBJS) $(FLOBJS:.fl=.o)
@@ -41,6 +46,6 @@ distclean: clean
 
 .PHONY: depend
 depend: $(PROGOBJS:.o=.cxx)
-	makedepend -Y -f Dependencies -- $(PROGOBJS:.o=.cxx)
+	makedepend -Y -f Dependencies $(INCFLAGS) -- $(PROGOBJS:.o=.cxx)
 
 include Dependencies

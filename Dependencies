@@ -1,14 +1,5 @@
 # DO NOT DELETE
 
-Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
-Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_crv_off.xpm
-Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_crv_on.xpm
-Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/lt_crv_off.xpm
-Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/lt_crv_on.xpm
-Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/ct_mid_off.xpm
-Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/ct_mid_on.xpm
-Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_sep_off.xpm
-Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_sep_on.xpm
 audio.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h config.h system.h
 audio.o: utils.h
 compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h compile.h
@@ -25,5 +16,22 @@ theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H compile.h config.h fs.h
 theme.o: language.h theme.h utils.h
 system.o: system.h
 utils.o: utils.h
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_crv_off.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_crv_on.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/lt_crv_off.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/lt_crv_on.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/ct_mid_off.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/ct_mid_on.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_sep_off.xpm
+Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_sep_on.xpm
+FLU/Flu_Tree_Browser.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+FLU/Flu_Tree_Browser.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h
+FLU/Flu_Tree_Browser.o: FLU/FLU/flu_pixmaps.h
+FLU/FluSimpleString.o: FLU/FLU/FluSimpleString.h FLU/FLU/Flu_Enumerations.h
+FLU/FluSimpleString.o: FLU/FLU/flu_export.h
+FLU/flu_pixmaps.o: FLU/FLU/flu_pixmaps.h FLU/FLU/flu_export.h
+libmd/md5c.o: libmd/md5.h
+libmd/md5hl.o: libmd/md5.h
 generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H generator.h
 generatorUI.o: language.h compile.h

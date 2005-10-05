@@ -11,6 +11,6 @@ done
 
 rm -rf "$DIR"
 mkdir -p "$DIR"
-cp -pPR *.cxx *.h *.fl linux-i386-generator macosx-generator.dmg generator.exe Dependencies Makefile Fl_Gel_Tabs "$DIR"
+cp -pPR *.cxx *.h *.fl linux-i386-generator macosx-generator.dmg generator.exe Dependencies Makefile Fl_Gel_Tabs FLU libmd "$DIR"
 find "$DIR" \( -name .arch-ids -or -name '*.o' \) -exec rm -rf '{}' \; 2>/dev/null
 tar -czf "$DIR.tar.gz" "$DIR"

@@ -1,5 +1,5 @@
 PROJ=generator
-OBJS=audio.o compile.o fs.o generator.o language.o network.o remote.o theme.o system.o utils.o
+OBJS=audio.o compile.o curl.o fs.o generator.o language.o network.o remote.o theme.o system.o utils.o
 OBJS+=Fl_Gel_Tabs/Fl_Gel_Tabs.o 
 OBJS+=FLU/Flu_Tree_Browser.o FLU/FluSimpleString.o FLU/flu_pixmaps.o
 OBJS+=libmd/md5c.o libmd/md5hl.o
@@ -10,6 +10,10 @@ FLUID?=fluid
 FLTKCXXFLAGS?=$(shell $(FLTKCONFIG) --cxxflags)
 FLTKLDFLAGS?=$(shell $(FLTKCONFIG) --ldstaticflags)
 
+CURLCONFIG?=curl-config
+CURLCFLAGS?=$(shell $(CURLCONFIG) --cflags) -DCURL_STATICLIB
+CURLLDFLAGS?=$(shell $(CURLCONFIG) --libs)
+
 INCFLAGS+=-IFl_Gel_Tabs
 INCFLAGS+=-IFLU
 INCFLAGS+=-Ilibmd
@@ -18,8 +22,10 @@ CXX?=g++
 STRIP?=strip
 LDFLAGS+=-static
 LDFLAGS+=$(FLTKLDFLAGS)
+LDFLAGS+=$(CURLLDFLAGS)
 CXXFLAGS+=-Wall -Werror -pedantic $(INCFLAGS)
 CXXFLAGS+=$(FLTKCXXFLAGS)
+CXXFLAGS+=$(CURLCXXFLAGS)
 EXEEXT?=
 
 PROGOBJS=$(OBJS) $(FLOBJS:.fl=.o)

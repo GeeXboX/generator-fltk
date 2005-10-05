@@ -4,6 +4,7 @@ audio.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h config.h system.h
 audio.o: utils.h
 compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h compile.h
 compile.o: config.h fs.h language.h network.h remote.h theme.h system.h
+curl.o: curl.h libmd/md5.h
 fs.o: fs.h system.h
 generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h compile.h
 generator.o: language.h network.h remote.h theme.h

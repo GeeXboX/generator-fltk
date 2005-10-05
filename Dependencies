@@ -1,20 +1,35 @@
 # DO NOT DELETE
 
-audio.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h config.h system.h
-audio.o: utils.h
-compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h compile.h
+audio.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+audio.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+audio.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h config.h
+audio.o: system.h utils.h
+compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+compile.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+compile.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h compile.h
 compile.o: config.h fs.h language.h network.h remote.h theme.h system.h
 curl.o: curl.h libmd/md5.h
 fs.o: fs.h system.h
-generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H audio.h compile.h
+generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+generator.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+generator.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h compile.h
 generator.o: language.h network.h remote.h theme.h
-language.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h fs.h
+language.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+language.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+language.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h fs.h
 language.o: language.h theme.h utils.h
-network.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h network.h
+network.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+network.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+network.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h network.h
 network.o: system.h utils.h
-remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H config.h fs.h remote.h
-theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H compile.h config.h fs.h
-theme.o: language.h theme.h utils.h
+remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+remote.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+remote.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h fs.h
+remote.o: remote.h
+theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+theme.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+theme.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
+theme.o: fs.h language.h theme.h utils.h
 system.o: system.h
 utils.o: utils.h
 Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
@@ -34,5 +49,7 @@ FLU/FluSimpleString.o: FLU/FLU/flu_export.h
 FLU/flu_pixmaps.o: FLU/FLU/flu_pixmaps.h FLU/FLU/flu_export.h
 libmd/md5c.o: libmd/md5.h
 libmd/md5hl.o: libmd/md5.h
-generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H generator.h
-generatorUI.o: language.h compile.h
+generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+generatorUI.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+generatorUI.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h generator.h
+generatorUI.o: packages.h language.h compile.h

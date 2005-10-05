@@ -4,6 +4,8 @@ header_name {.h}
 code_name {.cxx}
 decl {\#include "generator.h"} {} 
 
+decl {\#include "packages.h"} {} 
+
 decl {\#include "language.h"} {} 
 
 decl {\#include "compile.h"} {} 
@@ -24,7 +26,7 @@ class GeneratorUI {open
   } {
     Fl_Window mainWindow {
       callback {generator_exit(this);} open
-      xywh {430 99 590 360} type Double visible
+      xywh {63 151 590 360} type Double visible
     } {
       Fl_Tabs setting_tabs {open
         xywh {15 20 565 285}
@@ -254,6 +256,30 @@ class GeneratorUI {open
             }
           }
         }
+        Fl_Group {} {
+          label Packages open
+          xywh {15 40 565 265} hide
+        } {
+          Fl_Button package_button {
+            label Download
+            callback {package_download(this);}
+            xywh {460 260 85 30}
+          }
+          Fl_Progress package_progress {
+            xywh {30 260 415 30}
+          }
+          Fl_Browser package_tree {
+            xywh {35 60 215 180} box DOWN_BOX
+            code0 {\#include <FLU/Flu_Tree_Browser.h>}
+            class Flu_Tree_Browser
+          }
+          Fl_Output package_desc {
+            xywh {265 90 285 150} type Multiline box PLASTIC_UP_BOX align 24
+          }
+          Fl_Output package_name {
+            xywh {265 60 285 25} box PLASTIC_UP_BOX align 22
+          }
+        }
       }
       Fl_Button {} {
         label Exit
@@ -273,5 +299,32 @@ class GeneratorUI {open
   Function {show(int argc, char **argv)} {open
   } {
     code {mainWindow->show(argc, argv);} {}
+  }
+  Function {make_license_window()} {open
+  } {
+    Fl_Window license_window {
+      label Licenses open
+      xywh {114 175 641 320} type Double modal visible
+    } {
+      Fl_Progress license_progress {
+        xywh {10 285 615 25}
+      }
+      Fl_Button license_disagree_button {
+        label {I Disagree}
+        callback {package_license_agree(this, 0);}
+        xywh {545 245 80 25}
+      }
+      Fl_Button license_agree_button {
+        label {I Agree}
+        callback {package_license_agree(this, 1);}
+        xywh {545 205 80 25}
+      }
+      Fl_Output license_name {
+        xywh {15 10 520 25} box PLASTIC_UP_BOX
+      }
+      Fl_Output license_text {
+        xywh {15 45 520 225} type Multiline box PLASTIC_UP_BOX
+      }
+    }
   }
 } 

@@ -24,6 +24,10 @@ documentation and/or software.
 #ifndef _SYS_MD5_H_
 #define _SYS_MD5_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 /* MD5 context. */
@@ -37,5 +41,9 @@ void   MD5Init (MD5_CTX *);
 void   MD5Update (MD5_CTX *, const unsigned char *, unsigned int);
 void   MD5Final (unsigned char [16], MD5_CTX *);
 char * MD5End(MD5_CTX *, char *);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _SYS_MD5_H_ */

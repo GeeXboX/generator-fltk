@@ -1,9 +1,11 @@
 PROJ=generator
-OBJS=audio.o compile.o curl.o fs.o generator.o language.o network.o packages.o remote.o theme.o system.o utils.o
-OBJS+=Fl_Gel_Tabs/Fl_Gel_Tabs.o 
-OBJS+=FLU/Flu_Tree_Browser.o FLU/FluSimpleString.o FLU/flu_pixmaps.o
-OBJS+=libmd/md5c.o libmd/md5hl.o
-FLOBJS=generatorUI.fl
+
+SRCS_CXX=audio.cxx compile.cxx curl.cxx fs.cxx generator.cxx language.cxx network.cxx packages.cxx remote.cxx theme.cxx system.cxx
+SRCS_C=utils.c
+SRCS_CXX+=Fl_Gel_Tabs/Fl_Gel_Tabs.cxx 
+SRCS_CXX+=FLU/Flu_Tree_Browser.cxx FLU/FluSimpleString.cxx FLU/flu_pixmaps.cxx
+SRCS_C+=libmd/md5c.c libmd/md5hl.c
+FLSRCS=generatorUI.fl
 
 FLTKCONFIG?=fltk-config
 FLUID?=fluid
@@ -28,7 +30,8 @@ CXXFLAGS+=$(FLTKCXXFLAGS)
 CXXFLAGS+=$(CURLCFLAGS)
 EXEEXT?=
 
-PROGOBJS=$(OBJS) $(FLOBJS:.fl=.o)
+PROGSRCS=$(SRCS_CXX) $(SRCS_C) $(FLSRCS:.fl=.cxx)
+PROGOBJS=$(SRCS_CXX:.cxx=.o) $(SRCS_C:.c=.o) $(FLSRCS:.fl=.o)
 
 all: $(PROJ)$(EXEEXT)
 
@@ -38,10 +41,14 @@ $(PROJ)$(EXEEXT): $(PROGOBJS)
 	$(FLTKCONFIG) --post $@
 
 .SUFFIXES: .fl
+.SUFFIXES: .c
 .SUFFIXES: .cxx
 
 %.cxx %.h: %.fl
 	$(FLUID) -c $<
+
+%.o: %.c
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 %.o: %.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -52,10 +59,10 @@ clean:
 
 .PHONY: distclean
 distclean: clean
-	rm -f $(FLOBJS:.fl=.cxx) $(FLOBJS:.fl=.h)
+	rm -f $(FLSRCS:.fl=.cxx) $(FLSRCS:.fl=.h)
 
 .PHONY: depend
-depend: $(PROGOBJS:.o=.cxx)
-	makedepend -Y -f Dependencies $(INCFLAGS) -- $(PROGOBJS:.o=.cxx)
+depend: $(PROGSRCS)
+	makedepend -Y -f Dependencies $(INCFLAGS) -- $(PROGSRCS)
 
 include Dependencies

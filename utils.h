@@ -18,6 +18,10 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdio.h>
 
 void replace_char (char *str, char o, char n);
@@ -26,5 +30,9 @@ int nget_shvar_value (FILE *fp, const char *var, char *dst, size_t dstlen);
 
 #define get_shvar_value(fp, var, dst) \
   nget_shvar_value ((fp), (var), (dst), sizeof(dst))
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

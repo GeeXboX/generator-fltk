@@ -130,6 +130,11 @@ static void tree_callback(Fl_Widget* w, void* data)
     switch (tree->callback_reason())
     {
     case FLU_SELECTED:
+	if (ui->package_name->value() == p->name) {
+	    Fl_Button *b = (Fl_Button*)n->widget();
+	    if (b)
+		b->value(!b->value());
+	}
 	ui->package_name->static_value(p->name);
 	ui->package_desc->static_value(p->desc.c_str());
 	break;
@@ -141,6 +146,7 @@ int init_packages_tab(GeneratorUI *ui)
     Flu_Tree_Browser *tree = ui->package_tree;
 
     tree->get_root()->always_open(true);
+    tree->when(FL_WHEN_NOT_CHANGED);
     tree->show_root(false);
     tree->animate(true);
     tree->selection_mode(FLU_SINGLE_SELECT);

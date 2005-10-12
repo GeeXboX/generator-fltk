@@ -26,70 +26,70 @@ class GeneratorUI {open
   } {
     Fl_Window mainWindow {
       callback {generator_exit(this);} open
-      xywh {63 151 590 360} type Double visible
+      xywh {84 185 778 354} type Double visible
     } {
       Fl_Tabs setting_tabs {open
-        xywh {15 20 565 285}
+        xywh {15 5 740 290}
         code0 {\#include <FL/Fl_Gel_Tabs.H>}
         class Fl_Gel_Tabs
       } {
         Fl_Group interface_tab {
           label Interface open
-          xywh {15 40 565 265} hide
+          xywh {15 25 740 270} hide
         } {
           Fl_Choice theme {
             label {Theme:} open
-            xywh {150 60 130 25} down_box BORDER_BOX
+            xywh {150 45 130 25} down_box BORDER_BOX
           } {}
           Fl_Choice menu_lang {
             label {Menu language:} open
-            xywh {150 95 130 25} down_box BORDER_BOX
+            xywh {150 80 130 25} down_box BORDER_BOX
           } {}
           Fl_Choice sub_charset {
             label {Subtitle charset:} open
-            xywh {150 130 130 25} down_box BORDER_BOX
+            xywh {150 115 130 25} down_box BORDER_BOX
           } {}
           Fl_Check_Button override_sub_font {
             label {Override subtitle font}
             callback {update_tabs_status(this);}
-            xywh {150 180 185 25} down_box DOWN_BOX
+            xywh {150 165 185 25} down_box DOWN_BOX
           }
           Fl_Output sub_font {
             label {Subtitle font:}
-            xywh {150 210 185 25}
+            xywh {150 195 185 25}
           }
           Fl_Button {} {
             label {Change ...}
             callback {change_font(sub_font, override_sub_font);}
-            xywh {355 210 90 25}
+            xywh {355 195 90 25}
           }
           Fl_Check_Button override_menu_font {
             label {Override menu font}
             callback {update_tabs_status(this);}
-            xywh {150 240 185 25} down_box DOWN_BOX
+            xywh {150 225 185 25} down_box DOWN_BOX
           }
           Fl_Output menu_font {
             label {Menu font:}
-            xywh {150 270 185 25}
+            xywh {150 255 185 25}
           }
           Fl_Button {} {
             label {Change ...}
             callback {change_font(menu_font, override_menu_font);}
-            xywh {355 270 90 25}
+            xywh {355 255 90 25}
           }
         }
         Fl_Group {} {
           label Audio open
-          xywh {15 40 565 265} hide
+          xywh {15 25 740 270} hide
         } {
           Fl_Value_Input alsacard_id {
             label {ALSA Soundcard ID:}
-            xywh {185 65 150 25} maximum 9 step 1
+            xywh {185 50 150 25} maximum 9 step 1
           }
           Fl_Choice soundcard_mode {
             label {Audio Output mode:}
             callback {update_tabs_status(this);} open
-            xywh {185 105 150 25} down_box BORDER_BOX
+            xywh {185 90 150 25} down_box BORDER_BOX
           } {
             menuitem {} {
               label Analog
@@ -103,7 +103,7 @@ class GeneratorUI {open
           Fl_Choice channels {
             label {Number of Channels:}
             callback {update_tabs_status(this);} open
-            xywh {185 150 150 25} down_box BORDER_BOX
+            xywh {185 135 150 25} down_box BORDER_BOX
           } {
             menuitem {} {
               label {Stereo (2)}
@@ -121,30 +121,30 @@ class GeneratorUI {open
           Fl_Check_Button hwac3 {
             label {AC3/DTS passthrough}
             callback {update_tabs_status(this);}
-            xywh {40 190 205 25} down_box DOWN_BOX value 1
+            xywh {40 175 205 25} down_box DOWN_BOX value 1
           }
         }
         Fl_Group {} {
           label {Remote Control} open
-          xywh {15 40 565 265} hide
+          xywh {15 25 740 270} hide
         } {
           Fl_Choice lirc_remote {
             label {Remote Controller:} open
-            xywh {180 85 140 25} down_box BORDER_BOX
+            xywh {180 55 140 25} down_box BORDER_BOX
           } {}
           Fl_Choice lirc_receiver {
             label {Receiver:} open
-            xywh {180 135 140 25} down_box BORDER_BOX
+            xywh {180 90 140 25} down_box BORDER_BOX
           } {}
         }
         Fl_Group {} {
           label Network open
-          xywh {15 40 565 265} hide
+          xywh {15 25 740 270} hide
         } {
           Fl_Choice phy_iface {
             label {Physical interface:}
             callback {update_tabs_status(this);}
-            xywh {240 55 160 25} down_box BORDER_BOX
+            xywh {325 45 160 25} down_box BORDER_BOX
           } {
             menuitem {} {
               label AUTODETECT
@@ -161,12 +161,12 @@ class GeneratorUI {open
           }
           Fl_Group {} {
             label {Connection Settings} open
-            xywh {30 115 320 180} box ENGRAVED_FRAME align 5
+            xywh {30 100 390 180} box ENGRAVED_FRAME align 5
           } {
             Fl_Choice network_conf {
               label {Configruation:}
               callback {update_tabs_status(this);} open
-              xywh {170 130 165 25} down_box BORDER_BOX
+              xywh {170 115 230 25} down_box BORDER_BOX
             } {
               menuitem {} {
                 label Manual
@@ -179,28 +179,28 @@ class GeneratorUI {open
             }
             Fl_Input network_ip {
               label {IP address:}
-              xywh {170 165 165 25}
+              xywh {170 150 230 25}
             }
             Fl_Input network_subnet {
               label {Subnet mask:}
-              xywh {170 200 165 25}
+              xywh {170 185 230 25}
             }
             Fl_Input network_gateway {
               label {Gateway address:}
-              xywh {170 235 165 20}
+              xywh {170 220 230 20}
             }
             Fl_Input network_dns {
               label {DNS Server:}
-              xywh {170 265 165 20}
+              xywh {170 250 230 20}
             }
           }
           Fl_Group wifi_settings {
             label {WiFi settings} open
-            xywh {365 115 205 180} box ENGRAVED_FRAME align 5
+            xywh {445 100 285 180} box ENGRAVED_FRAME align 5
           } {
             Fl_Choice wifi_mode {
               label {Mode:} open
-              xywh {440 130 120 25} down_box BORDER_BOX
+              xywh {520 115 190 25} down_box BORDER_BOX
             } {
               menuitem {} {
                 label Managed
@@ -213,86 +213,86 @@ class GeneratorUI {open
             }
             Fl_Input wifi_wep {
               label {WEP key:}
-              xywh {440 165 120 25}
+              xywh {520 150 190 25}
             }
             Fl_Input wifi_ssid {
               label {SSID:}
-              xywh {440 200 120 25}
+              xywh {520 185 190 25}
             }
           }
         }
         Fl_Group {} {
-          label Services open selected
-          xywh {15 40 565 265}
+          label Services open
+          xywh {15 25 740 270} hide
         } {
           Fl_Group {} {
             label {Windows shares:} open
-            xywh {30 75 260 105} box ENGRAVED_FRAME align 5
+            xywh {40 60 260 105} box ENGRAVED_FRAME align 5
           } {
             Fl_Input samba_user {
               label {Username:}
-              xywh {120 95 150 25}
+              xywh {130 80 150 25}
             }
             Fl_Input samba_pass {
               label {Password:}
-              xywh {120 135 150 25}
+              xywh {130 120 150 25}
             }
           }
           Fl_Group {} {
             label {Network services:} open
-            xywh {310 75 245 105} box ENGRAVED_FRAME align 5
+            xywh {330 60 245 105} box ENGRAVED_FRAME align 5
           } {
             Fl_Check_Button server_ftp {
               label {FTP server}
-              xywh {325 85 125 25} down_box DOWN_BOX
+              xywh {345 70 125 25} down_box DOWN_BOX
             }
             Fl_Check_Button server_telnet {
               label {Telnet server}
-              xywh {325 115 125 25} down_box DOWN_BOX
+              xywh {345 100 125 25} down_box DOWN_BOX
             }
             Fl_Check_Button server_http {
               label {Web server}
-              xywh {325 145 125 25} down_box DOWN_BOX
+              xywh {345 130 125 25} down_box DOWN_BOX
             }
           }
         }
         Fl_Group {} {
           label Packages open
-          xywh {15 40 565 265} hide
+          xywh {15 25 740 270}
         } {
-          Fl_Button package_button {
-            label Download
-            callback {package_download(this);}
-            xywh {460 260 85 30}
-          }
-          Fl_Progress package_progress {
-            xywh {30 260 415 30}
-          }
           Fl_Browser package_tree {
-            xywh {35 60 215 180} box DOWN_BOX
+            xywh {35 45 215 180} box DOWN_BOX
             code0 {\#include <FLU/Flu_Tree_Browser.h>}
             class Flu_Tree_Browser
           }
-          Fl_Output package_desc {
-            xywh {265 90 285 150} type Multiline box PLASTIC_UP_BOX align 24
-          }
           Fl_Output package_name {
-            xywh {265 60 285 25} box PLASTIC_UP_BOX align 22
+            xywh {265 45 460 25} box PLASTIC_UP_BOX align 22
+          }
+          Fl_Output package_desc {
+            xywh {265 75 460 150} type Multiline box PLASTIC_UP_BOX align 24
+          }
+          Fl_Progress package_progress {
+            xywh {35 245 585 30}
+          }
+          Fl_Button package_button {
+            label Download
+            callback {package_download(this);}
+            xywh {640 245 85 30}
           }
         }
       }
       Fl_Button {} {
         label Exit
         callback {generator_exit(this);}
-        xywh {415 320 75 30}
+        xywh {590 310 75 30}
       }
       Fl_Button compile_button {
         label {Compile !}
         callback {compile_iso(this);}
-        xywh {505 320 75 30}
+        xywh {680 310 75 30}
       }
       Fl_Progress progress {
-        xywh {15 320 385 30}
+        xywh {15 310 560 30}
       }
     }
   }
@@ -311,7 +311,7 @@ class GeneratorUI {open
       }
       Fl_Button license_disagree_button {
         label {I Disagree}
-        callback {package_license_agree(this, 0);}
+        callback {package_license_agree(this, 0);} selected
         xywh {545 245 80 25}
       }
       Fl_Button license_agree_button {

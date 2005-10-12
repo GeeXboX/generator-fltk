@@ -133,9 +133,12 @@ int download_progress(Fl_Button *b, Fl_Progress *prog, const char *url, curl_wri
     return ret;
 }
 
+#define FILE_WRITE_MODE_MD5	0x001
+
 struct file_write_data {
+    unsigned int mode;
     FILE *f;
-    MD5_CTX context;
+    MD5_CTX md5_context;
 };
 
 static size_t
@@ -143,17 +146,20 @@ file_writefunction(char *buf, size_t size, size_t nmemb, void *stream)
 {
     struct file_write_data *data = (struct file_write_data*) stream;
     fwrite(buf, size, nmemb, data->f);
-    MD5Update(&data->context, (unsigned char*)buf, size*nmemb);
+    if (data->mode & FILE_WRITE_MODE_MD5)
+	MD5Update(&data->md5_context, (unsigned char*)buf, size*nmemb);
     return (nmemb*size);
 }
 
 int download_file(Fl_Button *b, Fl_Progress *prog, const char *url, const char *filename, const char *md5)
 {
     struct file_write_data data;
-    char buf[33];
     int ret = 2;
 
-    MD5Init(&data.context);
+    data.mode = (md5 ? FILE_WRITE_MODE_MD5 : 0);
+
+    if (data.mode & FILE_WRITE_MODE_MD5)
+	MD5Init(&data.md5_context);
 
     data.f = fopen(filename, "wb");
     if (data.f)
@@ -161,9 +167,10 @@ int download_file(Fl_Button *b, Fl_Progress *prog, const char *url, const char *
 	ret = download_progress(b, prog, url, file_writefunction, &data);
 	fclose(data.f);
 
-	if (!ret)
+	if (!ret && data.mode & FILE_WRITE_MODE_MD5)
 	{
-	    MD5End(&data.context, buf);
+	    char buf[33];
+	    MD5End(&data.md5_context, buf);
 	    if (md5 && strcmp(buf, md5))
 		ret = 3;
 	}

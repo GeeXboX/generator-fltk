@@ -253,7 +253,7 @@ static void start_package_downloading(GeneratorUI *ui)
 
 		const char *md5 = (mii != p->md5.end()) ? *mii++ : "";
 
-		rc = download_file(ui->package_button, ui->package_progress, url.c_str(), path.c_str(), md5);
+		rc = download_file(ui->package_button, ui->package_progress, url.c_str(), (char*)path.c_str(), md5);
 		if (!rc)
 		{
 		    int t = (int)ui->package_progress->user_data() + 100;
@@ -278,6 +278,9 @@ static void start_package_downloading(GeneratorUI *ui)
 	    break;
 	case 3:
 	    fl_alert("Wrong MD5 sum for %s\n", url.c_str());
+	    break;
+	case 4:
+	    fl_alert("Failed to decompress %s\n", url.c_str());
 	    break;
 	}
 	ui->package_progress->label("");

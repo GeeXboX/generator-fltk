@@ -24,6 +24,7 @@
 #include <FL/Fl.H> 
 #include <curl/curl.h>
 #include <md5.h>
+#include <bzlib.h>
 
 static CURLM *multi_handle;
 
@@ -134,32 +135,98 @@ int download_progress(Fl_Button *b, Fl_Progress *prog, const char *url, curl_wri
 }
 
 #define FILE_WRITE_MODE_MD5	0x001
+#define FILE_WRITE_MODE_BZ2	0x002
+
+#define BZ2_BUF_SIZE		0x10000
 
 struct file_write_data {
     unsigned int mode;
     FILE *f;
     MD5_CTX md5_context;
+    bz_stream bz2_strm;
+    char *bz2_buf;
+    int bz2_done;
 };
 
 static size_t
 file_writefunction(char *buf, size_t size, size_t nmemb, void *stream)
 {
     struct file_write_data *data = (struct file_write_data*) stream;
-    fwrite(buf, size, nmemb, data->f);
+    size_t realsize = size * nmemb;
+
     if (data->mode & FILE_WRITE_MODE_MD5)
-	MD5Update(&data->md5_context, (unsigned char*)buf, size*nmemb);
-    return (nmemb*size);
+	MD5Update(&data->md5_context, (unsigned char*)buf, realsize);
+
+    if (data->mode & FILE_WRITE_MODE_BZ2) {
+	bz_stream *strm = &data->bz2_strm;
+	int ret;
+
+	if (data->bz2_done)
+	    return 0;
+
+	strm->next_in = buf;
+	strm->avail_in = size * nmemb;
+
+	for (;;)
+	{
+	    strm->next_out = data->bz2_buf;
+	    strm->avail_out = BZ2_BUF_SIZE;
+
+	    ret = BZ2_bzDecompress(strm);
+	    if (ret == BZ_OK || ret == BZ_STREAM_END) {
+		if (BZ2_BUF_SIZE - strm->avail_out)
+		    fwrite(data->bz2_buf, sizeof(char), BZ2_BUF_SIZE - strm->avail_out, data->f);
+		if (ret == BZ_STREAM_END)
+		    data->bz2_done++;
+		if (strm->avail_in == 0)
+		    break;
+	    } else {
+		return 0;
+	    }
+	}
+    } else {
+	fwrite(buf, size, nmemb, data->f);
+    }
+
+    return realsize;
 }
 
-int download_file(Fl_Button *b, Fl_Progress *prog, const char *url, const char *filename, const char *md5)
+static int match_end_clear(char *str, const char *end)
+{
+    size_t str_len, end_len;
+
+    str_len = strlen(str);
+    end_len = strlen(end);
+
+    if (str_len >= end_len && !strcmp(&str[str_len - end_len], end)) {
+	str[str_len - end_len] = '\0';
+	return 1;
+    } else {
+	return 0;
+    }
+}
+
+int download_file(Fl_Button *b, Fl_Progress *prog, const char *url, char *filename, const char *md5)
 {
     struct file_write_data data;
     int ret = 2;
 
-    data.mode = (md5 ? FILE_WRITE_MODE_MD5 : 0);
+    data.mode = 0;
 
-    if (data.mode & FILE_WRITE_MODE_MD5)
+    if (md5) {
+	data.mode |= FILE_WRITE_MODE_MD5;
 	MD5Init(&data.md5_context);
+    }
+
+    if (match_end_clear(filename, ".bz2")) {
+	data.mode |= FILE_WRITE_MODE_BZ2;
+	data.bz2_done = 0;
+	data.bz2_buf = (char*)malloc(BZ2_BUF_SIZE);
+	data.bz2_strm.bzalloc = NULL;
+	data.bz2_strm.bzfree = NULL;
+	data.bz2_strm.opaque = NULL;
+	BZ2_bzDecompressInit(&data.bz2_strm, 0, 0);
+    }
 
     data.f = fopen(filename, "wb");
     if (data.f)
@@ -175,9 +242,18 @@ int download_file(Fl_Button *b, Fl_Progress *prog, const char *url, const char *
 		ret = 3;
 	}
 
+	if (!ret && data.mode & FILE_WRITE_MODE_BZ2 && !data.bz2_done)
+	    ret = 4;
+
 	if (ret)
 	    unlink(filename);
     }
+
+    if (data.mode & FILE_WRITE_MODE_BZ2) {
+	free(data.bz2_buf);
+	BZ2_bzDecompressEnd(&data.bz2_strm);
+    }
+
     return ret;
 }
 

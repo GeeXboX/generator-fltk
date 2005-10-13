@@ -26,6 +26,6 @@
 
 int init_curl(void);
 int download_progress(Fl_Button *, Fl_Progress *, const char *, curl_write_callback, void *);
-int download_file(Fl_Button *, Fl_Progress *, const char *, const char *, const char *);
+int download_file(Fl_Button *, Fl_Progress *, const char *, char *, const char *);
 
 #endif

@@ -160,6 +160,7 @@ file_writefunction(char *buf, size_t size, size_t nmemb, void *stream)
 
     if (data->mode & FILE_WRITE_MODE_BZ2) {
 	bz_stream *strm = &data->bz2_strm;
+	size_t len;
 	int ret;
 
 	if (data->bz2_done)
@@ -175,8 +176,10 @@ file_writefunction(char *buf, size_t size, size_t nmemb, void *stream)
 
 	    ret = BZ2_bzDecompress(strm);
 	    if (ret == BZ_OK || ret == BZ_STREAM_END) {
-		if (BZ2_BUF_SIZE - strm->avail_out)
-		    fwrite(data->bz2_buf, sizeof(char), BZ2_BUF_SIZE - strm->avail_out, data->f);
+		len = BZ2_BUF_SIZE - strm->avail_out;
+		if (len)
+		    if (fwrite(data->bz2_buf, sizeof(char), len, data->f) != len)
+			return 0;
 		if (ret == BZ_STREAM_END)
 		    data->bz2_done++;
 		if (strm->avail_in == 0)
@@ -186,7 +189,8 @@ file_writefunction(char *buf, size_t size, size_t nmemb, void *stream)
 	    }
 	}
     } else {
-	fwrite(buf, size, nmemb, data->f);
+	if (fwrite(buf, size, nmemb, data->f) != nmemb)
+	    return 0;
     }
 
     return realsize;

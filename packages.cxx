@@ -259,7 +259,8 @@ static void start_package_downloading(GeneratorUI *ui)
 		    int t = (int)ui->package_progress->user_data() + 100;
 		    ui->package_progress->value(t);
     	    	    ui->package_progress->user_data((void*)t);
-		}
+		} else
+		    break;
 	    }
 	    if (!rc)
 		b->value(0);

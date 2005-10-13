@@ -121,6 +121,7 @@ if [ ! -f $TMPDIR/.configure ]; then
               --disable-ldap \
               --disable-dict \
               --disable-telnet \
+              --disable-tftp \
               --disable-manual \
               --disable-ipv6 \
               --enable-nonblocking \

@@ -180,8 +180,11 @@ file_writefunction(char *buf, size_t size, size_t nmemb, void *stream)
 		if (len)
 		    if (fwrite(data->bz2_buf, sizeof(char), len, data->f) != len)
 			return 0;
-		if (ret == BZ_STREAM_END)
+		if (ret == BZ_STREAM_END) {
 		    data->bz2_done++;
+		    if (strm->avail_in)
+			return 0;
+		}
 		if (strm->avail_in == 0)
 		    break;
 	    } else {

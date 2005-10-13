@@ -39,7 +39,7 @@ target_arch_t target_arch;
 
 static const char *path_mkzftree, *path_mkisofs;
 
-static const char *get_target_arch_string(void)
+const char *get_target_arch_string(void)
 {
     switch (target_arch)
     {

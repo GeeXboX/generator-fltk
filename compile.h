@@ -24,6 +24,7 @@ typedef enum {
 } target_arch_t;
 
 extern target_arch_t target_arch;
+const char *get_target_arch_string(void);
 
 int init_compile(GeneratorUI *ui);
 int compile_iso(GeneratorUI *ui);

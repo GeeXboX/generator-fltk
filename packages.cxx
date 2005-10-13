@@ -17,6 +17,7 @@
 
 #include "generatorUI.h"
 
+#include "compile.h"
 #include "config.h"
 #include "curl.h"
 #include "packages.h"
@@ -64,6 +65,7 @@ int read_packages_file(Flu_Tree_Browser *tree, const char *fname)
     Package *p = NULL;
     FILE *f;
     size_t len;
+    int package_target_me = 2;
 
     f = fopen(fname, "r");
     if (!f)
@@ -77,7 +79,7 @@ int read_packages_file(Flu_Tree_Browser *tree, const char *fname)
 
 	if (buf[0] == '[' && buf[len-1] == ']') {
 	    buf[len-1] = '\0';
-	    if (p)
+	    if (p && package_target_me)
 		insert_package_node(tree, path, p);
 	    p = new Package;
 	    strcpy(path, &buf[1]);
@@ -89,6 +91,7 @@ int read_packages_file(Flu_Tree_Browser *tree, const char *fname)
 	    p->dir = NULL;
 	    p->license = NULL;
 	    p->agree = 0;
+	    package_target_me = 2;
 	} else if (p && (value = strchr(buf, '='))) {
 	    *value++ = '\0';
 	    if (!strcmp(buf, "name")) {
@@ -107,11 +110,14 @@ int read_packages_file(Flu_Tree_Browser *tree, const char *fname)
 		p->dir = strdup(value);
 	    } else if (!strcmp(buf, "license")) {
 		p->license = strdup(value);
+	    } else if (!strcmp(buf, "target")) {
+		if (package_target_me != 1)
+		    package_target_me = (strcmp(value, get_target_arch_string()) == 0);
 	    }
 	}
     }
 
-    if (p)
+    if (p && package_target_me)
 	insert_package_node(tree, path, p);
 
     fclose(f);

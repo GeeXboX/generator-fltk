@@ -167,7 +167,7 @@ file_writefunction(char *buf, size_t size, size_t nmemb, void *stream)
 	    return 0;
 
 	strm->next_in = buf;
-	strm->avail_in = size * nmemb;
+	strm->avail_in = realsize;
 
 	for (;;)
 	{

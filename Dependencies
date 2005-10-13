@@ -53,6 +53,11 @@ FLU/flu_pixmaps.o: FLU/FLU/flu_pixmaps.h FLU/FLU/flu_export.h
 utils.o: utils.h
 libmd/md5c.o: libmd/md5.h
 libmd/md5hl.o: libmd/md5.h
+libbz2/bzlib.o: libbz2/bzlib_private.h libbz2/bzlib.h
+libbz2/crctable.o: libbz2/bzlib_private.h libbz2/bzlib.h
+libbz2/decompress.o: libbz2/bzlib_private.h libbz2/bzlib.h
+libbz2/huffman.o: libbz2/bzlib_private.h libbz2/bzlib.h
+libbz2/randtable.o: libbz2/bzlib_private.h libbz2/bzlib.h
 generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generatorUI.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generatorUI.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h generator.h

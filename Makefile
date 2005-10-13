@@ -5,6 +5,7 @@ SRCS_C=utils.c
 SRCS_CXX+=Fl_Gel_Tabs/Fl_Gel_Tabs.cxx 
 SRCS_CXX+=FLU/Flu_Tree_Browser.cxx FLU/FluSimpleString.cxx FLU/flu_pixmaps.cxx
 SRCS_C+=libmd/md5c.c libmd/md5hl.c
+SRCS_C+=libbz2/bzlib.c libbz2/crctable.c libbz2/decompress.c libbz2/huffman.c libbz2/randtable.c
 FLSRCS=generatorUI.fl
 
 FLTKCONFIG?=fltk-config
@@ -19,6 +20,7 @@ CURLLDFLAGS?=$(shell $(CURLCONFIG) --libs)
 INCFLAGS+=-IFl_Gel_Tabs
 INCFLAGS+=-IFLU
 INCFLAGS+=-Ilibmd
+INCFLAGS+=-Ilibbz2
 
 CXX?=g++
 STRIP?=strip

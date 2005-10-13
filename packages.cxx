@@ -33,6 +33,7 @@ typedef struct {
     std::string desc;
     std::vector<char*> file;
     std::vector<char*> md5;
+    std::vector<char*> rename;
     char *dir;
     char *license;
     int agree;
@@ -100,6 +101,8 @@ int read_packages_file(Flu_Tree_Browser *tree, const char *fname)
 		p->file.push_back(strdup(value));
 	    } else if (!strcmp(buf, "md5")) {
 		p->md5.push_back(strdup(value));
+	    } else if (!strcmp(buf, "rename")) {
+		p->rename.push_back(strdup(value));
 	    } else if (!strcmp(buf, "dir")) {
 		p->dir = strdup(value);
 	    } else if (!strcmp(buf, "license")) {
@@ -208,7 +211,7 @@ static void find_path(Flu_Tree_Browser::Node *n, const char *file, std::string &
 
 static void start_package_downloading(GeneratorUI *ui)
 {
-    std::vector<char*>::const_iterator fii, mii;
+    std::vector<char*>::const_iterator fii, mii, rii;
     Flu_Tree_Browser::Node *n;
     Fl_Button *b;
     Package *p;
@@ -243,11 +246,13 @@ static void start_package_downloading(GeneratorUI *ui)
 	if (b && b->value() && (!p->license || p->agree) && p->file.size() > 0)
 	{
 	    ui->package_progress->label(p->name);
-	    for(fii=p->file.begin() , mii=p->md5.begin();
+	    for(fii=p->file.begin() , mii=p->md5.begin() , rii=p->rename.begin();
 		fii!=p->file.end(); fii++)
 	    {
 		find_url(n, *fii, url);
-	        find_path(n, *fii, path);
+
+		const char *filename = (rii != p->rename.end()) ? *rii++ : *fii;
+	        find_path(n, filename, path);
 
 		Fl::check();
 

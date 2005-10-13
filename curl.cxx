@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <string.h> /* strcmp */
 #include <unistd.h> /* unlink */
+#include <stdlib.h> /* malloc, free */
 
 #include <FL/Fl.H> 
 #include <curl/curl.h>

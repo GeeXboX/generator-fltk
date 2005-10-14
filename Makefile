@@ -22,6 +22,7 @@ INCFLAGS+=-IFLU
 INCFLAGS+=-Ilibmd
 INCFLAGS+=-Ilibbz2
 
+CC?=gcc
 CXX?=g++
 STRIP?=strip
 LDFLAGS+=-static
@@ -50,7 +51,7 @@ $(PROJ)$(EXEEXT): $(PROGOBJS)
 	$(FLUID) -c $<
 
 %.o: %.c
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CC) $(CXXFLAGS) -c $< -o $@
 
 %.o: %.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@

@@ -61,6 +61,10 @@
 #ifndef _BZLIB_H
 #define _BZLIB_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define BZ_RUN               0
 #define BZ_FLUSH             1
 #define BZ_FINISH            2
@@ -119,6 +123,10 @@ BZ_EXTERN int BZ_API(BZ2_bzDecompress) (
 BZ_EXTERN int BZ_API(BZ2_bzDecompressEnd) ( 
       bz_stream *strm 
    );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

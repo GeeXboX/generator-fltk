@@ -312,7 +312,7 @@ static size_t display_license(char *buf, size_t size, size_t nmemb, void *data)
     buffer = (std::string*) ui->license_text->user_data();
     buffer->append(buf, size*nmemb);
 
-    ui->license_text->static_value(buffer->c_str());
+    ui->license_text->value(buffer->c_str());
 
     return size*nmemb;
 }

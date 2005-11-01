@@ -221,7 +221,7 @@ int download_file(Fl_Button *b, Fl_Progress *prog, const char *url, char *filena
 
     data.mode = 0;
 
-    if (md5) {
+    if (md5 && *md5) {
 	data.mode |= FILE_WRITE_MODE_MD5;
 	MD5Init(&data.md5_context);
     }

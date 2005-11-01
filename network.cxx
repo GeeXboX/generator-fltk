@@ -85,6 +85,9 @@ int init_network_tab(GeneratorUI *ui)
     get_shvar_value(f, "HTTP_SERVER", buf);
     ui->server_http->value(!my_strcasecmp(buf, "yes"));
 
+    get_shvar_value(f, "UPNP", buf);
+    ui->upnp_discovery->value(!my_strcasecmp(buf, "yes"));
+
     fclose(f);
 
     return 1;
@@ -134,6 +137,8 @@ int write_network_settings(GeneratorUI *ui)
     fprintf(fp, "TELNET_SERVER=\"%s\"\n", yes_no(ui->server_telnet->value()));
     fprintf(fp, "FTP_SERVER=\"%s\"\n", yes_no(ui->server_ftp->value()));
     fprintf(fp, "HTTP_SERVER=\"%s\"\n", yes_no(ui->server_http->value()));
+
+    fprintf(fp, "UPNP=\"%s\"\n", yes_no(ui->upnp_discovery->value()));
 
     fclose(fp);
 

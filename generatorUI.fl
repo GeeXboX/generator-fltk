@@ -255,6 +255,15 @@ class GeneratorUI {open
               xywh {345 130 125 25} down_box DOWN_BOX
             }
           }
+          Fl_Group {} {
+            label {UPnP shares:} open
+            xywh {40 195 260 55} box ENGRAVED_FRAME align 5
+          } {
+            Fl_Check_Button upnp_discovery {
+              label {UPnP devices auto-discovery}
+              xywh {55 210 215 25} down_box DOWN_BOX
+            }
+          }
         }
         Fl_Group {} {
           label Packages open

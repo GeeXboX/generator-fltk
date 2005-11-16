@@ -119,6 +119,7 @@ main(int argc, char **argv)
 	fprintf(stderr, "Tabs initilizing failed.\n");
 	return 1;
     }
+    ui->license_window = NULL;
 
     update_tabs_status(ui);
 

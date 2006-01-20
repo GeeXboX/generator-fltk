@@ -1,6 +1,6 @@
 /*
  *  Audio support for GeeXboX FLTK Generator
- *  Copyright (C) 2005  Amir Shalem
+ *  Copyright (C) 2005-2006  Amir Shalem
  *
  *   This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

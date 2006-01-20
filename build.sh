@@ -29,7 +29,7 @@ done
 # FLTK version used
 #FLTKVER=1.1.x-r4393
 #FLTKURL=http://ftp.easysw.com/pub/fltk/snapshots/fltk-$FLTKVER.tar.bz2
-FLTKVER=1.1.6
+FLTKVER=1.1.7
 FLTKURL=http://ftp.easysw.com/pub/fltk/$FLTKVER/fltk-$FLTKVER-source.tar.bz2
 
 # cURL version used
@@ -88,7 +88,7 @@ if [ ! -f $TMPDIR/.patch ]; then
   mv configure.new configure
   chmod +x configure
   for i in src/Fl_win32.cxx src/fl_dnd_win32.cxx; do
-    sed -e 's%ShellApi.h%shellapi.h%g' -e 's%winsock.h%winsock2.h%g' $i > $i.new
+    sed -e 's%winsock.h%winsock2.h%g' $i > $i.new
     mv $i.new $i
   done
   cd $WORKDIR

@@ -88,6 +88,20 @@ int init_network_tab(GeneratorUI *ui)
     get_shvar_value(f, "UPNP", buf);
     ui->upnp_discovery->value(!my_strcasecmp(buf, "yes"));
 
+    get_shvar_value(f, "SHOUTCAST", buf);
+    ui->streaming_shoutcast->value(!my_strcasecmp(buf, "yes"));
+
+    get_shvar_value(f, "SHOUTCASTTV", ui->streaming_shoutcasttv);
+
+    get_shvar_value(f, "NETSTREAM", buf);
+    ui->streaming_netstream->value(!my_strcasecmp(buf, "yes"));
+
+    get_shvar_value(f, "TIMEOUT", buf);
+    ui->streaming_timeout->value(buf);
+
+    get_shvar_value(f, "TRIES", buf);
+    ui->streaming_tries->value(buf);
+
     fclose(f);
 
     return 1;
@@ -139,6 +153,12 @@ int write_network_settings(GeneratorUI *ui)
     fprintf(fp, "HTTP_SERVER=\"%s\"\n", yes_no(ui->server_http->value()));
 
     fprintf(fp, "UPNP=\"%s\"\n", yes_no(ui->upnp_discovery->value()));
+
+    fprintf(fp, "SHOUTCAST=\"%s\"\n", yes_no(ui->streaming_shoutcast->value()));
+    fprintf(fp, "SHOUTCASTTV=\"%s\"\n", ui->streaming_shoutcasttv);
+    fprintf(fp, "NETSTREAM=\"%s\"\n", yes_no(ui->streaming_netstream->value()));
+    fprintf(fp, "TIMEOUT=\"%s\"\n", ui->streaming_timeout->value());
+    fprintf(fp, "TRIES=\"%s\"\n", ui->streaming_tries->value());
 
     fclose(fp);
 

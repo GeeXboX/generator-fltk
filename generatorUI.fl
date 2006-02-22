@@ -246,41 +246,62 @@ class GeneratorUI {open
         } {
           Fl_Group {} {
             label {Windows shares:} open
-            xywh {40 60 260 105} box ENGRAVED_FRAME align 5
+            xywh {40 60 260 85} box ENGRAVED_FRAME align 5
           } {
             Fl_Input samba_user {
               label {Username:}
-              xywh {130 80 150 25}
+              xywh {130 72 150 25}
             }
             Fl_Input samba_pass {
               label {Password:}
-              xywh {130 120 150 25}
+              xywh {130 110 150 25}
             }
           }
           Fl_Group {} {
             label {Network services:} open
-            xywh {330 60 245 105} box ENGRAVED_FRAME align 5
+            xywh {330 60 350 85} box ENGRAVED_FRAME align 5
           } {
             Fl_Check_Button server_ftp {
               label {FTP server}
-              xywh {345 70 125 25} down_box DOWN_BOX
+              xywh {345 65 125 25} down_box DOWN_BOX
             }
             Fl_Check_Button server_telnet {
               label {Telnet server}
-              xywh {345 100 125 25} down_box DOWN_BOX
+              xywh {345 90 125 25} down_box DOWN_BOX
             }
             Fl_Check_Button server_http {
               label {Web server}
-              xywh {345 130 125 25} down_box DOWN_BOX
+              xywh {345 115 125 25} down_box DOWN_BOX
             }
           }
           Fl_Group {} {
             label {UPnP shares:} open
-            xywh {40 195 260 55} box ENGRAVED_FRAME align 5
+            xywh {40 175 260 105} box ENGRAVED_FRAME align 5
           } {
             Fl_Check_Button upnp_discovery {
               label {UPnP devices auto-discovery}
-              xywh {55 210 215 25} down_box DOWN_BOX
+              xywh {55 180 215 25} down_box DOWN_BOX
+            }
+          }
+          Fl_Group {} {
+            label {Network streaming:} open
+            xywh {330 175 350 105} box ENGRAVED_FRAME align 5
+          } {
+            Fl_Check_Button streaming_netstream {
+              label {Custom Defined Playlist}
+              xywh {345 180 150 25} down_box DOWN_BOX
+            }
+            Fl_Check_Button streaming_shoutcast {
+              label {SHOUTcast Radio Playlist}
+              xywh {345 203 200 25} down_box DOWN_BOX
+            }
+            Fl_Input streaming_timeout {
+              label {Timeout (second):}
+              xywh {495 230 30 20}
+            }
+            Fl_Input streaming_tries {
+              label {Retries number:}
+              xywh {495 255 30 20}
             }
           }
         }
@@ -323,6 +344,8 @@ class GeneratorUI {open
         xywh {15 310 560 30}
       }
     }
+  }
+  decl {char streaming_shoutcasttv[4];} {public
   }
   Function {show(int argc, char **argv)} {open
   } {

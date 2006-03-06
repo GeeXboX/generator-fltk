@@ -273,35 +273,45 @@ class GeneratorUI {open
               label {Web server}
               xywh {345 115 125 25} down_box DOWN_BOX
             }
-          }
-          Fl_Group {} {
-            label {UPnP shares:} open
-            xywh {40 175 260 105} box ENGRAVED_FRAME align 5
-          } {
             Fl_Check_Button upnp_discovery {
-              label {UPnP devices auto-discovery}
-              xywh {55 180 215 25} down_box DOWN_BOX
+              label {UPnP devices discovery}
+              xywh {465 65 125 25} down_box DOWN_BOX
             }
           }
           Fl_Group {} {
             label {Network streaming:} open
-            xywh {330 175 350 105} box ENGRAVED_FRAME align 5
+            xywh {40 175 640 105} box ENGRAVED_FRAME align 5
           } {
             Fl_Check_Button streaming_netstream {
               label {Custom Defined Playlist}
-              xywh {345 180 150 25} down_box DOWN_BOX
+              callback {update_tabs_status(this);}
+              xywh {55 185 150 25} down_box DOWN_BOX
             }
             Fl_Check_Button streaming_shoutcast {
               label {SHOUTcast Radio Playlist}
-              xywh {345 203 200 25} down_box DOWN_BOX
+              callback {update_tabs_status(this);}
+              xywh {55 215 200 25} down_box DOWN_BOX
+            }
+            Fl_Check_Button streaming_shoutcasttv {
+              label {SHOUTcast TV Playlist}
+              callback {update_tabs_status(this);}
+              xywh {365 185 200 25} down_box DOWN_BOX
+            }
+            Fl_Input streaming_whitelist {
+              label {Whitelist:}
+              xywh {425 250 235 24}
+            }
+            Fl_Input streaming_blacklist {
+              label {Blacklist:}
+              xywh {425 215 235 25}
             }
             Fl_Input streaming_timeout {
               label {Timeout (second):}
-              xywh {495 230 30 20}
+              xywh {175 250 30 24}
             }
             Fl_Input streaming_tries {
               label {Retries number:}
-              xywh {495 255 30 20}
+              xywh {320 250 30 24}
             }
           }
         }
@@ -344,8 +354,6 @@ class GeneratorUI {open
         xywh {15 310 560 30}
       }
     }
-  }
-  decl {char streaming_shoutcasttv[4];} {public
   }
   Function {show(int argc, char **argv)} {open
   } {

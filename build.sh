@@ -102,6 +102,7 @@ if [ ! -f $TMPDIR/.configure ]; then
               --host=$CROSS_TARGET \
               --build=$CROSS_HOST \
               --prefix=$INSTDIR \
+              --enable-largefile \
               --disable-localjpeg \
               --disable-localzlib \
               --disable-localpng \
@@ -114,6 +115,7 @@ if [ ! -f $TMPDIR/.configure ]; then
               --prefix=$INSTDIR \
               --disable-shared \
               --enable-static \
+              --enable-largefile \
               --enable-http \
               --disable-ftp \
               --disable-gopher \

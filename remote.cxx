@@ -33,7 +33,7 @@ int init_remote_tab(GeneratorUI *ui)
 {
     const char *fname;
     int num_files, i;
-    dirent **files;
+    struct dirent **files;
     const Fl_Menu_Item *m;
 
     if ((num_files = fl_filename_list("lirc/", &files, NULL)) > 0)

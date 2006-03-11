@@ -100,7 +100,7 @@ int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
     char srcfile[100], dstfile[100];
     const char *fname;
     int num_files, i;
-    dirent **files;
+    struct dirent **files;
     int errors = 0;
     size_t exclude_len = strlen(exclude);
 
@@ -142,7 +142,7 @@ void multi_delete(const char *dir, const char *prefix, const char *suffix, const
     char file[100];
     const char *fname;
     int num_files, i;
-    dirent **files;
+    struct dirent **files;
 
     if ((num_files = fl_filename_list(dir, &files, NULL)) <= 0)
 	return;

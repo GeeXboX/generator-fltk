@@ -35,7 +35,7 @@ int init_theme_tab(GeneratorUI *ui)
 {
     char buf[50];
     int num_files, i;
-    dirent **files;
+    struct dirent **files;
     char *fname;
     FILE *f;
     const Fl_Menu_Item *m;
@@ -76,7 +76,7 @@ char *valid_theme_font(const char *theme_name, struct charset_info *c)
 {
     char buf[256], buf2[256];
     int num_files, i;
-    dirent **files;
+    struct dirent **files;
     const char *fname;
     char *font;
     FILE *fp;

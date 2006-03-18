@@ -162,7 +162,7 @@ int write_network_settings(GeneratorUI *ui)
     fprintf(fp, "UPNP=\"%s\"\n", yes_no(ui->upnp_discovery->value()));
 
     fprintf(fp, "SHOUTCAST=\"%s\"\n", yes_no(ui->streaming_shoutcast->value()));
-    fprintf(fp, "SHOUTCASTTV=\"%s\"\n", yes_no(ui->streaming_shoutcasttv));
+    fprintf(fp, "SHOUTCASTTV=\"%s\"\n", yes_no(ui->streaming_shoutcasttv->value()));
     fprintf(fp, "NETSTREAM=\"%s\"\n", yes_no(ui->streaming_netstream->value()));
     fprintf(fp, "WHITELIST=\"%s\"\n", ui->streaming_whitelist->value());
     fprintf(fp, "BLACKLIST=\"%s\"\n", ui->streaming_blacklist->value());

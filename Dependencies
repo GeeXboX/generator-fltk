@@ -7,7 +7,8 @@ audio.o: system.h utils.h
 compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 compile.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 compile.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h compile.h
-compile.o: config.h fs.h language.h network.h remote.h theme.h system.h
+compile.o: config.h fs.h language.h network.h recorder.h remote.h theme.h
+compile.o: system.h
 curl.o: curl.h libmd/md5.h libbz2/bzlib.h
 fs.o: fs.h system.h
 generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
@@ -26,6 +27,10 @@ packages.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 packages.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 packages.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
 packages.o: curl.h packages.h utils.h
+recorder.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+recorder.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+recorder.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
+recorder.o: recorder.h system.h utils.h
 remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 remote.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 remote.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h fs.h

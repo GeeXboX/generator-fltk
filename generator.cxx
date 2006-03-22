@@ -23,6 +23,7 @@
 #include "language.h"
 #include "network.h"
 #include "packages.h"
+#include "recorder.h"
 #include "remote.h"
 #include "theme.h"
 
@@ -122,6 +123,7 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_audio_tab(ui)
 	&& init_remote_tab(ui)
 	&& init_network_tab(ui)
+	&& init_recorder_tab(ui)
 	&& init_theme_tab(ui)
 	&& init_compile(ui)
 	&& init_curl()

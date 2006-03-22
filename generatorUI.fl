@@ -315,6 +315,19 @@ class GeneratorUI {open
             }
           }
         }
+        Fl_Group recorder {
+          label Recorder open
+          xywh {15 25 740 270} hide
+        } {
+          Fl_Input recorder_path {
+            label {Recorder path:}
+            xywh {180 55 300 25}
+          }
+          Fl_Choice recorder_profile {
+            label {Profile:} open
+            xywh {180 90 100 25} down_box BORDER_BOX
+          } {}
+        }
         Fl_Group {} {
           label Packages open
           xywh {15 25 740 270}

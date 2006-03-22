@@ -23,6 +23,7 @@
 #include "fs.h"
 #include "language.h"
 #include "network.h"
+#include "recorder.h"
 #include "remote.h"
 #include "theme.h"
 #include "system.h"
@@ -74,6 +75,7 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Copying remote files...", copy_remote_files },
       { "Writing audio settings...", write_audio_settings },
       { "Writing network settings...", write_network_settings },
+      { "Writing recorder settings...", write_recorder_settings },
     };
     unsigned int i;
     for (i = 0; i < sizeof(funcs)/sizeof(funcs[0]); i++)

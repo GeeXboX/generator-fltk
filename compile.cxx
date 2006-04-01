@@ -20,6 +20,7 @@
 #include "audio.h"
 #include "compile.h"
 #include "config.h"
+#include "dvdnav.h"
 #include "fs.h"
 #include "language.h"
 #include "network.h"
@@ -73,6 +74,7 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Copying theme files...", copy_theme_files },
       { "Copying language files...", copy_language_files },
       { "Copying remote files...", copy_remote_files },
+      { "Checking DVD navigation file...", check_dvdnav_file },
       { "Writing audio settings...", write_audio_settings },
       { "Writing network settings...", write_network_settings },
       { "Writing recorder settings...", write_recorder_settings },

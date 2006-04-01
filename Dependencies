@@ -7,15 +7,19 @@ audio.o: system.h utils.h
 compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 compile.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 compile.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h compile.h
-compile.o: config.h fs.h language.h network.h recorder.h remote.h theme.h
-compile.o: system.h
+compile.o: config.h dvdnav.h fs.h language.h network.h recorder.h remote.h
+compile.o: theme.h system.h
 curl.o: curl.h libmd/md5.h libbz2/bzlib.h
+dvdnav.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+dvdnav.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+dvdnav.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h dvdnav.h
+dvdnav.o: fs.h system.h
 fs.o: fs.h system.h
 generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generator.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generator.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h compile.h
-generator.o: curl.h language.h network.h packages.h recorder.h remote.h
-generator.o: theme.h
+generator.o: curl.h dvdnav.h language.h network.h packages.h recorder.h
+generator.o: remote.h theme.h
 language.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 language.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 language.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h fs.h

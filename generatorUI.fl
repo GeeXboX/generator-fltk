@@ -275,7 +275,7 @@ class GeneratorUI {open
             }
             Fl_Check_Button upnp_discovery {
               label {UPnP devices discovery}
-              xywh {465 65 125 25} down_box DOWN_BOX
+              xywh {475 65 190 25} down_box DOWN_BOX
             }
           }
           Fl_Group {} {
@@ -285,7 +285,7 @@ class GeneratorUI {open
             Fl_Check_Button streaming_netstream {
               label {Custom Defined Playlist}
               callback {update_tabs_status(this);}
-              xywh {55 185 150 25} down_box DOWN_BOX
+              xywh {55 185 200 25} down_box DOWN_BOX
             }
             Fl_Check_Button streaming_shoutcast {
               label {SHOUTcast Radio Playlist}
@@ -295,7 +295,7 @@ class GeneratorUI {open
             Fl_Check_Button streaming_shoutcasttv {
               label {SHOUTcast TV Playlist}
               callback {update_tabs_status(this);}
-              xywh {365 185 200 25} down_box DOWN_BOX
+              xywh {365 185 180 25} down_box DOWN_BOX
             }
             Fl_Input streaming_whitelist {
               label {Whitelist:}

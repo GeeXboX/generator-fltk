@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DIR="`tla pristines | cut -f 2 -d /`"
+DIR="`tla pristines | tail -1 | cut -f 2 -d /`"
 
 for i in generator.exe linux-i386-generator macosx-generator.dmg generatorUI.cxx generatorUI.h; do
   if [ ! -f "$i" ]; then

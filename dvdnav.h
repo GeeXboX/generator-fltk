@@ -20,7 +20,5 @@
 
 int init_dvdnav_tab(GeneratorUI *ui);
 int check_dvdnav_file(GeneratorUI *ui);
-void check_dvdnav_direct(GeneratorUI *ui);
-void check_dvdnav_menu(GeneratorUI *ui);
 
 #endif

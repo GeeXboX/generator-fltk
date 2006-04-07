@@ -27,8 +27,6 @@ decl {\#include "packages.h"} {}
 
 decl {\#include "language.h"} {} 
 
-decl {\#include "dvdnav.h"} {} 
-
 decl {\#include "compile.h"} {} 
 
 class GeneratorUI {open
@@ -104,13 +102,11 @@ class GeneratorUI {open
           } {
             Fl_Round_Button dvdnav_direct {
               label {Direct playback}
-              callback {check_dvdnav_direct(this);}
-              xywh {510 80 175 25} down_box ROUND_DOWN_BOX
+              xywh {510 80 175 25} type Radio down_box ROUND_DOWN_BOX
             }
             Fl_Round_Button dvdnav_menu {
               label {DVD navigation menu}
-              callback {check_dvdnav_menu(this);}
-              xywh {510 105 175 25} down_box ROUND_DOWN_BOX
+              xywh {510 105 175 25} type Radio down_box ROUND_DOWN_BOX
             }
           }
         }

@@ -56,15 +56,3 @@ int check_dvdnav_file(GeneratorUI *ui)
 
     return 1;
 }
-
-void check_dvdnav_direct(GeneratorUI *ui)
-{
-    ui->dvdnav_direct->value(1);
-    ui->dvdnav_menu->value(0);
-}
-
-void check_dvdnav_menu(GeneratorUI *ui)
-{
-    ui->dvdnav_direct->value(0);
-    ui->dvdnav_menu->value(1);
-}

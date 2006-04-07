@@ -71,4 +71,4 @@ libbz2/randtable.o: libbz2/bzlib_private.h libbz2/bzlib.h
 generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generatorUI.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generatorUI.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h generator.h
-generatorUI.o: packages.h language.h dvdnav.h compile.h
+generatorUI.o: packages.h language.h compile.h

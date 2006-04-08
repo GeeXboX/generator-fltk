@@ -18,6 +18,7 @@
 #include "generatorUI.h"
 
 #include "config.h"
+#include "configparser.h"
 #include "fs.h"
 #include "language.h"
 #include "theme.h"
@@ -48,18 +49,18 @@ int init_language_tab(GeneratorUI *ui)
 {
     char buf[256], *word;
     char buf2[50], buf3[256];
-    FILE *f;
     struct lang_info *l;
     struct charset_info *c;
     const Fl_Menu_Item *m;
+    config_t *config;
 
-    f = fopen(PATH_LANGCONF, "r");
-    if (!f) {
+    config = config_open(PATH_LANGCONF, 1);
+    if (!config) {
 	fl_alert("Missing language configuration files.\n");
 	return 0;
     }
 
-    get_shvar_value(f, "CHARSETS", buf);
+    config_getvar(config, "CHARSETS", buf, sizeof(buf));
     for (word = strtok(buf, " \t"); word; word = strtok(NULL, " \t"))
     {
 	c = (struct charset_info*)malloc(sizeof(struct charset_info));
@@ -75,19 +76,19 @@ int init_language_tab(GeneratorUI *ui)
 	    c->codename = strdup(word);
 
 	    sprintf(buf2, "%s_menufont", word);
-	    get_shvar_value(f, buf2, buf3);
+	    config_getvar(config, buf2, buf3, sizeof(buf3));
 	    if (buf3[0])
 		c->menu_font = strdup(buf3);
 
 	    sprintf(buf2, "%s_subfont", word);
-	    get_shvar_value(f, buf2, buf3);
+	    config_getvar(config, buf2, buf3, sizeof(buf3));
 	    if (buf3[0])
 		c->sub_font = strdup(buf3);
 
 	    sprintf(buf2, "%s_font", word);
-	    get_shvar_value(f, buf2, buf3);
+	    config_getvar(config, buf2, buf3, sizeof(buf3));
 	    if (!buf3[0])
-	        get_shvar_value(f, "DEFAULT_FONT", buf3);
+	        config_getvar(config, "DEFAULT_FONT", buf3, sizeof(buf3));
 	    if (!c->menu_font)
 	        c->menu_font = strdup(buf3);
 	    if (!c->sub_font)
@@ -95,11 +96,11 @@ int init_language_tab(GeneratorUI *ui)
 	}
     }
 
-    get_shvar_value(f, "LANGUAGES", buf);
+    config_getvar(config, "LANGUAGES", buf, sizeof(buf));
     for (word = strtok(buf, " \t"); word; word = strtok(NULL, " \t"))
     {
 	sprintf(buf2, "%s_name", word);
-	get_shvar_value(f, buf2, buf3);
+	config_getvar(config, buf2, buf3, sizeof(buf3));
 
 	l = (struct lang_info*)malloc(sizeof(struct lang_info));
 	if (l)
@@ -110,11 +111,11 @@ int init_language_tab(GeneratorUI *ui)
 	    l->shortname = strdup(word);
 
 	    sprintf(buf2, "%s_charset", word);
-	    get_shvar_value(f, buf2, buf3);
+	    config_getvar(config, buf2, buf3, sizeof(buf3));
 	    m = ui->sub_charset->find_item(buf3);
 	    if (!m) {
 		fl_alert("Missing language character set %s.\n", buf3);
-		fclose(f);
+		config_destroy(config);
 		return 0;
 	    }
 	    l->c = (struct charset_info*)m->user_data();
@@ -122,28 +123,28 @@ int init_language_tab(GeneratorUI *ui)
     }
 
     if (ui->sub_charset->size() < 1 || ui->menu_lang->size() < 1) {
-	fclose(f);
 	fl_alert("No languages or character set found.\n");
+	config_destroy(config);
 	return 0;
     }
 
-    get_shvar_value (f, "DEFAULT_LANGUAGE", buf);
+    config_getvar(config, "DEFAULT_LANGUAGE", buf, sizeof(buf));
 
     sprintf(buf2, "%s_charset", buf);
-    get_shvar_value (f, buf2, buf3);
+    config_getvar(config, buf2, buf3, sizeof(buf3));
     if ((m = ui->sub_charset->find_item(buf3)))
 	ui->sub_charset->value(m);
     else
 	ui->sub_charset->value(0);
 
     sprintf(buf2, "%s_name", buf);
-    get_shvar_value (f, buf2, buf3);
+    config_getvar(config, buf2, buf3, sizeof(buf3));
     if ((m = ui->menu_lang->find_item(buf3)))
 	ui->menu_lang->value(m);
     else
 	ui->menu_lang->value(0);
 
-    fclose(f);
+    config_destroy(config);
 
     return 1;
 }

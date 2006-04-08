@@ -3,7 +3,7 @@
 audio.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 audio.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 audio.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h config.h
-audio.o: system.h utils.h
+audio.o: configparser.h system.h utils.h
 compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 compile.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 compile.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h compile.h
@@ -22,12 +22,12 @@ generator.o: curl.h dvdnav.h language.h network.h packages.h recorder.h
 generator.o: remote.h theme.h
 language.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 language.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
-language.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h fs.h
-language.o: language.h theme.h utils.h
+language.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
+language.o: configparser.h fs.h language.h theme.h utils.h
 network.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 network.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
-network.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h network.h
-network.o: system.h utils.h
+network.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
+network.o: configparser.h network.h system.h utils.h
 packages.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 packages.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 packages.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
@@ -35,7 +35,7 @@ packages.o: curl.h packages.h utils.h
 recorder.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 recorder.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 recorder.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
-recorder.o: recorder.h system.h utils.h
+recorder.o: configparser.h recorder.h system.h utils.h
 remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 remote.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 remote.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h fs.h
@@ -43,7 +43,7 @@ remote.o: remote.h
 theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 theme.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 theme.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
-theme.o: fs.h language.h theme.h utils.h
+theme.o: configparser.h fs.h language.h theme.h utils.h
 system.o: system.h
 Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_crv_off.xpm

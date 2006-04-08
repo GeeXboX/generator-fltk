@@ -18,6 +18,7 @@
 #include "generatorUI.h"
 
 #include "config.h"
+#include "configparser.h"
 #include "recorder.h"
 #include "system.h"
 #include "utils.h"
@@ -28,17 +29,18 @@ int init_recorder_tab(GeneratorUI *ui)
 {
     char buf[256], buf_tmp[256];
     unsigned int i, j;
-    FILE *f, *f2;
+    FILE *f2;
+    config_t *config;
     const Fl_Menu_Item *m;
     const char *bl = "[common]";
 
-    f = fopen(PATH_BASEISO "/etc/recorder", "r");
-    if (!f) {
+    config = config_open(PATH_BASEISO "/etc/recorder", 1);
+    if (!config) {
         ui->recorder->deactivate();
         return 1;
     }
 
-    get_shvar_value(f, "SAVE_PATH", buf);
+    config_getvar(config, "SAVE_PATH", buf, sizeof(buf));
     ui->recorder_path->value(buf);
 
     f2 = fopen(PATH_BASEISO "/etc/mplayer/mencoder.conf", "r");
@@ -67,7 +69,7 @@ int init_recorder_tab(GeneratorUI *ui)
         }
     }
 
-    get_shvar_value(f, "RECORD_PROFILE", buf);
+    config_getvar(config, "RECORD_PROFILE", buf, sizeof(buf));
     if ((m = ui->recorder_profile->find_item(buf)))
         ui->recorder_profile->value(m);
     else if ((m = ui->recorder_profile->find_item("mpeg1")))
@@ -75,7 +77,7 @@ int init_recorder_tab(GeneratorUI *ui)
     else
         ui->recorder_profile->value(0);
 
-    fclose(f);
+    config_destroy(config);
     fclose(f2);
 
     return 1;
@@ -83,19 +85,19 @@ int init_recorder_tab(GeneratorUI *ui)
 
 int write_recorder_settings(GeneratorUI *ui)
 {
-    FILE *fp;
+    config_t *config;
 
     if (ui->recorder->active()) {
-        fp = fopen(PATH_BASEISO "/etc/recorder", "wb");
-        if (!fp) {
+        config = config_open(PATH_BASEISO "/etc/recorder", 1);
+        if (!config) {
             fl_alert("Failed to write recorder configuration.\n");
             return 0;
         }
 
-        fprintf(fp, "SAVE_PATH=\"%s\"\n", ui->recorder_path->value());
-        fprintf(fp, "RECORD_PROFILE=%s\n", ui->recorder_profile->mvalue()->label());
-
-        fclose(fp);
+        config_setvar(config, "SAVE_PATH", ui->recorder_path->value());
+        config_setvar(config, "RECORD_PROFILE", ui->recorder_profile->mvalue()->label());
+        config_write(config, PATH_BASEISO "/etc/recorder");
+        config_destroy(config);
     }
 
     return 1;

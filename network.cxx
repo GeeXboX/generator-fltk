@@ -18,6 +18,7 @@
 #include "generatorUI.h"
 
 #include "config.h"
+#include "configparser.h"
 #include "network.h"
 #include "system.h"
 #include "utils.h"
@@ -29,87 +30,87 @@
 int init_network_tab(GeneratorUI *ui)
 {
     char buf[256];
-    FILE *f;
+    config_t *config;
 
-    f = fopen(PATH_BASEISO "/etc/network", "r");
-    if (!f) {
+    config = config_open(PATH_BASEISO "/etc/network", 1);
+    if (!config) {
 	fl_alert("Missing network configuration files.\n");
 	return 0;
     }
 
-    get_shvar_value(f, "PHY_TYPE", buf);
+    config_getvar(config, "PHY_TYPE", buf, sizeof(buf));
     ui->phy_iface->value(!my_strcasecmp(buf, "wifi") ? 
 				GeneratorUI::NETWORK_PHY_IFACE_WIFI :
                          !my_strcasecmp(buf, "ethernet") ?
 				GeneratorUI::NETWORK_PHY_IFACE_ETHER :
 				GeneratorUI::NETWORK_PHY_IFACE_AUTO);
 
-    get_shvar_value(f, "WIFI_MODE", buf);
+    config_getvar(config, "WIFI_MODE", buf, sizeof(buf));
     ui->wifi_mode->value(!my_strcasecmp(buf, "ad-hoc") ? 
 				GeneratorUI::WIFI_MODE_ADHOC :
 				GeneratorUI::WIFI_MODE_MANAGED);
 
-    get_shvar_value(f, "WIFI_WEP", buf);
+    config_getvar(config, "WIFI_WEP", buf, sizeof(buf));
     ui->wifi_wep->value(buf);
 
-    get_shvar_value(f, "WIFI_ESSID", buf);
+    config_getvar(config, "WIFI_ESSID", buf, sizeof(buf));
     ui->wifi_ssid->value(buf);
 
-    get_shvar_value(f, "GATEWAY", buf);
+    config_getvar(config, "GATEWAY", buf, sizeof(buf));
     ui->network_gateway->value(buf);
 
-    get_shvar_value(f, "DNS_SERVER", buf);
+    config_getvar(config, "DNS_SERVER", buf, sizeof(buf));
     ui->network_dns->value(buf);
 
-    get_shvar_value(f, "SUBNET", buf);
+    config_getvar(config, "SUBNET", buf, sizeof(buf));
     ui->network_subnet->value(buf);
 
-    get_shvar_value(f, "HOST", buf);
+    config_getvar(config, "HOST", buf, sizeof(buf));
     ui->network_ip->value(buf);
 
     ui->network_conf->value(buf[0] ? GeneratorUI::NETWORK_CONF_MANUAL :
                                      GeneratorUI::NETWORK_CONF_DHCP);
 
-    get_shvar_value(f, "SMB_USER", buf);
+    config_getvar(config, "SMB_USER", buf, sizeof(buf));
     ui->samba_user->value(buf);
 
-    get_shvar_value(f, "SMB_PWD", buf);
+    config_getvar(config, "SMB_PWD", buf, sizeof(buf));
     ui->samba_pass->value(buf);
 
-    get_shvar_value(f, "TELNET_SERVER", buf);
+    config_getvar(config, "TELNET_SERVER", buf, sizeof(buf));
     ui->server_telnet->value(!my_strcasecmp(buf, "yes"));
 
-    get_shvar_value(f, "FTP_SERVER", buf);
+    config_getvar(config, "FTP_SERVER", buf, sizeof(buf));
     ui->server_ftp->value(!my_strcasecmp(buf, "yes"));
 
-    get_shvar_value(f, "HTTP_SERVER", buf);
+    config_getvar(config, "HTTP_SERVER", buf, sizeof(buf));
     ui->server_http->value(!my_strcasecmp(buf, "yes"));
 
-    get_shvar_value(f, "UPNP", buf);
+    config_getvar(config, "UPNP", buf, sizeof(buf));
     ui->upnp_discovery->value(!my_strcasecmp(buf, "yes"));
 
-    get_shvar_value(f, "SHOUTCAST", buf);
+    config_getvar(config, "SHOUTCAST", buf, sizeof(buf));
     ui->streaming_shoutcast->value(!my_strcasecmp(buf, "yes"));
 
-    get_shvar_value(f, "SHOUTCASTTV", buf);
+    config_getvar(config, "SHOUTCASTTV", buf, sizeof(buf));
     ui->streaming_shoutcasttv->value(!my_strcasecmp(buf, "yes"));
 
-    get_shvar_value(f, "WHITELIST", buf);
+    config_getvar(config, "WHITELIST", buf, sizeof(buf));
     ui->streaming_whitelist->value(buf);
 
-    get_shvar_value(f, "BLACKLIST", buf);
+    config_getvar(config, "BLACKLIST", buf, sizeof(buf));
     ui->streaming_blacklist->value(buf);
 
-    get_shvar_value(f, "NETSTREAM", buf);
+    config_getvar(config, "NETSTREAM", buf, sizeof(buf));
     ui->streaming_netstream->value(!my_strcasecmp(buf, "yes"));
 
-    get_shvar_value(f, "TIMEOUT", buf);
+    config_getvar(config, "TIMEOUT", buf, sizeof(buf));
     ui->streaming_timeout->value(buf);
 
-    get_shvar_value(f, "TRIES", buf);
+    config_getvar(config, "TRIES", buf, sizeof(buf));
     ui->streaming_tries->value(buf);
 
-    fclose(f);
+    config_destroy(config);
 
     return 1;
 }
@@ -117,11 +118,11 @@ int init_network_tab(GeneratorUI *ui)
 int write_network_settings(GeneratorUI *ui)
 {
     int manual;
-    FILE *fp;
+    config_t *config;
     const char *str = NULL;
 
-    fp = fopen(PATH_BASEISO "/etc/network", "wb");
-    if (!fp) {
+    config = config_open(PATH_BASEISO "/etc/network", 1);
+    if (!config) {
 	fl_alert("Failed to write network configuration.\n");
 	return 0;
     }
@@ -138,38 +139,39 @@ int write_network_settings(GeneratorUI *ui)
         str = "ethernet";
         break;
     }
-    fprintf(fp, "PHY_TYPE=\"%s\"\n", str);
+    config_setvar(config, "PHY_TYPE", str);
 
-    fprintf(fp, "WIFI_MODE=\"%s\"\n",
+    config_setvar(config, "WIFI_MODE",
 		(ui->wifi_mode->value() == GeneratorUI::WIFI_MODE_ADHOC)
 		    ? "ad-hoc" : "managed");
-    fprintf(fp, "WIFI_WEP=\"%s\"\n", ui->wifi_wep->value());
-    fprintf(fp, "WIFI_ESSID=\"%s\"\n", ui->wifi_ssid->value());
+    config_setvar(config, "WIFI_WEP", ui->wifi_wep->value());
+    config_setvar(config, "WIFI_ESSID", ui->wifi_ssid->value());
 
     manual = (ui->network_conf->value() == GeneratorUI::NETWORK_CONF_MANUAL);
-    fprintf(fp, "HOST=\"%s\"\n", manual ? ui->network_ip->value() : "");
-    fprintf(fp, "SUBNET=\"%s\"\n", manual ? ui->network_subnet->value() : "");
-    fprintf(fp, "GATEWAY=\"%s\"\n", manual ? ui->network_gateway->value() : "");
-    fprintf(fp, "DNS_SERVER=\"%s\"\n", manual ? ui->network_dns->value() : "");
+    config_setvar(config, "HOST", manual ? ui->network_ip->value() : "");
+    config_setvar(config, "SUBNET", manual ? ui->network_subnet->value() : "");
+    config_setvar(config, "GATEWAY", manual ? ui->network_gateway->value() : "");
+    config_setvar(config, "DNS_SERVER", manual ? ui->network_dns->value() : "");
     
-    fprintf(fp, "SMB_USER=\"%s\"\n", ui->samba_user->value());
-    fprintf(fp, "SMB_PWD=\"%s\"\n", ui->samba_pass->value());
+    config_setvar(config, "SMB_USER", ui->samba_user->value());
+    config_setvar(config, "SMB_PWD", ui->samba_pass->value());
 
-    fprintf(fp, "TELNET_SERVER=\"%s\"\n", yes_no(ui->server_telnet->value()));
-    fprintf(fp, "FTP_SERVER=\"%s\"\n", yes_no(ui->server_ftp->value()));
-    fprintf(fp, "HTTP_SERVER=\"%s\"\n", yes_no(ui->server_http->value()));
+    config_setvar(config, "TELNET_SERVER", yes_no(ui->server_telnet->value()));
+    config_setvar(config, "FTP_SERVER", yes_no(ui->server_ftp->value()));
+    config_setvar(config, "HTTP_SERVER", yes_no(ui->server_http->value()));
 
-    fprintf(fp, "UPNP=\"%s\"\n", yes_no(ui->upnp_discovery->value()));
+    config_setvar(config, "UPNP", yes_no(ui->upnp_discovery->value()));
 
-    fprintf(fp, "SHOUTCAST=\"%s\"\n", yes_no(ui->streaming_shoutcast->value()));
-    fprintf(fp, "SHOUTCASTTV=\"%s\"\n", yes_no(ui->streaming_shoutcasttv->value()));
-    fprintf(fp, "NETSTREAM=\"%s\"\n", yes_no(ui->streaming_netstream->value()));
-    fprintf(fp, "WHITELIST=\"%s\"\n", ui->streaming_whitelist->value());
-    fprintf(fp, "BLACKLIST=\"%s\"\n", ui->streaming_blacklist->value());
-    fprintf(fp, "TIMEOUT=\"%s\"\n", ui->streaming_timeout->value());
-    fprintf(fp, "TRIES=\"%s\"\n", ui->streaming_tries->value());
+    config_setvar(config, "SHOUTCAST", yes_no(ui->streaming_shoutcast->value()));
+    config_setvar(config, "SHOUTCASTTV", yes_no(ui->streaming_shoutcasttv->value()));
+    config_setvar(config, "NETSTREAM", yes_no(ui->streaming_netstream->value()));
+    config_setvar(config, "WHITELIST", ui->streaming_whitelist->value());
+    config_setvar(config, "BLACKLIST", ui->streaming_blacklist->value());
+    config_setvar(config, "TIMEOUT", ui->streaming_timeout->value());
+    config_setvar(config, "TRIES", ui->streaming_tries->value());
 
-    fclose(fp);
+    config_write(config, PATH_BASEISO "/etc/network");
+    config_destroy(config);
 
     return 1;
 }

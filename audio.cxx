@@ -19,6 +19,7 @@
 
 #include "audio.h"
 #include "config.h"
+#include "configparser.h"
 #include "system.h"
 #include "utils.h"
 
@@ -30,53 +31,51 @@ int init_audio_tab(GeneratorUI *ui)
 {
     char buf[256];
     int i;
-    FILE *f;
+    config_t *config = config_open(PATH_BASEISO "/etc/audio", 1);
 
-    f = fopen(PATH_BASEISO "/etc/audio", "r");
-    if (!f) {
+    if (!config) {
 	fl_alert("Missing audio configuration files.\n");
 	return 0;
     }
 
-    get_shvar_value(f, "ALSA_CARD", buf);
+    config_getvar(config, "ALSA_CARD", buf, sizeof(buf));
     ui->alsacard_id->value(atoi(buf));
 
-    get_shvar_value(f, "SOUNDCARD_MODE", buf);
+    config_getvar(config, "SOUNDCARD_MODE", buf, sizeof(buf));
     ui->soundcard_mode->value(my_strcasecmp(buf, "spdif") ? 
 				GeneratorUI::SOUNDCARD_MODE_ANALOG :
 				GeneratorUI::SOUNDCARD_MODE_SPDIF);
 
-    get_shvar_value(f, "AC3_DECODER", buf);
+    config_getvar(config, "AC3_DECODER", buf, sizeof(buf));
     ui->hwac3->value(!my_strcasecmp(buf, "hardware"));
 
-    get_shvar_value(f, "CHANNELS", buf);
+    config_getvar(config, "CHANNELS", buf, sizeof(buf));
     i = atoi(buf);
     ui->channels->value(i == 6 ? GeneratorUI::CHANNELS_6 :
                         i == 4 ? GeneratorUI::CHANNELS_4 :
                                  GeneratorUI::CHANNELS_2);
 
-    fclose(f);
+    config_destroy(config);
 
     return 1;
 }
 
 int write_audio_settings(GeneratorUI *ui)
 {
-    FILE *fp;
+    config_t *config = config_open(PATH_BASEISO "/etc/audio", 1);
     int i = 0;
 
-    fp = fopen(PATH_BASEISO "/etc/audio", "wb");
-    if (!fp) {
+    if (!config) {
 	fl_alert("Failed to write audio configuration.\n");
 	return 0;
     }
 
-    fprintf(fp, "ALSA_CARD=\"%d\"\n", (int)ui->alsacard_id->value());
-    fprintf(fp, "SOUNDCARD_MODE=\"%s\"\n",
+    config_setvar_int(config, "ALSA_CARD", (int)ui->alsacard_id->value());
+    config_setvar(config, "SOUNDCARD_MODE", 
 		(ui->soundcard_mode->value() == GeneratorUI::SOUNDCARD_MODE_SPDIF)
 		    ? "SPDIF" : "analog");
-    fprintf(fp, "AC3_DECODER=\"%s\"\n",
-		ui->hwac3->value() ? "hardware" : "software"); 
+    config_setvar(config, "AC3_DECODER",
+                ui->hwac3->value() ? "hardware" : "software");
 
     switch (ui->channels->value())
     {
@@ -90,9 +89,10 @@ int write_audio_settings(GeneratorUI *ui)
         i = 6;
         break;
     }
-    fprintf(fp, "CHANNELS=\"%d\"\n", i); 
+    config_setvar_int(config, "CHANNELS", i);
 
-    fclose(fp);
+    config_write(config, PATH_BASEISO "/etc/audio");
+    config_destroy(config);
 
     return 1;
 }

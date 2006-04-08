@@ -19,6 +19,7 @@
 
 #include "compile.h"
 #include "config.h"
+#include "configparser.h"
 #include "fs.h"
 #include "language.h"
 #include "theme.h"
@@ -79,20 +80,20 @@ char *valid_theme_font(const char *theme_name, struct charset_info *c)
     struct dirent **files;
     const char *fname;
     char *font;
-    FILE *fp;
+    config_t *config;
 
     sprintf(buf, "themes/theme-%s/config", theme_name);
-    fp = fopen(buf, "r");
-    if (!fp)
+    config = config_open(buf, 1);
+    if (!config)
 	return NULL;
 
-    get_shvar_value(fp, "FONT_CHARSETS", buf);
+    config_getvar(config, "FONT_CHARSETS", buf, sizeof(buf));
     if (!buf[0])
 	strcpy(buf, "iso-8859-1 ");
     else
 	strcat(buf, " ");
 
-    fclose(fp);
+    config_destroy(config);
 
     sprintf(buf2, "%s ", c->name);
     if (!strstr(buf, buf2))

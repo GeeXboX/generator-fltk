@@ -23,8 +23,6 @@
 #include "system.h"
 #include "utils.h"
 
-#include <stdlib.h> /* atoi */
-
 #include <FL/fl_ask.H> /* fl_alert */
 
 int init_audio_tab(GeneratorUI *ui)
@@ -38,8 +36,8 @@ int init_audio_tab(GeneratorUI *ui)
 	return 0;
     }
 
-    config_getvar(config, "ALSA_CARD", buf, sizeof(buf));
-    ui->alsacard_id->value(atoi(buf));
+    config_getvar_int(config, "ALSA_CARD", &i);
+    ui->alsacard_id->value(i);
 
     config_getvar(config, "SOUNDCARD_MODE", buf, sizeof(buf));
     ui->soundcard_mode->value(my_strcasecmp(buf, "spdif") ? 
@@ -49,8 +47,7 @@ int init_audio_tab(GeneratorUI *ui)
     config_getvar(config, "AC3_DECODER", buf, sizeof(buf));
     ui->hwac3->value(!my_strcasecmp(buf, "hardware"));
 
-    config_getvar(config, "CHANNELS", buf, sizeof(buf));
-    i = atoi(buf);
+    config_getvar_int(config, "CHANNELS", &i);
     ui->channels->value(i == 6 ? GeneratorUI::CHANNELS_6 :
                         i == 4 ? GeneratorUI::CHANNELS_4 :
                                  GeneratorUI::CHANNELS_2);

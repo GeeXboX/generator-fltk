@@ -297,6 +297,17 @@ int config_getvar (config_t *config, const char *name, char *dst, size_t dstlen)
   return 0;
 }
 
+int config_getvar_int (config_t *config, const char *name, int *dst)
+{
+  char value[20];
+  *dst = 0;
+  if (!config_getvar(config, name, value, sizeof(value)))
+    return 0;
+
+  *dst = atoi(value);
+  return 1;
+}
+
 int config_setvar (config_t *config, const char *name, const char *value)
 {
   item_t *item;

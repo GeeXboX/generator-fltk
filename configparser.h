@@ -29,6 +29,7 @@ int config_write(config_t *config, const char *filename);
 void config_destroy(config_t *config);
 
 int config_getvar (config_t *config, const char *var, char *dst, size_t dstlen);
+int config_getvar_int (config_t *config, const char *var, int *dst);
 int config_setvar (config_t *config, const char *var, const char *value);
 int config_setvar_int (config_t *config, const char *var, int value);
 

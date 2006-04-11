@@ -280,13 +280,14 @@ config_t *config_open(const char *filename, int shell_escape)
   return config;
 }
 
-int config_getvar (config_t *config, const char *name, char *dst, size_t dstlen)
+int config_getvar_location (config_t *config, const char *name, int location, char *dst, size_t dstlen)
 {
   item_t *item;
+  int current_location = 0;
 
   for (item = config->item_list; item; item = item->next)
     {
-      if (item->name && !strcmp(item->name, name))
+      if (item->name && !strcmp(item->name, name) && (++current_location == location))
         {
 	  strncpy(dst, item->value, dstlen);
 	  dst[dstlen-1] = '\0';
@@ -297,25 +298,36 @@ int config_getvar (config_t *config, const char *name, char *dst, size_t dstlen)
   return 0;
 }
 
-int config_getvar_int (config_t *config, const char *name, int *dst)
+int config_getvar_int_location (config_t *config, const char *name, int location, int *dst)
 {
   char value[20];
   *dst = 0;
-  if (!config_getvar(config, name, value, sizeof(value)))
+  if (!config_getvar_location(config, name, location, value, sizeof(value)))
     return 0;
 
   *dst = atoi(value);
   return 1;
 }
 
-int config_setvar (config_t *config, const char *name, const char *value)
+int config_getvar (config_t *config, const char *name, char *dst, size_t dstlen)
+{
+  return config_getvar_location(config, name, 1, dst, dstlen);
+}
+
+int config_getvar_int (config_t *config, const char *name, int *dst)
+{
+  return config_getvar_int_location(config, name, 1, dst);
+}
+
+int config_setvar_location (config_t *config, const char *name, int location, const char *value)
 {
   item_t *item;
   int found = 0;
+  int current_location = 0;
 
   for (item = config->item_list; item; item = item->next)
     {
-      if (item->name && !strcmp(item->name, name))
+      if (item->name && !strcmp(item->name, name) && (location == 0 || location == ++current_location))
         {
 	  found = 1;
 	  free(item->value);
@@ -332,10 +344,20 @@ int config_setvar (config_t *config, const char *name, const char *value)
            config_add_item(config, "\n", 1, NULL, 0);
 }
 
-int config_setvar_int (config_t *config, const char *name, int value)
+int config_setvar_int_location (config_t *config, const char *name, int location, int value)
 {
   char value_string[20];
   sprintf(value_string, "%d", value);
 
-  return config_setvar(config, name, value_string);
+  return config_setvar_location(config, name, location, value_string);
+}
+
+int config_setvar (config_t *config, const char *name, const char *value)
+{
+  return config_setvar_location(config, name, 0, value);
+}
+
+int config_setvar_int (config_t *config, const char *name, int value)
+{
+  return config_setvar_int_location(config, name, 0, value);
 }

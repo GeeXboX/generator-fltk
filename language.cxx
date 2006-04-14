@@ -66,6 +66,8 @@ int init_language_tab(GeneratorUI *ui)
 	c = (struct charset_info*)malloc(sizeof(struct charset_info));
 	if (c)
 	{
+	    buf3[0] = '\0';
+
 	    ui->sub_charset->add(word, 0, NULL, c);
 
 	    c->menu_font = c->sub_font = NULL;

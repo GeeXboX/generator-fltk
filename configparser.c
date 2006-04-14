@@ -295,6 +295,7 @@ int config_getvar_location (config_t *config, const char *name, int location, ch
 	}
     }
 
+  *dst = '\0';
   return 0;
 }
 

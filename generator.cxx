@@ -27,6 +27,7 @@
 #include "recorder.h"
 #include "remote.h"
 #include "theme.h"
+#include "video.h"
 
 #include <stdlib.h> /* exit */
 #include <stdio.h> /* fprintf */
@@ -35,6 +36,28 @@
 
 void update_tabs_status(GeneratorUI *ui)
 {
+    if (!ui->vesa_res->active())
+	{
+	ui->vesa_depth->deactivate();
+	ui->vesa_custom->deactivate();
+	ui->video_splash->deactivate();
+	}
+    else if (ui->vesa_res->value() == GeneratorUI::VESA_CUSTOM)
+	{
+	ui->vesa_custom->activate();
+	ui->vesa_custom->show();
+	ui->vesa_depth->deactivate();
+	ui->video_splash->value(1);
+	ui->video_splash->deactivate();
+	}
+    else
+	{
+	ui->vesa_custom->deactivate();
+	ui->vesa_custom->hide();
+	ui->vesa_depth->activate();
+	ui->video_splash->activate();
+	}
+
     if (ui->streaming_shoutcasttv->value())
 	{
 	ui->streaming_whitelist->activate();
@@ -123,6 +146,7 @@ static int init_tabs(GeneratorUI *ui)
     return init_language_tab(ui)
 	&& init_dvdnav_tab(ui)
 	&& init_audio_tab(ui)
+	&& init_video_tab(ui)
 	&& init_remote_tab(ui)
 	&& init_network_tab(ui)
 	&& init_recorder_tab(ui)

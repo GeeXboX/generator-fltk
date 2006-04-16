@@ -28,6 +28,7 @@
 #include "remote.h"
 #include "theme.h"
 #include "system.h"
+#include "video.h"
 
 #include <stdio.h> /* FILE */
 #include <stdlib.h> /* free */
@@ -76,6 +77,7 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Copying remote files...", copy_remote_files },
       { "Checking DVD navigation file...", check_dvdnav_file },
       { "Writing audio settings...", write_audio_settings },
+      { "Writing video settings...", write_video_settings },
       { "Writing network settings...", write_network_settings },
       { "Writing recorder settings...", write_recorder_settings },
     };

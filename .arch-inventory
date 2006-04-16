@@ -1,0 +1,2 @@
+precious ^(Dependencies.bak)$
+precious ^(.*\.o)$

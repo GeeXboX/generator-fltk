@@ -115,8 +115,8 @@ class GeneratorUI {open
           }
         }
         Fl_Group {} {
-          label {Audio - Video} hide
-          xywh {15 25 740 270}
+          label {Audio - Video} open
+          xywh {15 25 740 270} hide
         } {
           Fl_Group {} {
             label Video open

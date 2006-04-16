@@ -115,50 +115,9 @@ class GeneratorUI {open
           }
         }
         Fl_Group {} {
-          label Audio open
-          xywh {15 25 740 270} hide
+          label {Audio - Video} hide
+          xywh {15 25 740 270}
         } {
-          Fl_Value_Input alsacard_id {
-            label {ALSA Soundcard ID:}
-            xywh {185 50 150 25} maximum 9 step 1
-          }
-          Fl_Choice soundcard_mode {
-            label {Audio Output mode:}
-            callback {update_tabs_status(this);} open
-            xywh {185 90 150 25} down_box BORDER_BOX
-          } {
-            MenuItem {} {
-              label Analog
-              xywh {0 0 100 20}
-            }
-            MenuItem {} {
-              label SPDIF
-              xywh {0 0 100 20} value 1
-            }
-          }
-          Fl_Choice channels {
-            label {Number of Channels:}
-            callback {update_tabs_status(this);} open
-            xywh {185 135 150 25} down_box BORDER_BOX
-          } {
-            MenuItem {} {
-              label {Stereo (2)}
-              xywh {5 5 100 20} value 1
-            }
-            MenuItem {} {
-              label {Surround (4)}
-              xywh {5 5 100 20} value 1
-            }
-            MenuItem {} {
-              label {5.1 Surround (6)}
-              xywh {5 5 100 20} value 1
-            }
-          }
-          Fl_Check_Button hwac3 {
-            label {AC3/DTS passthrough}
-            callback {update_tabs_status(this);}
-            xywh {40 175 205 25} down_box DOWN_BOX value 1
-          }
           Fl_Group {} {
             label Video open
             xywh {385 60 350 215} box ENGRAVED_FRAME align 5
@@ -216,6 +175,52 @@ class GeneratorUI {open
             Fl_Input vesa_custom {
               label {VESA mode (dec):}
               xywh {530 120 55 25}
+            }
+          }
+          Fl_Group {} {
+            label Audio open
+            xywh {35 60 330 215} box ENGRAVED_FRAME align 5
+          } {
+            Fl_Value_Input alsacard_id {
+              label {ALSA Soundcard ID:}
+              xywh {200 80 150 25} maximum 9 step 1
+            }
+            Fl_Choice soundcard_mode {
+              label {Audio Output mode:}
+              callback {update_tabs_status(this);} open
+              xywh {200 120 150 25} down_box BORDER_BOX
+            } {
+              MenuItem {} {
+                label Analog
+                xywh {5 5 100 20}
+              }
+              MenuItem {} {
+                label SPDIF
+                xywh {5 5 100 20} value 1
+              }
+            }
+            Fl_Choice channels {
+              label {Number of Channels:}
+              callback {update_tabs_status(this);} open
+              xywh {200 165 150 25} down_box BORDER_BOX
+            } {
+              MenuItem {} {
+                label {Stereo (2)}
+                xywh {10 10 100 20} value 1
+              }
+              MenuItem {} {
+                label {Surround (4)}
+                xywh {10 10 100 20} value 1
+              }
+              MenuItem {} {
+                label {5.1 Surround (6)}
+                xywh {10 10 100 20} value 1
+              }
+            }
+            Fl_Check_Button hwac3 {
+              label {AC3/DTS passthrough}
+              callback {update_tabs_status(this);}
+              xywh {55 205 205 25} down_box DOWN_BOX value 1
             }
           }
         }

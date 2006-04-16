@@ -84,7 +84,7 @@ int init_video_tab(GeneratorUI *ui)
         default:
             res = GeneratorUI::VESA_CUSTOM;
             depth = GeneratorUI::VESA_DEPTH_24;
-            itoa(vgamode, buf, 10);
+            sprintf(buf, "%i", vgamode);
             ui->vesa_custom->value(buf);
         }
         ui->vesa_res->value(res);

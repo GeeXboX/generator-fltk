@@ -12,8 +12,8 @@ compile.o: theme.h system.h video.h
 curl.o: curl.h libmd/md5.h libbz2/bzlib.h
 dvdnav.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 dvdnav.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
-dvdnav.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h dvdnav.h
-dvdnav.o: fs.h system.h
+dvdnav.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
+dvdnav.o: configparser.h dvdnav.h system.h
 fs.o: fs.h system.h
 generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generator.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h

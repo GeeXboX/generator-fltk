@@ -19,6 +19,6 @@
 #define dvdnav_h
 
 int init_dvdnav_tab(GeneratorUI *ui);
-int check_dvdnav_file(GeneratorUI *ui);
+int write_dvdnav_settings(GeneratorUI *ui);
 
 #endif

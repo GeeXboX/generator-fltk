@@ -75,7 +75,7 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Copying theme files...", copy_theme_files },
       { "Copying language files...", copy_language_files },
       { "Copying remote files...", copy_remote_files },
-      { "Checking DVD navigation file...", check_dvdnav_file },
+      { "Writing DVD navigation settings...", write_dvdnav_settings },
       { "Writing audio settings...", write_audio_settings },
       { "Writing video settings...", write_video_settings },
       { "Writing network settings...", write_network_settings },

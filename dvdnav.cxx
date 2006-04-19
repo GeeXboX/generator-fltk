@@ -18,41 +18,48 @@
 #include "generatorUI.h"
 
 #include "config.h"
+#include "configparser.h"
 #include "dvdnav.h"
-#include "fs.h"
 #include "system.h"
 
 #include <FL/fl_ask.H> /* fl_alert */
 
+#define yes_no(x) ((x) ? "yes" : "no")
+
 int init_dvdnav_tab(GeneratorUI *ui)
 {
-    if (!file_exists(PATH_BASEISO "/var/dvdnav")) {
-        ui->dvdnav_direct->value(1);
-        ui->dvdnav_menu->value(0);
+    char buf[256];
+    config_t *config;
+
+    config = config_open(PATH_BASEISO "/etc/dvd", 1);
+    if (!config) {
+        fl_alert("Missing dvd configuration files.\n");
+        return 0;
     }
-    else {
-        ui->dvdnav_direct->value(0);
-        ui->dvdnav_menu->value(1);
-    }
+
+    config_getvar(config, "DVDNAV", buf, sizeof(buf));
+    ui->dvdnav_menu->value(!my_strcasecmp(buf, "yes"));
+    ui->dvdnav_direct->value(my_strcasecmp(buf, "yes"));
+
+    config_destroy(config);
 
     return 1;
 }
 
-int check_dvdnav_file(GeneratorUI *ui)
+int write_dvdnav_settings(GeneratorUI *ui)
 {
-    FILE *fp;
+    config_t *config;
 
-    if (ui->dvdnav_menu->value()) {
-        // write a void file
-        fp = fopen(PATH_BASEISO "/var/dvdnav", "wb");
-        if (!fp) {
-            fl_alert("Failed to write dvdnav file.\n");
-            return 0;
-        }
-        fclose(fp);
+    config = config_open(PATH_BASEISO "/etc/dvd", 1);
+    if (!config) {
+        fl_alert("Failed to write dvd configuration.\n");
+        return 0;
     }
-    else
-        unlink(PATH_BASEISO "/var/dvdnav");
+
+    config_setvar(config, "DVDNAV", yes_no(ui->dvdnav_menu->value()));
+
+    config_write(config, PATH_BASEISO "/etc/dvd");
+    config_destroy(config);
 
     return 1;
 }

@@ -8,7 +8,8 @@ MAKE="`which gmake make | head -1`"
 
 # Compress using upx the output binary (comment UPX to disable)
 UPX=upx
-UPXFLAGS="--best --crp-ms=999999 --nrv2d"
+UPXFLAGS="--brute"
+UPX_VERSION="1.95"
 
 # Those aren't really used, just need to have them diffrent to enable cross.
 CROSS_TARGET=i386-pc-mingw32
@@ -176,7 +177,7 @@ export CURLCONFIG="$INSTDIR/bin/curl-config"
 $MAKE
 
 if [ -n "$UPX" ]; then
-    $UPX $UPXFLAGS generator$EXEEXT
+    $UPX $UPXFLAGS generator$EXEEXT || echo "Failed to run upx, requires atleast $UPX_VERSION"
 fi
 
 echo "DONE"

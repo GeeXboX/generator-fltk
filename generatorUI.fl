@@ -113,6 +113,10 @@ class GeneratorUI {open
               xywh {510 105 175 25} type Radio down_box ROUND_DOWN_BOX
             }
           }
+          Fl_Check_Button media_autoplay {
+            label {Autoplay inserted media}
+            xywh {495 165 200 25} down_box DOWN_BOX
+          }
         }
         Fl_Group {} {
           label {Audio - Video} open

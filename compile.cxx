@@ -18,6 +18,7 @@
 #include "generatorUI.h"
 
 #include "audio.h"
+#include "autoplay.h"
 #include "compile.h"
 #include "config.h"
 #include "dvdnav.h"
@@ -76,6 +77,7 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Copying language files...", copy_language_files },
       { "Copying remote files...", copy_remote_files },
       { "Writing DVD navigation settings...", write_dvdnav_settings },
+      { "Writing autoplay settings...", write_autoplay_settings },
       { "Writing audio settings...", write_audio_settings },
       { "Writing video settings...", write_video_settings },
       { "Writing network settings...", write_network_settings },

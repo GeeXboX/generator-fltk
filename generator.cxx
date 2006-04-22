@@ -18,6 +18,7 @@
 #include "generatorUI.h"
 
 #include "audio.h"
+#include "autoplay.h"
 #include "compile.h"
 #include "curl.h"
 #include "dvdnav.h"
@@ -144,6 +145,7 @@ void generator_exit(GeneratorUI *ui)
 static int init_tabs(GeneratorUI *ui)
 {
     return init_language_tab(ui)
+	&& init_autoplay_tab(ui)
 	&& init_dvdnav_tab(ui)
 	&& init_audio_tab(ui)
 	&& init_video_tab(ui)

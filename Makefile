@@ -1,6 +1,6 @@
 PROJ=generator
 
-SRCS_CXX=audio.cxx compile.cxx curl.cxx dvdnav.cxx fs.cxx generator.cxx language.cxx network.cxx packages.cxx recorder.cxx remote.cxx theme.cxx system.cxx video.cxx
+SRCS_CXX=audio.cxx autoplay.cxx compile.cxx curl.cxx dvdnav.cxx fs.cxx generator.cxx language.cxx network.cxx packages.cxx recorder.cxx remote.cxx theme.cxx system.cxx video.cxx
 SRCS_C=utils.c configparser.c
 SRCS_CXX+=Fl_Gel_Tabs/Fl_Gel_Tabs.cxx 
 SRCS_CXX+=FLU/Flu_Tree_Browser.cxx FLU/FluSimpleString.cxx FLU/flu_pixmaps.cxx

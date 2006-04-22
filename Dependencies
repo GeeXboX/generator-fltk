@@ -7,7 +7,7 @@ audio.o: configparser.h system.h utils.h
 autoplay.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 autoplay.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 autoplay.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
-autoplay.o: configparser.h autoplay.h system.h utils.h
+autoplay.o: configparser.h autoplay.h system.h
 compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 compile.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 compile.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h autoplay.h

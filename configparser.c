@@ -141,7 +141,7 @@ static int config_add_item(config_t *config, const char *value, size_t value_len
 
 static int config_read_line(config_t *config, char *line)
 {
-  char *next_line;
+  char *next_line = NULL;
 
   char *equal;
 

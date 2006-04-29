@@ -159,9 +159,41 @@ static int init_tabs(GeneratorUI *ui)
 	;
 }
 
+#ifdef __APPLE__
+#include <CoreServices/CoreServices.h>
+
+void setMacResources(const char *filename)
+{
+    FSRef fsref;        /* File Reference */
+    FSSpec fsspec;      /* FileSpec */
+    short rref;         /* Resource Reference */
+
+    if (FSPathMakeRef((const UInt8*)filename, &fsref, NULL))
+	return;
+      
+    if (FSGetCatalogInfo(&fsref, kFSCatInfoNone, NULL, NULL, &fsspec, NULL))
+	return;
+
+    rref = FSpOpenResFile(&fsspec, fsRdPerm);
+    switch (ResError())
+    {
+    case eofErr:
+	FSpCreateResFile(&fsspec, 0, 0, smCurrentScript);
+	break;
+    case 0:
+	CloseResFile(rref);
+	break;
+    }
+}
+#endif
+
 int
 main(int argc, char **argv) 
 {
+#ifdef __APPLE__
+    setMacResources(argv[0]);
+#endif
+
     GeneratorUI *ui = new GeneratorUI;
 
     Fl::scheme("plastic");

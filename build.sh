@@ -85,7 +85,7 @@ fi
 
 if [ ! -f $TMPDIR/.patch ]; then
   cd $FLTKDIR
-  sed -e 's%uname=.*%uname=CYGWIN%g' -e 's%-lwsock32%-lws2_32%' configure > configure.new
+  sed -e "s%uname=.*%uname=$UNAME%g" -e 's%-lwsock32%-lws2_32%' configure > configure.new
   mv configure.new configure
   chmod +x configure
   for i in src/Fl_win32.cxx src/fl_dnd_win32.cxx; do

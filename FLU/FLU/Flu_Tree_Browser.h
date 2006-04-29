@@ -929,6 +929,8 @@ class FLU_EXPORT Flu_Tree_Browser : public Fl_Group
 
       //! Get the index this node is (as a child) in its parent's list
       /*! \return -1 if this node has no parent, else its index in its parent's list of children */
+      /* cope w/ index defined as macro, SuSv3 proposal */
+      #undef index
       int index() const;
 
       //! Insert a new node at position \b pos

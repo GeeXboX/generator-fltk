@@ -367,36 +367,31 @@ class GeneratorUI {open
             label {Network streaming:} open
             xywh {40 175 640 105} box ENGRAVED_FRAME align 5
           } {
-            Fl_Check_Button streaming_netstream {
-              label {Custom Defined Playlist}
-              callback {update_tabs_status(this);}
-              xywh {55 185 200 25} down_box DOWN_BOX
-            }
             Fl_Check_Button streaming_shoutcast {
               label {SHOUTcast Radio Playlist}
               callback {update_tabs_status(this);}
-              xywh {55 215 200 25} down_box DOWN_BOX
+              xywh {55 185 200 25} down_box DOWN_BOX
             }
             Fl_Check_Button streaming_shoutcasttv {
               label {SHOUTcast TV Playlist}
               callback {update_tabs_status(this);}
-              xywh {365 185 180 25} down_box DOWN_BOX
+              xywh {55 215 200 25} down_box DOWN_BOX
             }
             Fl_Input streaming_whitelist {
               label {Whitelist:}
-              xywh {425 250 235 24}
+              xywh {345 216 315 24}
             }
             Fl_Input streaming_blacklist {
               label {Blacklist:}
-              xywh {425 215 235 25}
+              xywh {345 185 315 25}
             }
             Fl_Input streaming_timeout {
               label {Timeout (second):}
-              xywh {175 250 30 24}
+              xywh {475 246 30 24}
             }
             Fl_Input streaming_tries {
               label {Retries number:}
-              xywh {320 250 30 24}
+              xywh {630 246 30 24}
             }
           }
         }

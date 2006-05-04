@@ -70,19 +70,6 @@ void update_tabs_status(GeneratorUI *ui)
 	ui->streaming_blacklist->deactivate();
 	}
 
-    if (ui->streaming_shoutcasttv->value() || 
-		ui->streaming_shoutcast->value() ||
-		ui->streaming_netstream->value())
-	{
-	ui->streaming_timeout->activate();
-	ui->streaming_tries->activate();
-	}
-    else
-	{
-	ui->streaming_timeout->deactivate();
-	ui->streaming_tries->deactivate();
-	}
-
     if (ui->override_sub_font->value())
 	ui->sub_font->activate();
     else

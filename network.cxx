@@ -101,9 +101,6 @@ int init_network_tab(GeneratorUI *ui)
     config_getvar(config, "BLACKLIST", buf, sizeof(buf));
     ui->streaming_blacklist->value(buf);
 
-    config_getvar(config, "NETSTREAM", buf, sizeof(buf));
-    ui->streaming_netstream->value(!my_strcasecmp(buf, "yes"));
-
     config_getvar(config, "TIMEOUT", buf, sizeof(buf));
     ui->streaming_timeout->value(buf);
 
@@ -164,7 +161,6 @@ int write_network_settings(GeneratorUI *ui)
 
     config_setvar(config, "SHOUTCAST", yes_no(ui->streaming_shoutcast->value()));
     config_setvar(config, "SHOUTCASTTV", yes_no(ui->streaming_shoutcasttv->value()));
-    config_setvar(config, "NETSTREAM", yes_no(ui->streaming_netstream->value()));
     config_setvar(config, "WHITELIST", ui->streaming_whitelist->value());
     config_setvar(config, "BLACKLIST", ui->streaming_blacklist->value());
     config_setvar(config, "TIMEOUT", ui->streaming_timeout->value());

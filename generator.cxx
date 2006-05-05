@@ -132,6 +132,7 @@ void generator_exit(GeneratorUI *ui)
 static int init_tabs(GeneratorUI *ui)
 {
     return 1 
+	&& init_compile(ui)
 	&& init_language_tab(ui)
 	&& init_autoplay_tab(ui)
 	&& init_dvdnav_tab(ui)
@@ -141,7 +142,6 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_network_tab(ui)
 	&& init_recorder_tab(ui)
 	&& init_theme_tab(ui)
-	&& init_compile(ui)
 	&& init_curl()
 	&& init_packages_tab(ui)
 	;

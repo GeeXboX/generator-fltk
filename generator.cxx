@@ -131,7 +131,8 @@ void generator_exit(GeneratorUI *ui)
 
 static int init_tabs(GeneratorUI *ui)
 {
-    return init_language_tab(ui)
+    return 1 
+	&& init_language_tab(ui)
 	&& init_autoplay_tab(ui)
 	&& init_dvdnav_tab(ui)
 	&& init_audio_tab(ui)

@@ -69,7 +69,7 @@ int config_write(config_t *config, const char *filename)
       {
 	fputs(item->name, f);
 	fputc('=', f);
-        if (config->shell_escape && (strchr(item->value, ' ') || strchr(item->value, '\t')))
+        if (config->shell_escape)
 	  {
 	    fputc('\"', f);
 	    fputs(item->value, f);

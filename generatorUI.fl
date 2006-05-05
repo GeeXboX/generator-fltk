@@ -123,7 +123,7 @@ class GeneratorUI {open
             xywh {385 60 350 215} box ENGRAVED_FRAME align 5
           } {
             Fl_Check_Button video_splash {
-              label {Disable bootsplash screen}
+              label {Bootsplash screen}
               xywh {400 160 210 25} down_box DOWN_BOX
             }
             Fl_Choice vesa_res {

@@ -73,7 +73,7 @@ int init_video_tab(GeneratorUI *ui)
         }
 
         config_getvar_location(config, "splash", 1, buf, sizeof(buf));
-        ui->video_splash->value(my_strcasecmp(buf, "silent"));
+        ui->video_splash->value(!my_strcasecmp(buf, "silent"));
 
         config_getvar(config, "video", buf, sizeof(buf));
 
@@ -142,7 +142,7 @@ int write_video_settings(GeneratorUI *ui)
         }
 
         config_setvar_location(config, "splash", 1,
-				    ui->video_splash->value() ? "0" : "silent");
+				    ui->video_splash->value() ? "silent" : "0");
 
 	sprintf(buf, "vesafb:%s-%s%s", 	ui->vesa_res->mvalue()->user_data() ?
 					    (char*)ui->vesa_res->mvalue()->user_data() :

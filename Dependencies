@@ -51,7 +51,7 @@ theme.o: configparser.h fs.h language.h theme.h utils.h
 system.o: system.h
 video.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 video.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
-video.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
+video.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h compile.h
 video.o: configparser.h video.h system.h fs.h
 Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 Fl_Gel_Tabs/Fl_Gel_Tabs.o: Fl_Gel_Tabs/gel_xpms/rt_crv_off.xpm

@@ -18,6 +18,7 @@
 #ifndef video_h
 #define video_h
 
+const char *get_target_resolution(GeneratorUI *ui);
 int init_video_tab(GeneratorUI *ui);
 int write_video_settings(GeneratorUI *ui);
 

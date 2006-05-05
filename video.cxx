@@ -26,6 +26,13 @@
 
 #include <FL/fl_ask.H> /* fl_alert */
 
+const char *get_target_resolution(GeneratorUI *ui)
+{
+    return ui->vesa_res->mvalue()->user_data() ?
+		(char*)ui->vesa_res->mvalue()->user_data() :
+		ui->vesa_custom->value();
+}
+
 int init_video_tab(GeneratorUI *ui)
 {
     char *video_res[] = {
@@ -144,9 +151,7 @@ int write_video_settings(GeneratorUI *ui)
         config_setvar_location(config, "splash", 1,
 				    ui->video_splash->value() ? "silent" : "0");
 
-	sprintf(buf, "vesafb:%s-%s%s", 	ui->vesa_res->mvalue()->user_data() ?
-					    (char*)ui->vesa_res->mvalue()->user_data() :
-					    ui->vesa_custom->value(),
+	sprintf(buf, "vesafb:%s-%s%s", get_target_resolution(ui),
 					(char*)ui->vesa_depth->mvalue()->user_data(),
 					ui->vesa_res->user_data() ?
 					    (char*)ui->vesa_res->user_data() : 

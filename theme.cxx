@@ -24,6 +24,7 @@
 #include "language.h"
 #include "theme.h"
 #include "utils.h"
+#include "video.h"
 
 #include <sys/types.h>
 #include <string.h> /* strcmp strncmp strlen strcpy strcat strstr */
@@ -171,12 +172,20 @@ int copy_theme_boot_files(GeneratorUI *ui)
     char buf[256], buf2[256];
     const char *theme = ui->theme->mvalue()->label();
 
-    sprintf(buf, "themes/theme-%s/bootsplash.dat", theme);
-    sprintf(buf2, "ziso/GEEXBOX/boot/initrd.gz");
+    if (ui->video_splash->value())
+    {
+	sprintf(buf, "themes/theme-%s/bootsplash-%s.dat", theme, get_target_resolution(ui));
+	sprintf(buf2, "ziso/GEEXBOX/boot/initrd.gz");
 
-    if (file_exists(buf) && _copy_file(buf, buf2, 1)) {
-	fl_alert("Failed to append bootplash data to initrd image.\n");
-	return 0;
+	if (!file_exists(buf)) {
+	    fl_alert("Theme %s doesn't have bootsplash data for resolution: %s\nPlease disable bootsplash screen, or switch to a diffrent resolution.", theme, get_target_resolution(ui));
+	    return 0;
+	}
+
+	if (_copy_file(buf, buf2, 1)) {
+	    fl_alert("Failed to append bootplash data to initrd image.\n");
+	    return 0;
+	}
     }
 
     if (target_arch == TARGET_ARCH_I386) {

@@ -47,7 +47,7 @@ remote.o: remote.h
 theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 theme.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 theme.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
-theme.o: configparser.h fs.h language.h theme.h utils.h
+theme.o: configparser.h fs.h language.h theme.h utils.h video.h
 system.o: system.h
 video.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 video.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h

@@ -58,10 +58,7 @@ int init_recorder_tab(GeneratorUI *ui)
             // search for a 'bl' word
             is_bl = 0;
             for (i = 0; i < sizeof(bl)/sizeof(bl[0]) && !is_bl; i++) {
-                j = 0;
-                while (buf_tmp[j] == bl[i][j] && j < strlen(bl[i]))
-                    j++;
-                if (j == strlen(bl[i]))
+                if (strncmp(bl[i], buf_tmp, strlen(bl[i])) == 0)
                     is_bl = 1;
             }
             if (!is_bl) {

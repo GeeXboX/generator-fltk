@@ -29,10 +29,15 @@ int init_recorder_tab(GeneratorUI *ui)
 {
     char buf[256], buf_tmp[256];
     unsigned int i, j;
+    unsigned int is_bl;
     FILE *f2;
     config_t *config;
     const Fl_Menu_Item *m;
-    const char *bl = "[common]";
+
+    char *bl[] = {
+        "[common]",
+        "[dump]"
+    };
 
     config = config_open(PATH_BASEISO "/etc/recorder", 1);
     if (!config) {
@@ -50,11 +55,16 @@ int init_recorder_tab(GeneratorUI *ui)
     }
     while ((fgets (buf_tmp, sizeof(buf_tmp), f2))) {
         if (buf_tmp[0] == '[') {
-            // test if it's "[common]"
-            i = 0;
-            while (buf_tmp[i] == bl[i] && i < strlen(bl) + 1)
-                i++;
-            if (i != strlen(bl)) {
+            // search for a 'bl' word
+            is_bl = 0;
+            for (i = 0; i < sizeof(bl)/sizeof(bl[0]) && !is_bl; i++) {
+                j = 0;
+                while (buf_tmp[j] == bl[i][j] && j < strlen(bl[i]))
+                    j++;
+                if (j == strlen(bl[i]))
+                    is_bl = 1;
+            }
+            if (!is_bl) {
                 // if not then add item in the combobox
                 j = 0;
                 for (i = 1; i < strlen(buf_tmp); i++) {

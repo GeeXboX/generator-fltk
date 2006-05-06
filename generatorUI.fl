@@ -226,7 +226,7 @@ class GeneratorUI {open
             xywh {30 100 390 180} box ENGRAVED_FRAME align 5
           } {
             Fl_Choice network_conf {
-              label {Configruation:}
+              label {Configuration:}
               callback {update_tabs_status(this);} open
               xywh {170 115 230 25} down_box BORDER_BOX
             } {

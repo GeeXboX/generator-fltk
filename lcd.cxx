@@ -86,20 +86,18 @@ int write_lcd_settings(GeneratorUI *ui)
 {
     config_t *config;
 
-    if (ui->recorder->active()) {
-        config = config_open(PATH_BASEISO "/etc/lcddisplay", 1);
-        if (!config) {
-            fl_alert("Failed to write lcddisplay configuration.\n");
-            return 0;
-        }
-
-        config_setvar(config, "LCD_ENABLED", yes_no(ui->lcd_enabled->value()));
-        config_setvar(config, "LCD_MODEL", ui->lcd_model->mvalue()->label());
-        config_setvar(config, "LCD_WIDTH", ui->lcd_width->value());
-        config_setvar(config, "LCD_HEIGHT", ui->lcd_height->value());
-        config_write(config, PATH_BASEISO "/etc/lcddisplay");
-        config_destroy(config);
+    config = config_open(PATH_BASEISO "/etc/lcddisplay", 1);
+    if (!config) {
+        fl_alert("Failed to write lcddisplay configuration.\n");
+        return 0;
     }
+
+    config_setvar(config, "LCD_ENABLED", yes_no(ui->lcd_enabled->value()));
+    config_setvar(config, "LCD_MODEL", ui->lcd_model->mvalue()->label());
+    config_setvar(config, "LCD_WIDTH", ui->lcd_width->value());
+    config_setvar(config, "LCD_HEIGHT", ui->lcd_height->value());
+    config_write(config, PATH_BASEISO "/etc/lcddisplay");
+    config_destroy(config);
 
     return 1;
 }

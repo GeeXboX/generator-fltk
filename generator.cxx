@@ -23,6 +23,7 @@
 #include "curl.h"
 #include "dvdnav.h"
 #include "language.h"
+#include "lcd.h"
 #include "network.h"
 #include "packages.h"
 #include "recorder.h"
@@ -37,6 +38,19 @@
 
 void update_tabs_status(GeneratorUI *ui)
 {
+    if (ui->lcd_enabled->value())
+	{
+	ui->lcd_model->activate();
+	ui->lcd_width->activate();
+	ui->lcd_height->activate();
+	}
+    else
+	{
+	ui->lcd_model->deactivate();
+	ui->lcd_width->deactivate();
+	ui->lcd_height->deactivate();
+	}
+
     if (ui->vesa_res->mvalue()->user_data() == NULL)
 	{
 	ui->vesa_custom->activate();
@@ -130,6 +144,7 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_remote_tab(ui)
 	&& init_network_tab(ui)
 	&& init_recorder_tab(ui)
+	&& init_lcd_tab(ui)
 	&& init_theme_tab(ui)
 	&& init_curl()
 	&& init_packages_tab(ui)

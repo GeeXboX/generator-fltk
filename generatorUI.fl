@@ -366,6 +366,28 @@ class GeneratorUI {open
             xywh {180 90 100 25} down_box BORDER_BOX
           } {}
         }
+        Fl_Group lcd {
+          label {LCD Display} open
+          xywh {15 25 740 270}
+        } {
+          Fl_Choice lcd_model {
+            label {Display model:} open
+            xywh {180 90 205 25} down_box BORDER_BOX
+          } {}
+          Fl_Check_Button lcd_enabled {
+            label {LCD display support}
+            callback {update_tabs_status(this);}
+            xywh {75 55 165 25} down_box DOWN_BOX
+          }
+          Fl_Input lcd_width {
+            label {Screen width:}
+            xywh {180 131 35 24}
+          }
+          Fl_Input lcd_height {
+            label {height:}
+            xywh {275 131 35 24}
+          }
+        }
         Fl_Group {} {
           label Packages open
           xywh {15 25 740 270}

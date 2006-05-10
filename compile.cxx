@@ -24,6 +24,7 @@
 #include "dvdnav.h"
 #include "fs.h"
 #include "language.h"
+#include "lcd.h"
 #include "network.h"
 #include "recorder.h"
 #include "remote.h"
@@ -82,6 +83,7 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Writing video settings...", write_video_settings },
       { "Writing network settings...", write_network_settings },
       { "Writing recorder settings...", write_recorder_settings },
+      { "Writing lcd display settings...", write_lcd_settings },
     };
     unsigned int i;
     for (i = 0; i < sizeof(funcs)/sizeof(funcs[0]); i++)

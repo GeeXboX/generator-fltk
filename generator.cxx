@@ -51,16 +51,20 @@ void update_tabs_status(GeneratorUI *ui)
 	ui->lcd_height->deactivate();
 	}
 
-    if (ui->vesa_res->mvalue()->user_data() == NULL)
-	{
-	ui->vesa_custom->activate();
-	ui->vesa_custom->show();
-	}
-    else
-	{
-	ui->vesa_custom->deactivate();
-	ui->vesa_custom->hide();
-	}
+     if (ui->vesa_res->value() == GeneratorUI::VESA_CUSTOM)
+ 	{
+ 	ui->vesa_custom->activate();
+ 	ui->vesa_custom->show();
+	ui->vesa_depth->deactivate();
+	ui->video_splash->value(0);
+ 	}
+     else
+ 	{
+ 	ui->vesa_custom->deactivate();
+ 	ui->vesa_custom->hide();
+	ui->vesa_depth->activate();
+	ui->video_splash->value(1);
+ 	}
 
     if (ui->streaming_shoutcasttv->value())
 	{

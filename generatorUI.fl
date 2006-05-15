@@ -35,6 +35,10 @@ class GeneratorUI {open
   }
   decl {enum { CHANNELS_2 = 0, CHANNELS_4, CHANNELS_6 };} {public
   }
+  decl {enum { VESA_RES_640 = 0, VESA_RES_800 = 1, VESA_RES_1024 = 2, VESA_RES_1280 = 3, VESA_RES_1600 = 4, VESA_CUSTOM = 5 };} {public
+  }
+  decl {enum { VESA_DEPTH_15 = 0, VESA_DEPTH_16 = 1, VESA_DEPTH_24 = 2 };} {public
+  }
   decl {enum { NETWORK_PHY_IFACE_AUTO = 0, NETWORK_PHY_IFACE_WIFI, NETWORK_PHY_IFACE_ETHER };} {public
   }
   decl {enum { NETWORK_CONF_MANUAL = 0, NETWORK_CONF_DHCP };} {public
@@ -130,12 +134,50 @@ class GeneratorUI {open
               label {Resolution / Color:}
               callback {update_tabs_status(this);}
               xywh {530 80 110 25} down_box BORDER_BOX
-            } {}
+            } {
+              MenuItem {} {
+                label 640x480
+                xywh {10 10 34 21}
+              }
+              MenuItem {} {
+                label 800x600
+                xywh {10 10 34 21}
+              }
+              MenuItem {} {
+                label 1024x768
+                xywh {10 10 34 21}
+              }
+              MenuItem {} {
+                label 1280x1024
+                xywh {10 10 34 21}
+              }
+              MenuItem {} {
+                label 1600x1200
+                xywh {10 10 34 21}
+              }
+              MenuItem {} {
+                label Custom
+                xywh {10 10 34 21}
+              }
+            }
             Fl_Choice vesa_depth {
               xywh {645 80 75 25} down_box BORDER_BOX
-            } {}
+            } {
+              MenuItem {} {
+                label {15 bits}
+                xywh {10 10 34 21}
+              }
+              MenuItem {} {
+                label {16 bits}
+                xywh {10 10 34 21}
+              }
+              MenuItem {} {
+                label {24 bits}
+                xywh {10 10 34 21}
+              }
+            }
             Fl_Input vesa_custom {
-              label {VESA Resolution:}
+              label {VESA mode (dec):}
               xywh {530 120 80 25}
             }
           }

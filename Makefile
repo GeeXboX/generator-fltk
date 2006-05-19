@@ -66,6 +66,6 @@ distclean: clean
 
 .PHONY: depend
 depend: $(PROGSRCS)
-	makedepend -Y -f Dependencies $(INCFLAGS) -- $(PROGSRCS)
+	makedepend -Y -f Dependencies -- $(INCFLAGS) -- $(PROGSRCS)
 
 include Dependencies

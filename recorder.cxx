@@ -19,6 +19,7 @@
 
 #include "config.h"
 #include "configparser.h"
+#include "fs.h"
 #include "recorder.h"
 #include "system.h"
 #include "utils.h"
@@ -41,7 +42,7 @@ int init_recorder_tab(GeneratorUI *ui)
 
     config = config_open(PATH_BASEISO "/etc/recorder", 1);
     if (!config) {
-        ui->recorder->deactivate();
+        ui->setting_tabs->remove(ui->recorder);
         return 1;
     }
 
@@ -94,7 +95,7 @@ int write_recorder_settings(GeneratorUI *ui)
 {
     config_t *config;
 
-    if (ui->recorder->active()) {
+    if (file_exists(PATH_BASEISO "/etc/recorder")) {
         config = config_open(PATH_BASEISO "/etc/recorder", 1);
         if (!config) {
             fl_alert("Failed to write recorder configuration.\n");

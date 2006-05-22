@@ -16,6 +16,7 @@
  */
 
 #include "curl.h"
+#include "system.h"
 
 #include <stdio.h>
 #include <string.h> /* strcmp */
@@ -26,6 +27,8 @@
 #include <curl/curl.h>
 #include <md5.h>
 #include <bzlib.h>
+
+#include <FL/filename.H> /* fl_filename_list */
 
 static CURLM *multi_handle;
 
@@ -218,6 +221,8 @@ int download_file(Fl_Button *b, Fl_Progress *prog, const char *url, char *filena
 {
     struct file_write_data data;
     int ret = 2;
+    int i;
+    char dir[256];
 
     data.mode = 0;
 
@@ -234,6 +239,14 @@ int download_file(Fl_Button *b, Fl_Progress *prog, const char *url, char *filena
 	data.bz2_strm.bzfree = NULL;
 	data.bz2_strm.opaque = NULL;
 	BZ2_bzDecompressInit(&data.bz2_strm, 0, 0);
+    }
+
+    if (strchr(filename, '/') != NULL) {
+	for (i = strlen(filename) - 1; filename[i] != '/'; i--);
+	strcpy(dir, filename);
+	dir[i] = '\0';
+	if (!fl_filename_isdir(dir))
+	    my_mkdir(dir);
     }
 
     data.f = fopen(filename, "wb");

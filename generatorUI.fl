@@ -62,11 +62,11 @@ class GeneratorUI {open
         } {
           Fl_Choice theme {
             label {Theme:} open
-            xywh {150 45 130 25} down_box BORDER_BOX
+            xywh {150 45 160 25} down_box BORDER_BOX
           } {}
           Fl_Choice menu_lang {
             label {Menu language:} open
-            xywh {150 80 130 25} down_box BORDER_BOX
+            xywh {150 80 160 25} down_box BORDER_BOX
           } {}
           Fl_Choice sub_charset {
             label {Subtitle charset:} open

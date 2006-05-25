@@ -36,11 +36,32 @@
 int init_theme_tab(GeneratorUI *ui)
 {
     char buf[50];
+    FILE *f;
+    const Fl_Menu_Item *m;
+
+    update_theme_tab(ui);
+
+    if (ui->theme->size() < 1) {
+	fl_alert("Missing theme configuration files.\n");
+	return 0;
+    }
+
+    ui->theme->value(0);
+    if ((f = fopen(PATH_DEFAULTTHEME, "r")))
+    {
+	if (fscanf(f, "theme-%s", buf) == 1 && (m = ui->theme->find_item(buf)))
+	    ui->theme->value(m);
+	fclose(f);
+    }
+
+    return 1;
+}
+
+void update_theme_tab(GeneratorUI *ui)
+{
     int num_files, i;
     struct dirent **files;
     char *fname;
-    FILE *f;
-    const Fl_Menu_Item *m;
 
     if ((num_files = fl_filename_list("themes/", &files, NULL)) > 0)
     {
@@ -57,21 +78,6 @@ int init_theme_tab(GeneratorUI *ui)
 	}
 	free((void*)files);
     }
-
-    if (ui->theme->size() < 1) {
-	fl_alert("Missing theme configuration files.\n");
-	return 0;
-    }
-
-    ui->theme->value(0);
-    if ((f = fopen(PATH_DEFAULTTHEME, "r")))
-    {
-	if (fscanf(f, "theme-%s", buf) == 1 && (m = ui->theme->find_item(buf)))
-	    ui->theme->value(m);
-	fclose(f);
-    }
-
-    return 1;
 }
 
 char *valid_theme_font(const char *theme_name, struct charset_info *c)

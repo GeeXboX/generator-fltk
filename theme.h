@@ -19,6 +19,7 @@
 #define theme_h
 
 int init_theme_tab(GeneratorUI *ui);
+void update_theme_tab(GeneratorUI *ui);
 char *valid_theme_font(const char *theme_name, struct charset_info *c);
 int copy_theme_files(GeneratorUI *ui);
 int copy_theme_boot_files(GeneratorUI *ui);

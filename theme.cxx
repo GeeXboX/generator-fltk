@@ -68,12 +68,10 @@ void update_theme_tab(GeneratorUI *ui)
 	for (i = 0; i < num_files; i++)
 	{
 	    fname = files[i]->d_name;
-	    if (!strncmp("theme-", fname, 6))
-	    {
-		if (fname[strlen(fname)-1] == '/')
-		    fname[strlen(fname)-1] = '\0';
+	    if (fname[strlen(fname)-1] == '/')
+		fname[strlen(fname)-1] = '\0';
+	    if (!strncmp("theme-", fname, 6) && !ui->theme->find_item(fname))
 		ui->theme->add(&fname[6]);
-	    }
 	    free((void*)files[i]);
 	}
 	free((void*)files);

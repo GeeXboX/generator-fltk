@@ -128,6 +128,8 @@ void update_tabs_status(GeneratorUI *ui)
 	ui->network_dns->deactivate();
 	break;
     }
+
+    update_theme_tab(ui);
 }
 
 void generator_exit(GeneratorUI *ui)

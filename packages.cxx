@@ -20,6 +20,7 @@
 #include "compile.h"
 #include "config.h"
 #include "curl.h"
+#include "generator.h"
 #include "packages.h"
 #include "utils.h"
 
@@ -302,6 +303,8 @@ static void start_package_downloading(GeneratorUI *ui)
 
     ui->package_button->label("Download");
     ui->package_tree->activate();
+
+    update_tabs_status(ui);
 }
 
 static size_t display_license(char *buf, size_t size, size_t nmemb, void *data)

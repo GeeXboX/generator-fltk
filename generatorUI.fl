@@ -119,113 +119,108 @@ class GeneratorUI {open
           }
         }
         Fl_Group {} {
-          label {Audio - Video} open
+          label {Audio} open
           xywh {15 25 740 270} hide
         } {
-          Fl_Group {} {
-            label Video open
-            xywh {385 60 350 215} box ENGRAVED_FRAME align 5
+          Fl_Value_Input alsacard_id {
+            label {ALSA Soundcard ID:}
+            xywh {200 80 150 25} maximum 9 step 1
+          }
+          Fl_Choice soundcard_mode {
+            label {Audio Output mode:}
+            callback {update_tabs_status(this);} open
+            xywh {200 120 150 25} down_box BORDER_BOX
           } {
-            Fl_Check_Button video_splash {
-              label {Bootsplash screen}
-              xywh {400 160 210 25} down_box DOWN_BOX
+            MenuItem {} {
+              label Analog
+              xywh {5 5 100 20}
             }
-            Fl_Choice vesa_res {
-              label {Resolution / Color:}
-              callback {update_tabs_status(this);}
-              xywh {530 80 110 25} down_box BORDER_BOX
-            } {
-              MenuItem {} {
-                label 640x480
-                xywh {10 10 34 21}
-              }
-              MenuItem {} {
-                label 800x600
-                xywh {10 10 34 21}
-              }
-              MenuItem {} {
-                label 1024x768
-                xywh {10 10 34 21}
-              }
-              MenuItem {} {
-                label 1280x1024
-                xywh {10 10 34 21}
-              }
-              MenuItem {} {
-                label 1600x1200
-                xywh {10 10 34 21}
-              }
-              MenuItem {} {
-                label Custom
-                xywh {10 10 34 21}
-              }
-            }
-            Fl_Choice vesa_depth {
-              xywh {645 80 75 25} down_box BORDER_BOX
-            } {
-              MenuItem {} {
-                label {15 bits}
-                xywh {10 10 34 21}
-              }
-              MenuItem {} {
-                label {16 bits}
-                xywh {10 10 34 21}
-              }
-              MenuItem {} {
-                label {24 bits}
-                xywh {10 10 34 21}
-              }
-            }
-            Fl_Input vesa_custom {
-              label {VESA mode (dec):}
-              xywh {530 120 80 25}
+            MenuItem {} {
+              label SPDIF
+              xywh {5 5 100 20} value 1
             }
           }
-          Fl_Group {} {
-            label Audio open
-            xywh {35 60 330 215} box ENGRAVED_FRAME align 5
+          Fl_Choice channels {
+            label {Number of Channels:}
+            callback {update_tabs_status(this);} open
+            xywh {200 165 150 25} down_box BORDER_BOX
           } {
-            Fl_Value_Input alsacard_id {
-              label {ALSA Soundcard ID:}
-              xywh {200 80 150 25} maximum 9 step 1
+            MenuItem {} {
+              label {Stereo (2)}
+              xywh {10 10 100 20} value 1
             }
-            Fl_Choice soundcard_mode {
-              label {Audio Output mode:}
-              callback {update_tabs_status(this);} open
-              xywh {200 120 150 25} down_box BORDER_BOX
-            } {
-              MenuItem {} {
-                label Analog
-                xywh {5 5 100 20}
-              }
-              MenuItem {} {
-                label SPDIF
-                xywh {5 5 100 20} value 1
-              }
+            MenuItem {} {
+              label {Surround (4)}
+              xywh {10 10 100 20} value 1
             }
-            Fl_Choice channels {
-              label {Number of Channels:}
-              callback {update_tabs_status(this);} open
-              xywh {200 165 150 25} down_box BORDER_BOX
-            } {
-              MenuItem {} {
-                label {Stereo (2)}
-                xywh {10 10 100 20} value 1
-              }
-              MenuItem {} {
-                label {Surround (4)}
-                xywh {10 10 100 20} value 1
-              }
-              MenuItem {} {
-                label {5.1 Surround (6)}
-                xywh {10 10 100 20} value 1
-              }
+            MenuItem {} {
+              label {5.1 Surround (6)}
+              xywh {10 10 100 20} value 1
             }
-            Fl_Check_Button hwac3 {
-              label {AC3/DTS passthrough}
-              callback {update_tabs_status(this);}
-              xywh {55 205 205 25} down_box DOWN_BOX value 1
+          }
+          Fl_Check_Button hwac3 {
+            label {AC3/DTS passthrough}
+            callback {update_tabs_status(this);}
+            xywh {55 205 205 25} down_box DOWN_BOX value 1
+          }
+        }
+        Fl_Group {} {
+          label {Video} open
+          xywh {15 25 740 270} hide
+        } {
+          Fl_Check_Button video_splash {
+            label {Bootsplash screen}
+            xywh {55 160 210 25} down_box DOWN_BOX
+          }
+          Fl_Choice vesa_res {
+            label {Resolution / Color:}
+            callback {update_tabs_status(this);}
+            xywh {180 80 110 25} down_box BORDER_BOX
+          } {
+            MenuItem {} {
+              label 640x480
+              xywh {10 10 34 21}
             }
+            MenuItem {} {
+              label 800x600
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1024x768
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1280x1024
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1600x1200
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label Custom
+              xywh {10 10 34 21}
+            }
+          }
+          Fl_Choice vesa_depth {
+            xywh {295 80 75 25} down_box BORDER_BOX
+          } {
+            MenuItem {} {
+              label {15 bits}
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label {16 bits}
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label {24 bits}
+              xywh {10 10 34 21}
+            }
+          }
+          Fl_Input vesa_custom {
+            label {VESA mode (dec):}
+            xywh {180 120 80 25}
           }
         }
         Fl_Group {} {

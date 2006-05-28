@@ -95,10 +95,13 @@ void update_tabs_status(GeneratorUI *ui)
 	    ui->channels->deactivate();
 	else
 	    ui->channels->activate();
+	ui->ac97_spsa->activate();
 	break;
     case GeneratorUI::SOUNDCARD_MODE_ANALOG:
 	ui->hwac3->deactivate();
 	ui->channels->activate();
+	ui->ac97_spsa->value(0);
+	ui->ac97_spsa->deactivate();
 	break;
     }
 

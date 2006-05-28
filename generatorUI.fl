@@ -163,6 +163,14 @@ class GeneratorUI {open
             callback {update_tabs_status(this);}
             xywh {55 205 205 25} down_box DOWN_BOX value 1
           }
+           Fl_Choice ac97_spsa {
+             label {IEC958 AC97-SPSA Mode:} open
+             xywh {430 140 255 25} down_box BORDER_BOX align 5
+           } {}
+           Fl_Check_Button sbl_audigy {
+             label {SB Live/Audigy A/D Legacy Mode}
+             tooltip {ON: Suitable for some older SB Live! cards\nOFF: Suitable for newer SB Live! and all Audigy cards} xywh {430 80 255 25} down_box DOWN_BOX
+           }
         }
         Fl_Group {} {
           label {Video} open

@@ -29,11 +29,23 @@ int init_audio_tab(GeneratorUI *ui)
 {
     char buf[256];
     int i;
+    unsigned long k;
     config_t *config = config_open(PATH_BASEISO "/etc/audio", 1);
+
+    char *ac97_spsa[] = {
+	"PCM1",
+	"PCM2, PCM1 (rear)",
+	"Centre and LFE",
+	"PCM3, Modem, Dedicated SPDIF"
+    };
 
     if (!config) {
 	fl_alert("Missing audio configuration files.\n");
 	return 0;
+    }
+
+    for (k = 0; k < sizeof(ac97_spsa)/sizeof(ac97_spsa[0]); k++) {
+	ui->ac97_spsa->add(ac97_spsa[k], 0, NULL, ac97_spsa[k]);
     }
 
     config_getvar_int(config, "ALSA_CARD", &i);
@@ -51,6 +63,12 @@ int init_audio_tab(GeneratorUI *ui)
     ui->channels->value(i == 6 ? GeneratorUI::CHANNELS_6 :
                         i == 4 ? GeneratorUI::CHANNELS_4 :
                                  GeneratorUI::CHANNELS_2);
+
+    config_getvar(config, "SBL_AUDIGY", buf, sizeof(buf));
+    ui->sbl_audigy->value(!my_strcasecmp(buf, "1"));
+
+    config_getvar_int(config, "AC97_SPSA", &i);
+    ui->ac97_spsa->value(i > 3 || i < 0 ? 0 : i);
 
     config_destroy(config);
 
@@ -87,6 +105,9 @@ int write_audio_settings(GeneratorUI *ui)
         break;
     }
     config_setvar_int(config, "CHANNELS", i);
+
+    config_setvar_int(config, "SBL_AUDIGY", ui->sbl_audigy->value() ? 1 : 0);
+    config_setvar_int(config, "AC97_SPSA", (int)ui->ac97_spsa->value());
 
     config_write(config, PATH_BASEISO "/etc/audio");
     config_destroy(config);

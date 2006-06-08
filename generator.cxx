@@ -195,9 +195,9 @@ main(int argc, char **argv)
     setMacResources(argv[0]);
 #endif
 
-    GeneratorUI *ui = new GeneratorUI;
-
     Fl::scheme("plastic");
+
+    GeneratorUI *ui = new GeneratorUI;
 
     if (!find_geexbox_tree(argv[0]) || tree_corrupted())
 	return 1;

@@ -11,7 +11,7 @@ FLSRCS=generatorUI.fl
 FLTKCONFIG?=fltk-config
 FLUID?=fluid
 FLTKCXXFLAGS?=$(shell $(FLTKCONFIG) --cxxflags)
-FLTKLDFLAGS?=$(shell $(FLTKCONFIG) --ldstaticflags)
+FLTKLDFLAGS?=$(shell $(FLTKCONFIG) --ldflags)
 
 CURLCONFIG?=curl-config
 CURLCFLAGS?=$(shell $(CURLCONFIG) --cflags) -DCURL_STATICLIB

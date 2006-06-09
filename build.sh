@@ -103,6 +103,7 @@ if [ ! -f $TMPDIR/.configure ]; then
               --host=$CROSS_TARGET \
               --build=$CROSS_HOST \
               --prefix=$INSTDIR \
+              --without-links \
               --enable-largefile \
               --disable-localjpeg \
               --disable-localzlib \

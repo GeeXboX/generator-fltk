@@ -28,10 +28,10 @@ done
 #CROSS_PREFIX=mingw32
 
 # FLTK version used
-#FLTKVER=1.1.x-r4393
-#FLTKURL=http://ftp.easysw.com/pub/fltk/snapshots/fltk-$FLTKVER.tar.bz2
-FLTKVER=1.1.7
-FLTKURL=http://ftp.easysw.com/pub/fltk/$FLTKVER/fltk-$FLTKVER-source.tar.bz2
+FLTKVER=1.1.x-r5187
+FLTKURL=http://ftp.easysw.com/pub/fltk/snapshots/fltk-$FLTKVER.tar.bz2
+#FLTKVER=1.1.7
+#FLTKURL=http://ftp.easysw.com/pub/fltk/$FLTKVER/fltk-$FLTKVER-source.tar.bz2
 
 # cURL version used
 CURLVER=7.15.3

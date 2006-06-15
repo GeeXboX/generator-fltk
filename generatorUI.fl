@@ -165,6 +165,7 @@ class GeneratorUI {open
           }
            Fl_Choice ac97_spsa {
              label {IEC958 AC97-SPSA Mode:} open
+             tooltip {If you cannot hear using PCM1, try other options}
              xywh {430 140 255 25} down_box BORDER_BOX align 5
            } {}
            Fl_Check_Button sbl_audigy {

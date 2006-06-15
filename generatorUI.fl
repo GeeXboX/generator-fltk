@@ -62,6 +62,7 @@ class GeneratorUI {open
         } {
           Fl_Choice theme {
             label {Theme:} open
+            tooltip {Consult the Packages tab for more themes}
             xywh {150 45 160 25} down_box BORDER_BOX
           } {}
           Fl_Choice menu_lang {

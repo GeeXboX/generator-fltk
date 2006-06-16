@@ -34,7 +34,7 @@ FLTKURL=http://ftp.easysw.com/pub/fltk/snapshots/fltk-$FLTKVER.tar.bz2
 #FLTKURL=http://ftp.easysw.com/pub/fltk/$FLTKVER/fltk-$FLTKVER-source.tar.bz2
 
 # cURL version used
-CURLVER=7.15.3
+CURLVER=7.15.4
 CURLURL=http://curl.haxx.se/download/curl-$CURLVER.tar.bz2
 
 export EXEEXT

@@ -65,7 +65,7 @@ int init_audio_tab(GeneratorUI *ui)
                                  GeneratorUI::CHANNELS_2);
 
     config_getvar(config, "SBL_AUDIGY", buf, sizeof(buf));
-    ui->sbl_audigy->value(!my_strcasecmp(buf, "1"));
+    ui->sbl_audigy->value(!my_strcasecmp(buf, "0"));
 
     config_getvar_int(config, "AC97_SPSA", &i);
     ui->ac97_spsa->value(i > 3 || i < 0 ? 0 : i);
@@ -106,7 +106,7 @@ int write_audio_settings(GeneratorUI *ui)
     }
     config_setvar_int(config, "CHANNELS", i);
 
-    config_setvar_int(config, "SBL_AUDIGY", ui->sbl_audigy->value() ? 1 : 0);
+    config_setvar_int(config, "SBL_AUDIGY", ui->sbl_audigy->value() ? 0 : 1);
     config_setvar_int(config, "AC97_SPSA", (int)ui->ac97_spsa->value());
 
     config_write(config, PATH_BASEISO "/etc/audio");

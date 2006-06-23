@@ -165,7 +165,7 @@ int write_video_settings(GeneratorUI *ui)
         }
         vgamode = res + depth;
 
-        config_setvar_int_location(config, "vga", 1, vgamode);
+        config_setvar(config, "vga", vgamode);
 
         config_write(config, PATH_BASEISO "/boot/isolinux.cfg");
         config_destroy(config);

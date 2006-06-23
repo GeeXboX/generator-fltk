@@ -104,11 +104,21 @@ int init_video_tab(GeneratorUI *ui)
 
         config_destroy(config);
     }
-    else
+    else if (target_arch == TARGET_ARCH_PPC)
     {
+        config_t *config;
+
+        config = config_open(PATH_BASEISO "/boot/yaboot.conf", 0);
+        if (!config) {
+            fl_alert("Missing yaboot configuration files.\n");
+            return 0;
+        }
+
+        config_getvar_location(config, "splash", 1, buf, sizeof(buf));
+        ui->video_splash->value(!my_strcasecmp(buf, "silent"));
+
         ui->vesa_res->deactivate();
         ui->vesa_depth->deactivate();
-        ui->video_splash->deactivate();
     }
 
     return 1;
@@ -157,6 +167,22 @@ int write_video_settings(GeneratorUI *ui)
         config_setvar_int_location(config, "vga", 1, vgamode);
 
         config_write(config, PATH_BASEISO "/boot/isolinux.cfg");
+        config_destroy(config);
+    }
+    else if (target_arch == TARGET_ARCH_PPC)
+    {
+        config_t *config;
+
+        config = config_open(PATH_BASEISO "/boot/yaboot.conf", 0);
+        if (!config) {
+            fl_alert("Failed to open for write yaboot configuration.\n");
+            return 0;
+        }
+
+        config_setvar_location(config, "splash", 1,
+				    ui->video_splash->value() ? "silent" : "0");
+
+        config_write(config, PATH_BASEISO "/boot/yaboot.conf");
         config_destroy(config);
     }
 

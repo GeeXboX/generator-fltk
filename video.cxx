@@ -118,6 +118,7 @@ int init_video_tab(GeneratorUI *ui)
         ui->video_splash->value(!my_strcasecmp(buf, "silent"));
 
         ui->vesa_res->deactivate();
+        ui->vesa_res->value(GeneratorUI::VESA_RES_800);
         ui->vesa_depth->deactivate();
     }
 

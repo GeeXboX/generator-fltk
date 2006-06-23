@@ -176,7 +176,7 @@ int copy_theme_boot_files(GeneratorUI *ui)
     char buf[256], buf2[256];
     const char *theme = ui->theme->mvalue()->label();
 
-    if (ui->video_splash->value())
+    if (ui->video_splash->value() && ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM)
     {
 	sprintf(buf, "themes/theme-%s/bootsplash-%s.dat", theme, get_target_resolution(ui));
 	sprintf(buf2, "ziso/GEEXBOX/boot/initrd.gz");

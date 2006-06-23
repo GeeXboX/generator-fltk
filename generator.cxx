@@ -56,14 +56,14 @@ void update_tabs_status(GeneratorUI *ui)
  	ui->vesa_custom->activate();
  	ui->vesa_custom->show();
 	ui->vesa_depth->deactivate();
-	ui->video_splash->value(0);
+	ui->video_splash->deactivate();
  	}
      else
  	{
  	ui->vesa_custom->deactivate();
  	ui->vesa_custom->hide();
 	ui->vesa_depth->activate();
-	ui->video_splash->value(1);
+	ui->video_splash->activate();
  	}
 
     if (ui->streaming_shoutcasttv->value())

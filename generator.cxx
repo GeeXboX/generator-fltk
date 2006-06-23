@@ -62,7 +62,10 @@ void update_tabs_status(GeneratorUI *ui)
  	{
  	ui->vesa_custom->deactivate();
  	ui->vesa_custom->hide();
-	ui->vesa_depth->activate();
+
+	if (target_arch == TARGET_ARCH_I386) {
+	  ui->vesa_depth->activate();
+	}
 	ui->video_splash->activate();
  	}
 

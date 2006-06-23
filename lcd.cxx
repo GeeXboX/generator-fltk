@@ -17,6 +17,7 @@
 
 #include "generatorUI.h"
 
+#include "compile.h"
 #include "config.h"
 #include "configparser.h"
 #include "lcd.h"
@@ -35,6 +36,12 @@ int init_lcd_tab(GeneratorUI *ui)
     const Fl_Menu_Item *m;
 
     const char *model = "Display ";
+
+    /* only for i386 */
+    if (target_arch != TARGET_ARCH_I386) {
+        ui->setting_tabs->remove(ui->lcd);
+        return 1;
+    }
 
     config = config_open(PATH_BASEISO "/etc/lcddisplay", 1);
     if (!config) {
@@ -85,6 +92,11 @@ int init_lcd_tab(GeneratorUI *ui)
 int write_lcd_settings(GeneratorUI *ui)
 {
     config_t *config;
+
+    /* only for i386 */
+    if (target_arch != TARGET_ARCH_I386) {
+        return 1;
+    }
 
     config = config_open(PATH_BASEISO "/etc/lcddisplay", 1);
     if (!config) {

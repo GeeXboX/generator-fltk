@@ -30,7 +30,8 @@ language.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
 language.o: configparser.h fs.h language.h theme.h utils.h
 lcd.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H FLU/FLU/Flu_Tree_Browser.h
 lcd.o: FLU/FLU/Flu_Enumerations.h FLU/FLU/flu_export.h
-lcd.o: FLU/FLU/FluSimpleString.h config.h configparser.h lcd.h system.h
+lcd.o: FLU/FLU/FluSimpleString.h compile.h config.h configparser.h lcd.h
+lcd.o: system.h
 network.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 network.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 network.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h

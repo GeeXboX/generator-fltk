@@ -38,47 +38,41 @@
 
 void update_tabs_status(GeneratorUI *ui)
 {
-    if (ui->lcd_enabled->value())
-	{
+    if (ui->lcd_enabled->value()) {
 	ui->lcd_model->activate();
 	ui->lcd_width->activate();
 	ui->lcd_height->activate();
-	}
-    else
-	{
+    }
+    else {
 	ui->lcd_model->deactivate();
 	ui->lcd_width->deactivate();
 	ui->lcd_height->deactivate();
-	}
+    }
 
-     if (ui->vesa_res->value() == GeneratorUI::VESA_CUSTOM)
- 	{
- 	ui->vesa_custom->activate();
- 	ui->vesa_custom->show();
+    if (ui->vesa_res->value() == GeneratorUI::VESA_CUSTOM) {
+	ui->vesa_custom->activate();
+	ui->vesa_custom->show();
 	ui->vesa_depth->deactivate();
 	ui->video_splash->deactivate();
- 	}
-     else
- 	{
- 	ui->vesa_custom->deactivate();
- 	ui->vesa_custom->hide();
+    }
+    else {
+	ui->vesa_custom->deactivate();
+	ui->vesa_custom->hide();
 
 	if (target_arch == TARGET_ARCH_I386) {
-	  ui->vesa_depth->activate();
+	    ui->vesa_depth->activate();
 	}
 	ui->video_splash->activate();
- 	}
+    }
 
-    if (ui->streaming_shoutcasttv->value())
-	{
+    if (ui->streaming_shoutcasttv->value()) {
 	ui->streaming_whitelist->activate();
 	ui->streaming_blacklist->activate();
-	}
-    else
-	{
+    }
+    else {
 	ui->streaming_whitelist->deactivate();
 	ui->streaming_blacklist->deactivate();
-	}
+    }
 
     if (ui->override_sub_font->value())
 	ui->sub_font->activate();

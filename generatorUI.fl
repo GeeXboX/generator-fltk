@@ -374,7 +374,6 @@ class GeneratorUI {open
           } {
             Fl_Check_Button streaming_shoutcast {
               label {SHOUTcast Radio Playlist}
-              callback {update_tabs_status(this);}
               xywh {55 185 200 25} down_box DOWN_BOX
             }
             Fl_Check_Button streaming_shoutcasttv {

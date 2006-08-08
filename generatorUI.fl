@@ -27,6 +27,8 @@ decl {\#include "packages.h"} {}
 
 decl {\#include "language.h"} {} 
 
+decl {\#include "network.h"} {} 
+
 decl {\#include "compile.h"} {} 
 
 class GeneratorUI {open
@@ -337,6 +339,26 @@ class GeneratorUI {open
                   label {SSID:}
                   xywh {530 170 190 25}
                 }
+              }
+            }
+            Fl_Group ndiswrapper_subtab {
+              label Ndiswrapper open
+              xywh {15 25 740 255} align 2 hide
+            } {
+              Fl_Button {} {
+                label {Load win32 driver ...}
+                callback {load_drvwin32(drvwin32_tree);}
+                xywh {245 55 180 25}
+              }
+              Fl_Button {} {
+                label {Unload win32 driver ...}
+                callback {unload_drvwin32(drvwin32_tree);}
+                xywh {245 100 179 25}
+              }
+              Fl_Browser drvwin32_tree {
+                xywh {45 55 160 195} box DOWN_BOX align 5
+                code0 {\#include <FLU/Flu_Tree_Browser.h>}
+                class Flu_Tree_Browser
               }
             }
           }

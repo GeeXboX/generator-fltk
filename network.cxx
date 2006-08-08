@@ -17,26 +17,192 @@
 
 #include "generatorUI.h"
 
+#include "compile.h"
 #include "config.h"
 #include "configparser.h"
+#include "fs.h"
 #include "network.h"
 #include "system.h"
 #include "utils.h"
 
 #include <FL/fl_ask.H> /* fl_alert */
+#include <FL/Fl_File_Chooser.H> /* fl_file_chooser */
 
 #define yes_no(x) ((x) ? "yes" : "no") 
+
+void load_drvwin32(Flu_Tree_Browser *tree)
+{
+    const char *new_driver;
+    Flu_Tree_Browser::Node *n;
+
+    n = tree->get_root();
+    if (n->children() == 0) {
+        new_driver = fl_file_chooser("Choose win32 (Windows XP) driver?", "*.inf", "");
+        if (new_driver) {
+            if (strstr(new_driver, ".inf") != NULL || strstr(new_driver, ".INF") != NULL) {
+                load_driver_node(tree, new_driver, 1);
+                tree->show_root(false);
+                tree->activate();
+            }
+            else
+                fl_alert("You don't have chosen a .inf file!\n");
+        }
+    }
+    else
+        fl_alert("Only one driver can be loaded!\n");
+}
+
+void unload_drvwin32(Flu_Tree_Browser *tree)
+{
+    int parent;
+    Flu_Tree_Browser::Node *n;
+
+    n = tree->get_root();
+    if (n->children() != 0) {
+        n = tree->first_leaf();
+        parent = n->id() - 1;
+        unload_driver_node(tree, parent);
+        tree->deactivate();
+        tree->show_root(true);
+    }
+}
+
+void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
+{
+    const char *fname;
+    std::string src, dst, dir;
+    std::string drivername, filename;
+    std::string dst_dir = PATH_BASEISO "/ndiswrapper";
+    int size, i, num_files;
+    struct dirent **files;
+    Flu_Tree_Browser::Node *n;
+
+    size = inf.find_last_of("/", inf.length());
+    drivername = inf.substr(size + 1, inf.length() - size - 5) + "/";
+    dir = inf.substr(0, size + 1);
+
+    if (tree->find(drivername.c_str()) == NULL) {
+        if (!fl_filename_isdir(dst_dir.c_str()))
+            my_mkdir(dst_dir.c_str());
+        dst_dir += "/";
+
+        // add node to the browser tree
+        n = tree->add(drivername.c_str());
+        n->swap_label_and_widget(true);
+        n->auto_label_color(true);
+
+        num_files = fl_filename_list(dir.c_str(), &files, NULL);
+        for (i = 0; i < num_files; i++) {
+            fname = files[i]->d_name;
+            src = dir + fname;
+            filename = drivername + fname;
+            dst = dst_dir + fname;
+            // add "copy" only inf, sys and bin files
+            if (filename.substr(filename.length() - 4) == ".inf"
+                || filename.substr(filename.length() - 4) == ".INF"
+                || filename.substr(filename.length() - 4) == ".sys"
+                || filename.substr(filename.length() - 4) == ".SYS"
+                || filename.substr(filename.length() - 4) == ".bin"
+                || filename.substr(filename.length() - 4) == ".BIN") {
+                if (copy)
+                    copy_file(src.c_str(), dst.c_str());
+                tree->add(filename.c_str());
+            }
+            free((void*)files[i]);
+        }
+        free((void*)files);
+
+        n->open(true);
+    }
+    else
+        fl_alert("This driver is already loaded!\n");
+}
+
+void unload_driver_node(Flu_Tree_Browser *tree, int id)
+{
+    int i;
+    const std::string dir = PATH_BASEISO "/ndiswrapper/";
+    std::string file;
+    Flu_Tree_Browser::Node *n;
+
+    n = tree->find(id + 1);
+    while (n != NULL) {
+        file = dir + n->label();
+        unlink(file.c_str());
+        i = n->id();
+        tree->remove(i);
+        i++;
+        n = tree->find(i);
+    }
+    tree->remove(id);
+}
+
+/*
+  ATM, only one driver can be loaded from the path. If there are
+  more that one .inf file, the first found is then used like
+  the name of the driver.
+*/
+std::string search_inf(const char *path)
+{
+    const char *fname;
+    int i, num_files;
+    std::string ret = "";
+    struct dirent **files;
+
+    if (fl_filename_isdir(path)) {
+        num_files = fl_filename_list(path, &files, NULL);
+        for (i = 0; i < num_files; i++) {
+            fname = files[i]->d_name;
+            if (strstr(fname, ".inf") != NULL || strstr(fname, ".INF") != NULL) {
+                ret = fname;
+                free((void*)files[i]);
+                break;
+            }
+            free((void*)files[i]);
+        }
+        free((void*)files);
+    }
+    return ret;
+}
 
 int init_network_tab(GeneratorUI *ui)
 {
     char buf[256];
+    std::string inf;
+    std::string driver_name;
     config_t *config;
+
+    Flu_Tree_Browser *tree = ui->drvwin32_tree;
 
     config = config_open(PATH_BASEISO "/etc/network", 1);
     if (!config) {
 	fl_alert("Missing network configuration files.\n");
 	return 0;
     }
+
+    if (target_arch == TARGET_ARCH_I386) {
+        // Init browser tree for win32 drivers
+        tree->get_root()->always_open(true);
+        tree->when(FL_WHEN_NOT_CHANGED);
+        tree->show_root(true);
+        tree->label("No driver loaded");
+        tree->animate(true);
+        tree->selection_mode(FLU_SINGLE_SELECT);
+        tree->insertion_mode(FLU_INSERT_SORTED);
+
+        driver_name = search_inf(PATH_BASEISO "/ndiswrapper");
+        if (driver_name != "") {
+            inf = PATH_BASEISO "/ndiswrapper/";
+            inf += driver_name;
+            load_driver_node(tree, inf.c_str(), 0);
+            tree->show_root(false);
+            tree->activate();
+        }
+        else
+            tree->deactivate();
+    }
+    else
+        ui->ndiswrapper_subtab->deactivate();
 
     config_getvar(config, "PHY_TYPE", buf, sizeof(buf));
     ui->phy_iface->value(!my_strcasecmp(buf, "wifi") ? 

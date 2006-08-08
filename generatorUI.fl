@@ -246,87 +246,98 @@ class GeneratorUI {open
             xywh {180 90 140 25} down_box BORDER_BOX
           } {}
         }
-        Fl_Group {} {
+        Fl_Group network_tab {
           label Network open
-          xywh {15 25 740 270} hide
+          xywh {15 25 740 270}
         } {
-          Fl_Choice phy_iface {
-            label {Physical interface:}
-            callback {update_tabs_status(this);}
-            xywh {325 45 160 25} down_box BORDER_BOX
+          Fl_Tabs {} {open
+            xywh {15 25 740 270} box NO_BOX align 2
+            code0 {\#include <FL/Fl_Gel_Tabs.H>}
+            class Fl_Gel_Tabs
           } {
-            MenuItem {} {
-              label AUTODETECT
-              xywh {0 0 100 20}
-            }
-            MenuItem {} {
-              label WiFi
-              xywh {0 0 100 20} value 1
-            }
-            MenuItem {} {
-              label Ethernet
-              xywh {0 0 100 20} value 1
-            }
-          }
-          Fl_Group {} {
-            label {Connection Settings} open
-            xywh {30 100 390 180} box ENGRAVED_FRAME align 5
-          } {
-            Fl_Choice network_conf {
-              label {Configuration:}
-              callback {update_tabs_status(this);} open
-              xywh {170 115 230 25} down_box BORDER_BOX
+            Fl_Group {} {
+              label Configuration open selected
+              xywh {15 25 740 255} align 2
             } {
-              MenuItem {} {
-                label Manual
-                xywh {5 5 100 20}
+              Fl_Choice phy_iface {
+                label {Physical interface:}
+                callback {update_tabs_status(this);}
+                xywh {335 45 160 25} down_box BORDER_BOX
+              } {
+                MenuItem {} {
+                  label AUTODETECT
+                  xywh {10 10 100 20}
+                }
+                MenuItem {} {
+                  label WiFi
+                  xywh {10 10 100 20} value 1
+                }
+                MenuItem {} {
+                  label Ethernet
+                  xywh {10 10 100 20} value 1
+                }
               }
-              MenuItem {} {
-                label {Automatic (DHCP)}
-                xywh {5 5 100 20} value 1
+              Fl_Group {} {
+                label {Connection Settings} open
+                xywh {30 90 390 165} box ENGRAVED_FRAME align 5
+              } {
+                Fl_Choice network_conf {
+                  label {Configuration:}
+                  callback {update_tabs_status(this);} open
+                  xywh {170 100 230 25} down_box BORDER_BOX
+                } {
+                  MenuItem {} {
+                    label Manual
+                    xywh {15 15 100 20}
+                  }
+                  MenuItem {} {
+                    label {Automatic (DHCP)}
+                    xywh {15 15 100 20} value 1
+                  }
+                }
+                Fl_Input network_ip {
+                  label {IP address:}
+                  xywh {170 130 230 25}
+                }
+                Fl_Input network_subnet {
+                  label {Subnet mask:}
+                  xywh {170 160 230 25}
+                }
+                Fl_Input network_gateway {
+                  label {Gateway address:}
+                  xywh {170 190 230 25}
+                }
+                Fl_Input network_dns {
+                  label {DNS Server:}
+                  xywh {170 220 230 25}
+                }
               }
-            }
-            Fl_Input network_ip {
-              label {IP address:}
-              xywh {170 150 230 25}
-            }
-            Fl_Input network_subnet {
-              label {Subnet mask:}
-              xywh {170 185 230 25}
-            }
-            Fl_Input network_gateway {
-              label {Gateway address:}
-              xywh {170 220 230 20}
-            }
-            Fl_Input network_dns {
-              label {DNS Server:}
-              xywh {170 250 230 20}
-            }
-          }
-          Fl_Group wifi_settings {
-            label {WiFi settings} open
-            xywh {445 100 285 180} box ENGRAVED_FRAME align 5
-          } {
-            Fl_Choice wifi_mode {
-              label {Mode:} open
-              xywh {520 115 190 25} down_box BORDER_BOX
-            } {
-              MenuItem {} {
-                label Managed
-                xywh {0 0 100 20}
+              Fl_Group wifi_settings {
+                label {WiFi settings} open
+                xywh {455 90 285 165} box ENGRAVED_FRAME align 5
+              } {
+                Fl_Choice wifi_mode {
+                  label {Mode:} open
+                  xywh {530 100 190 25} down_box BORDER_BOX
+                } {
+                  MenuItem {} {
+                    label Managed
+                    xywh {10 10 100 20}
+                  }
+                  MenuItem {} {
+                    label {ad-hoc}
+                    xywh {10 10 100 20} value 1
+                  }
+                }
+                Fl_Input wifi_wep {
+                  label {WEP key:}
+                  xywh {530 135 190 25}
+                }
+                Fl_Input wifi_ssid {
+                  label {SSID:}
+                  xywh {530 170 190 25}
+                }
               }
-              MenuItem {} {
-                label {ad-hoc}
-                xywh {0 0 100 20} value 1
-              }
-            }
-            Fl_Input wifi_wep {
-              label {WEP key:}
-              xywh {520 150 190 25}
-            }
-            Fl_Input wifi_ssid {
-              label {SSID:}
-              xywh {520 185 190 25}
             }
           }
         }

@@ -126,10 +126,10 @@ void unload_driver_node(Flu_Tree_Browser *tree, int id)
     Flu_Tree_Browser::Node *n;
 
     n = tree->find(id + 1);
+    i = n->id();
     while (n != NULL) {
         file = dir + n->label();
         unlink(file.c_str());
-        i = n->id();
         tree->remove(i);
         i++;
         n = tree->find(i);
@@ -188,7 +188,7 @@ int init_network_tab(GeneratorUI *ui)
         tree->label("No driver loaded");
         tree->animate(true);
         tree->selection_mode(FLU_SINGLE_SELECT);
-        tree->insertion_mode(FLU_INSERT_SORTED);
+        tree->insertion_mode(FLU_INSERT_BACK);
 
         driver_name = search_inf(PATH_BASEISO "/ndiswrapper");
         if (driver_name != "") {

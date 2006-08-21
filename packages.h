@@ -24,5 +24,6 @@ void package_download(GeneratorUI *ui);
 
 int init_packages_tab(GeneratorUI *ui);
 int write_packages_settings(GeneratorUI *ui);
+int is_package_downloaded(Flu_Tree_Browser::Node *n);
 
 #endif

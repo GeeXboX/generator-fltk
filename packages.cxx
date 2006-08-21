@@ -20,6 +20,7 @@
 #include "compile.h"
 #include "config.h"
 #include "curl.h"
+#include "fs.h"
 #include "generator.h"
 #include "packages.h"
 #include "utils.h"
@@ -53,7 +54,10 @@ static void insert_package_node(Flu_Tree_Browser *tree, const char *path, Packag
 
     len = strlen(path);
     if (path[len-1] != '/') {
-	n->widget(new Fl_Check_Button(0, 0, 20, 20));
+        if (!is_package_downloaded(n))
+            n->widget(new Fl_Check_Button(0, 0, 20, 20));
+        else
+            n->deactivate();
     } else if (strchr(path, '/') == &path[len-1]) {
 	n->open(true);
     }
@@ -275,7 +279,10 @@ static void start_package_downloading(GeneratorUI *ui)
 		    break;
 	    }
 	    if (!rc)
-		b->value(0);
+            {
+                n->clear();
+                n->deactivate();
+            }
 	}
     }
 
@@ -420,4 +427,23 @@ void package_download(GeneratorUI *ui)
 	open_licenses_window(ui, count);
     else
 	start_package_downloading(ui);
+}
+
+int is_package_downloaded(Flu_Tree_Browser::Node *n)
+{
+    std::vector<char*>::const_iterator fii;
+    std::string path;
+    Package *p;
+
+    p = (Package*)n->user_data();
+    for(fii=p->file.begin(); fii!=p->file.end(); fii++)
+    {
+        const char *filename = *fii;
+        find_path(n, filename, path);
+        if (path.find(".bz2", path.length()-4))
+            path.resize(path.length()-4);
+        if (!file_exists(path.c_str()))
+            return 0;
+    }
+    return 1;
 }

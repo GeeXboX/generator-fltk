@@ -440,7 +440,7 @@ int is_package_downloaded(Flu_Tree_Browser::Node *n)
     {
         const char *filename = (rii != p->rename.end()) ? *rii++ : *fii;
         find_path(n, filename, path);
-        if (path.find(".bz2", path.length()-4))
+        if (path.find(".bz2", path.length()-4) != std::string::npos)
             path.resize(path.length()-4);
         if (!file_exists(path.c_str()))
             return 0;

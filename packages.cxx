@@ -54,10 +54,7 @@ static void insert_package_node(Flu_Tree_Browser *tree, const char *path, Packag
 
     len = strlen(path);
     if (path[len-1] != '/') {
-        if (!is_package_downloaded(n))
-            n->widget(new Fl_Check_Button(0, 0, 20, 20));
-        else
-            n->deactivate();
+        n->widget(new Fl_Check_Button(0, 0, 20, 20));
     } else if (strchr(path, '/') == &path[len-1]) {
 	n->open(true);
     }
@@ -155,6 +152,20 @@ static void tree_callback(Fl_Widget* w, void* data)
     }
 }
 
+void init_nodes(GeneratorUI *ui)
+{
+    Flu_Tree_Browser::Node *n;
+
+    for (n = ui->package_tree->first_leaf(); n; n = n->next_leaf())
+    {
+        if (is_package_downloaded(n))
+        {
+            n->clear();
+            n->deactivate();
+        }
+    }
+}
+
 int init_packages_tab(GeneratorUI *ui)
 {
     Flu_Tree_Browser *tree = ui->package_tree;
@@ -168,6 +179,7 @@ int init_packages_tab(GeneratorUI *ui)
     tree->callback(tree_callback, ui);
 
     read_packages_file(tree, "packages.ini");
+    init_nodes(ui);
 
     return 1;
 }

@@ -28,44 +28,9 @@
 #include <FL/fl_ask.H> /* fl_alert */
 #include <FL/Fl_File_Chooser.H> /* fl_file_chooser */
 
+#include <string>
+
 #define yes_no(x) ((x) ? "yes" : "no") 
-
-void load_drvwin32(Flu_Tree_Browser *tree)
-{
-    const char *new_driver;
-    Flu_Tree_Browser::Node *n;
-
-    n = tree->get_root();
-    if (n->children() == 0) {
-        new_driver = fl_file_chooser("Choose win32 (Windows XP) driver?", "*.inf", "");
-        if (new_driver) {
-            if (strstr(new_driver, ".inf") != NULL || strstr(new_driver, ".INF") != NULL) {
-                load_driver_node(tree, new_driver, 1);
-                tree->show_root(false);
-                tree->activate();
-            }
-            else
-                fl_alert("You don't have chosen a .inf file!\n");
-        }
-    }
-    else
-        fl_alert("Only one driver can be loaded!\n");
-}
-
-void unload_drvwin32(Flu_Tree_Browser *tree)
-{
-    int parent;
-    Flu_Tree_Browser::Node *n;
-
-    n = tree->get_root();
-    if (n->children() != 0) {
-        n = tree->first_leaf();
-        parent = n->id() - 1;
-        unload_driver_node(tree, parent);
-        tree->deactivate();
-        tree->show_root(true);
-    }
-}
 
 void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
 {
@@ -135,6 +100,43 @@ void unload_driver_node(Flu_Tree_Browser *tree, int id)
         n = tree->find(i);
     }
     tree->remove(id);
+}
+
+void load_drvwin32(Flu_Tree_Browser *tree)
+{
+    const char *new_driver;
+    Flu_Tree_Browser::Node *n;
+
+    n = tree->get_root();
+    if (n->children() == 0) {
+        new_driver = fl_file_chooser("Choose win32 (Windows XP) driver?", "*.inf", "");
+        if (new_driver) {
+            if (strstr(new_driver, ".inf") != NULL || strstr(new_driver, ".INF") != NULL) {
+                load_driver_node(tree, new_driver, 1);
+                tree->show_root(false);
+                tree->activate();
+            }
+            else
+                fl_alert("You don't have chosen a .inf file!\n");
+        }
+    }
+    else
+        fl_alert("Only one driver can be loaded!\n");
+}
+
+void unload_drvwin32(Flu_Tree_Browser *tree)
+{
+    int parent;
+    Flu_Tree_Browser::Node *n;
+
+    n = tree->get_root();
+    if (n->children() != 0) {
+        n = tree->first_leaf();
+        parent = n->id() - 1;
+        unload_driver_node(tree, parent);
+        tree->deactivate();
+        tree->show_root(true);
+    }
 }
 
 /*

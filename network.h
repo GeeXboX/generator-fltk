@@ -18,13 +18,8 @@
 #ifndef network_h
 #define network_h
 
-#include <string>
-
 void load_drvwin32(Flu_Tree_Browser *tree);
 void unload_drvwin32(Flu_Tree_Browser *tree);
-void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy);
-void unload_driver_node(Flu_Tree_Browser *tree, int id);
-std::string search_inf(const char *path);
 int init_network_tab(GeneratorUI *ui);
 int write_network_settings(GeneratorUI *ui);
 

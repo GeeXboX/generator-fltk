@@ -431,14 +431,14 @@ void package_download(GeneratorUI *ui)
 
 int is_package_downloaded(Flu_Tree_Browser::Node *n)
 {
-    std::vector<char*>::const_iterator fii;
+    std::vector<char*>::const_iterator fii, rii;
     std::string path;
     Package *p;
 
     p = (Package*)n->user_data();
-    for(fii=p->file.begin(); fii!=p->file.end(); fii++)
+    for(fii=p->file.begin(), rii=p->rename.begin(); fii!=p->file.end(); fii++)
     {
-        const char *filename = *fii;
+        const char *filename = (rii != p->rename.end()) ? *rii++ : *fii;
         find_path(n, filename, path);
         if (path.find(".bz2", path.length()-4))
             path.resize(path.length()-4);

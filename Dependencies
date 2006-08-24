@@ -39,7 +39,7 @@ network.o: configparser.h fs.h network.h system.h utils.h
 packages.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 packages.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 packages.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
-packages.o: curl.h generator.h packages.h utils.h
+packages.o: curl.h fs.h generator.h packages.h utils.h
 recorder.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 recorder.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 recorder.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h

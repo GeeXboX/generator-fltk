@@ -42,7 +42,7 @@ void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
     struct dirent **files;
     Flu_Tree_Browser::Node *n;
 
-    size = inf.find_last_of("/", inf.length());
+    size = inf.find_last_of("/", inf.length() - 1);
     drivername = inf.substr(size + 1, inf.length() - size - 5) + "/";
     dir = inf.substr(0, size + 1);
 

@@ -47,6 +47,8 @@ class GeneratorUI {open
   }
   decl {enum { WIFI_MODE_MANAGED = 0, WIFI_MODE_ADHOC };} {public
   }
+  decl {enum { HW_NONE = 0, HW_AC3, HW_DTS, HW_AC3DTS };} {public
+  }
   Function {GeneratorUI()} {open
   } {
     Fl_Window mainWindow {
@@ -161,10 +163,27 @@ class GeneratorUI {open
               xywh {10 10 100 20} value 1
             }
           }
-          Fl_Check_Button hwac3 {
+          Fl_Choice hwac3 {
             label {AC3/DTS passthrough}
-            callback {update_tabs_status(this);}
-            xywh {55 205 205 25} down_box DOWN_BOX value 1
+            callback {update_tabs_status(this);} open
+            xywh {200 210 150 25} down_box BORDER_BOX
+          } {
+            MenuItem {} {
+              label {None}
+              xywh {10 10 100 20} value 1
+            }
+            MenuItem {} {
+              label {AC3}
+              xywh {10 10 100 20} value 1
+            }
+            MenuItem {} {
+              label {DTS}
+              xywh {10 10 100 20} value 1
+            }
+            MenuItem {} {
+              label {AC3/DTS}
+              xywh {10 10 100 20} value 1
+            }
           }
            Fl_Choice ac97_spsa {
              label {IEC958 AC97-SPSA Mode:} open

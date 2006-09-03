@@ -88,10 +88,6 @@ void update_tabs_status(GeneratorUI *ui)
     {
     case GeneratorUI::SOUNDCARD_MODE_SPDIF:
 	ui->hwac3->activate();
-	if (ui->hwac3->value())
-	    ui->channels->deactivate();
-	else
-	    ui->channels->activate();
 	ui->ac97_spsa->activate();
 	break;
     case GeneratorUI::SOUNDCARD_MODE_ANALOG:

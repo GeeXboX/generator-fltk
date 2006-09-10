@@ -222,7 +222,7 @@ void cleanup_compile(void)
     cleanup_zisotree();
 }
 
-static const char *find_program(const char *prog)
+const char *find_program(const char *prog)
 {
     char buf[100];
 

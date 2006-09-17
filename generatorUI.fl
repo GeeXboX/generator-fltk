@@ -455,7 +455,7 @@ class GeneratorUI {open
             }
           }
         }
-        Fl_Group recorder {
+        Fl_Group recorder_tab {
           label Recorder open
           xywh {15 25 740 270} hide
         } {
@@ -468,7 +468,7 @@ class GeneratorUI {open
             xywh {180 90 100 25} down_box BORDER_BOX
           } {}
         }
-        Fl_Group lcd {
+        Fl_Group lcd_tab {
           label {LCD Display} open
           xywh {15 25 740 270}
         } {

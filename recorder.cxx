@@ -42,7 +42,7 @@ int init_recorder_tab(GeneratorUI *ui)
 
     config = config_open(PATH_BASEISO "/etc/recorder", 1);
     if (!config) {
-        ui->setting_tabs->remove(ui->recorder);
+        ui->setting_tabs->remove(ui->recorder_tab);
         return 1;
     }
 

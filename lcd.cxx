@@ -39,7 +39,7 @@ int init_lcd_tab(GeneratorUI *ui)
 
     /* only for i386 */
     if (target_arch != TARGET_ARCH_I386) {
-        ui->setting_tabs->remove(ui->lcd);
+        ui->setting_tabs->remove(ui->lcd_tab);
         return 1;
     }
 

@@ -523,6 +523,35 @@ class GeneratorUI {open
                 xywh {640 225 85 30}
               }
             }
+            Fl_Group {} {
+              label {Extra files} open
+              xywh {15 25 740 255} align 2 hide
+            } {
+              Fl_Button {} {
+                label {Add file ...}
+                callback {add_files(extrafiles_tree, this);}
+                xywh {535 45 135 25}
+              }
+              Fl_Button {} {
+                label {Remove selected items ...}
+                callback {remove_nodes(extrafiles_tree, this);}
+                xywh {535 125 195 25}
+              }
+              Fl_Browser extrafiles_tree {
+                xywh {35 45 475 210} box DOWN_BOX align 5
+                code0 {\#include <FLU/Flu_Tree_Browser.h>}
+                class Flu_Tree_Browser
+              }
+              Fl_Button {} {
+                label {Add folder ...}
+                callback {add_folders(extrafiles_tree, this);}
+                xywh {535 75 135 25}
+              }
+              Fl_Output extrafiles_size {
+                label {Total size:}
+                xywh {615 230 115 25} box PLASTIC_UP_BOX
+              }
+            }
           }
         }
       }

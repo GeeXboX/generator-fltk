@@ -12,7 +12,7 @@ compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 compile.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 compile.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h autoplay.h
 compile.o: compile.h config.h dvdnav.h fs.h language.h lcd.h network.h
-compile.o: recorder.h remote.h theme.h system.h video.h
+compile.o: packages.h recorder.h remote.h theme.h system.h video.h
 curl.o: curl.h system.h libmd/md5.h libbz2/bzlib.h
 dvdnav.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 dvdnav.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h

@@ -26,6 +26,7 @@
 #include "language.h"
 #include "lcd.h"
 #include "network.h"
+#include "packages.h"
 #include "recorder.h"
 #include "remote.h"
 #include "theme.h"
@@ -134,7 +135,7 @@ static int compile_isoimage(GeneratorUI *ui)
     switch (target_arch)
     {
     case TARGET_ARCH_I386:
-	mkisofs_arch = "-no-emul-boot -boot-info-table -boot-load-size 4 -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog";
+	mkisofs_arch = "-no-emul-boot -boot-info-table -boot-load-size 4 -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog -f";
 	break;
     case TARGET_ARCH_PPC:
 	mkisofs_arch = "-hfs -part -no-desktop -map maps -hfs-volid GEEXBOX -hfs-bless ziso/GEEXBOX/boot";
@@ -145,6 +146,47 @@ static int compile_isoimage(GeneratorUI *ui)
 
     sprintf(buf, "%s -o \"%s\" -quiet -no-pad -V GEEXBOX -volset GEEXBOX -publisher \"The GeeXboX team (www.geexbox.org)\" -p \"The GeeXboX team (www.geexbox.org)\" -A \"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER\" -z -D -r -J -sort sort %s ziso", path_mkisofs, iso_image, mkisofs_arch);
     return execute_bg_program(buf) == 0;
+}
+
+static void compile_extrafiles(GeneratorUI *ui)
+{
+    char dst[256];
+    char dst_leaf[256], path_leaf[256];
+    Flu_Tree_Browser::Node *n, *n2;
+    Extrafile *e;
+
+    for (n = ui->extrafiles_tree->first(); n; n = n->next()) {
+        e = (Extrafile*)n->user_data();
+        if (e && e->path != NULL && file_exists(e->path)) {
+            if (n->is_branch()) {
+                snprintf(dst, sizeof(dst), "ziso/%s", n->label());
+                my_mkdir(dst);
+                n2 = ui->extrafiles_tree->first_leaf();
+                while (n2) {
+                    if (n->is_descendent(n2)) {
+                        snprintf(dst_leaf, sizeof(dst_leaf), "%s/%s", dst, n2->label());
+                        snprintf(path_leaf, sizeof(path_leaf), "%s/%s", e->path, n2->label());
+                        if (file_exists(path_leaf))
+#ifdef _WIN32
+                            copy_file(path_leaf, dst_leaf);
+#else
+                            symlink(path_leaf, dst_leaf);
+#endif
+                    }
+                    n2 = n2->next_leaf();
+                }
+            }
+            else {
+                snprintf(dst, sizeof(dst), "ziso/%s", n->label());
+                if (file_exists(e->path))
+#ifdef _WIN32
+                    copy_file(e->path, dst);
+#else
+                    symlink(e->path, dst);
+#endif
+            }
+        }
+    }
 }
 
 static int real_compile_iso(GeneratorUI *ui)
@@ -179,10 +221,13 @@ static int real_compile_iso(GeneratorUI *ui)
     update_progress(ui, "Copying boot files...");
     my_mkdir("ziso/GEEXBOX/boot");
     multi_copy("iso/GEEXBOX/boot/", "ziso/GEEXBOX/boot/", "");
-    multi_copy("iso/", "ziso/", "GEEXBOX");
 
     if (!copy_theme_boot_files(ui) || copy_errors > 0)
 	return 0;
+
+    update_progress(ui, "Copying extra files...");
+    compile_extrafiles(ui);
+    multi_copy("iso/", "ziso/", "GEEXBOX");
 
     update_progress(ui, "Compiling iso file...");
     if (!compile_isoimage(ui)) {

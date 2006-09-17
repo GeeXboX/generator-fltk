@@ -18,6 +18,11 @@
 #ifndef packages_h
 #define packages_h
 
+typedef struct {
+    char *path;
+    unsigned int size;
+} Extrafile;
+
 void package_license_agree(GeneratorUI *ui, int);
 void package_license_exit(GeneratorUI *ui);
 void package_download(GeneratorUI *ui);
@@ -25,5 +30,9 @@ void package_download(GeneratorUI *ui);
 int init_packages_tab(GeneratorUI *ui);
 int write_packages_settings(GeneratorUI *ui);
 int is_package_downloaded(Flu_Tree_Browser::Node *n);
+
+void add_files(Flu_Tree_Browser *tree, GeneratorUI *ui);
+void add_folders(Flu_Tree_Browser *tree, GeneratorUI *ui);
+void remove_nodes(Flu_Tree_Browser *tree, GeneratorUI *ui);
 
 #endif

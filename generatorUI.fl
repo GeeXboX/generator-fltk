@@ -494,24 +494,35 @@ class GeneratorUI {open
           label Packages open
           xywh {15 25 740 270}
         } {
-          Fl_Browser package_tree {
-            xywh {35 45 215 180} box DOWN_BOX
-            code0 {\#include <FLU/Flu_Tree_Browser.h>}
-            class Flu_Tree_Browser
-          }
-          Fl_Output package_name {
-            xywh {265 45 460 25} box PLASTIC_UP_BOX align 22
-          }
-          Fl_Output package_desc {
-            xywh {265 75 460 150} type Multiline box PLASTIC_UP_BOX align 24
-          }
-          Fl_Progress package_progress {
-            xywh {35 245 585 30}
-          }
-          Fl_Button package_button {
-            label Download
-            callback {package_download(this);}
-            xywh {640 245 85 30}
+          Fl_Tabs {} {open
+            xywh {15 25 740 270} box NO_BOX align 2
+            code0 {\#include <FL/Fl_Gel_Tabs.H>}
+            class Fl_Gel_Tabs
+          } {
+            Fl_Group {} {
+              label {Official packages} open
+              xywh {15 25 740 255} align 2
+            } {
+              Fl_Browser package_tree {
+                xywh {35 45 215 170} box DOWN_BOX
+                code0 {\#include <FLU/Flu_Tree_Browser.h>}
+                class Flu_Tree_Browser
+              }
+              Fl_Output package_name {
+                xywh {265 45 460 25} box PLASTIC_UP_BOX align 22
+              }
+              Fl_Output package_desc {
+                xywh {265 75 460 140} type Multiline box PLASTIC_UP_BOX align 24
+              }
+              Fl_Progress package_progress {
+                xywh {35 225 585 30}
+              }
+              Fl_Button package_button {
+                label Download
+                callback {package_download(this);}
+                xywh {640 225 85 30}
+              }
+            }
           }
         }
       }

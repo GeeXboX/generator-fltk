@@ -34,7 +34,7 @@
 
 const char *path_ndiswrapper;
 
-void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
+static void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
 {
     char buf[512];
     std::string src, dst, dir;
@@ -67,7 +67,7 @@ void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
         fl_alert("This driver is already loaded!\n");
 }
 
-void unload_driver_node(Flu_Tree_Browser *tree, Flu_Tree_Browser::Node *n)
+static void unload_driver_node(Flu_Tree_Browser *tree, Flu_Tree_Browser::Node *n)
 {
     multi_delete(PATH_BASEISO "/ndiswrapper/", NULL, NULL, 1);
     tree->remove(n);
@@ -104,7 +104,7 @@ void unload_drvwin32(Flu_Tree_Browser *tree)
     }
 }
 
-std::string search_driver(const char *path)
+static std::string search_driver(const char *path)
 {
     const char *fname;
     int i, num_files;

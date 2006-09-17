@@ -135,7 +135,7 @@ static int compile_isoimage(GeneratorUI *ui)
     switch (target_arch)
     {
     case TARGET_ARCH_I386:
-	mkisofs_arch = "-no-emul-boot -boot-info-table -boot-load-size 4 -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog -f";
+	mkisofs_arch = "-no-emul-boot -boot-info-table -boot-load-size 4 -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog";
 	break;
     case TARGET_ARCH_PPC:
 	mkisofs_arch = "-hfs -part -no-desktop -map maps -hfs-volid GEEXBOX -hfs-bless ziso/GEEXBOX/boot";
@@ -144,7 +144,7 @@ static int compile_isoimage(GeneratorUI *ui)
 
     sprintf(iso_image, "geexbox-%s-%s.%s.iso", geexbox_version, ((struct lang_info*)ui->menu_lang->mvalue()->user_data())->shortname, get_target_arch_string());
 
-    sprintf(buf, "%s -o \"%s\" -quiet -no-pad -V GEEXBOX -volset GEEXBOX -publisher \"The GeeXboX team (www.geexbox.org)\" -p \"The GeeXboX team (www.geexbox.org)\" -A \"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER\" -z -D -r -J -sort sort %s ziso", path_mkisofs, iso_image, mkisofs_arch);
+    sprintf(buf, "%s -o \"%s\" -quiet -no-pad -V GEEXBOX -volset GEEXBOX -publisher \"The GeeXboX team (www.geexbox.org)\" -p \"The GeeXboX team (www.geexbox.org)\" -A \"MKISOFS ISO 9660/HFS FILESYSTEM BUILDER\" -z -D -r -J -sort sort -f %s ziso", path_mkisofs, iso_image, mkisofs_arch);
     return execute_bg_program(buf) == 0;
 }
 

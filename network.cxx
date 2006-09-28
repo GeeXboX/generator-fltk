@@ -39,7 +39,7 @@ static void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
     char buf[512];
     std::string src, dst, dir;
     std::string drivername, filename;
-    std::string dst_dir = PATH_BASEISO "/ndiswrapper";
+    std::string dst_dir = PATH_BASEISO "/etc/ndiswrapper";
     int size;
     Flu_Tree_Browser::Node *n;
 
@@ -69,7 +69,7 @@ static void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
 
 static void unload_driver_node(Flu_Tree_Browser *tree, Flu_Tree_Browser::Node *n)
 {
-    multi_delete(PATH_BASEISO "/ndiswrapper/", NULL, NULL, 1);
+    multi_delete(PATH_BASEISO "/etc/ndiswrapper/", NULL, NULL, 1);
     tree->remove(n);
     Fl::redraw();
 }

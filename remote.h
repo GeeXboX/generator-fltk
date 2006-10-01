@@ -19,6 +19,6 @@
 #define remote_h
 
 int init_remote_tab(GeneratorUI *ui);
-int copy_remote_files(GeneratorUI *ui);
+int write_remote_settings(GeneratorUI *ui);
 
 #endif

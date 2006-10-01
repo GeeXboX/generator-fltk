@@ -18,12 +18,11 @@
 #include "generatorUI.h"
 
 #include "config.h"
+#include "configparser.h"
+#include "compile.h"
 #include "fs.h"
 #include "remote.h"
 
-#include <sys/types.h>
-#include <string.h> /* strcmp, strncmp, strlen */
-#include <stdio.h> /* sprintf */
 #include <stdlib.h> /* free */
 
 #include <FL/fl_ask.H> /* fl_alert */
@@ -31,12 +30,13 @@
 
 int init_remote_tab(GeneratorUI *ui)
 {
+    char remote[256], receiver[256];
     const char *fname;
     int num_files, i;
     struct dirent **files;
     const Fl_Menu_Item *m;
 
-    if ((num_files = fl_filename_list("lirc/", &files, NULL)) > 0)
+    if ((num_files = fl_filename_list(PATH_BASEISO "/etc/lirc/", &files, NULL)) > 0)
     {
 	for (i = 0; i < num_files; i++)
 	{
@@ -56,12 +56,46 @@ int init_remote_tab(GeneratorUI *ui)
 	return 0;
     }
 
-    if ((m = ui->lirc_receiver->find_item("atiusb")))
+    if (target_arch == TARGET_ARCH_I386) {
+        config_t *config;
+
+        config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
+        if (!config) {
+            fl_alert("Missing isolinux configuration files.\n");
+            return 0;
+        }
+
+        config_getvar(config, "receiver", receiver, sizeof(receiver));
+        config_getvar(config, "remote", remote, sizeof(remote));
+
+        config_destroy(config);
+    }
+    else if (target_arch == TARGET_ARCH_PPC)
+    {
+        config_t *config;
+
+        config = config_open(PATH_BASEISO "/boot/yaboot.conf", 0);
+        if (!config) {
+            fl_alert("Missing yaboot configuration files.\n");
+            return 0;
+        }
+
+        config_getvar(config, "receiver", receiver, sizeof(receiver));
+        config_getvar(config, "remote", remote, sizeof(remote));
+
+        config_destroy(config);
+    }
+
+    if ((m = ui->lirc_receiver->find_item(receiver)))
+	ui->lirc_receiver->value(m);
+    else if ((m = ui->lirc_receiver->find_item("atiusb")))
 	ui->lirc_receiver->value(m);
     else
 	ui->lirc_receiver->value(0);
 
-    if ((m = ui->lirc_remote->find_item("atiusb")))
+    if ((m = ui->lirc_remote->find_item(remote)))
+	ui->lirc_remote->value(m);
+    else if ((m = ui->lirc_remote->find_item("atiusb")))
 	ui->lirc_remote->value(m);
     else
 	ui->lirc_remote->value(0);
@@ -69,35 +103,50 @@ int init_remote_tab(GeneratorUI *ui)
     return 1;
 }
 
-int copy_remote_files(GeneratorUI *ui)
+int write_remote_settings(GeneratorUI *ui)
 {
-    char buf[256], buf2[256];
-    const char *remote, *receiver;
+    if (target_arch == TARGET_ARCH_I386) {
+        config_t *config, *config2;
 
-    if (!ui->lirc_remote->mvalue()) {
-	fl_alert("Please pick remote controler.\n");
-	return 0;
+        config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
+        config2 = config_open(PATH_BASEISO "/boot/pxelinux.cfg/default", 0);
+        if (!config || !config2) {
+            fl_alert("Failed to open for write isolinux configuration.\n");
+            return 0;
+        }
+
+        config_setvar(config, "receiver", ui->lirc_receiver->mvalue()->label());
+        config_setvar(config2, "receiver", ui->lirc_receiver->mvalue()->label());
+        config_setvar(config, "remote", ui->lirc_remote->mvalue()->label());
+        config_setvar(config2, "remote", ui->lirc_remote->mvalue()->label());
+
+        config_write(config, PATH_BASEISO "/boot/isolinux.cfg");
+        config_write(config2, PATH_BASEISO "/boot/pxelinux.cfg/default");
+        config_destroy(config);
+        config_destroy(config2);
     }
+    else if (target_arch == TARGET_ARCH_PPC)
+    {
+        config_t *config, *config2;
 
-    if (!ui->lirc_receiver->mvalue()) {
-	fl_alert("Please pick remote receiver.\n");
-	return 0;
+        config = config_open(PATH_BASEISO "/boot/yaboot.conf", 0);
+        config2 = config_open(PATH_BASEISO "/boot/netboot/yaboot.conf", 0);
+        if (!config || !config2) {
+            fl_alert("Failed to open for write yaboot configuration.\n");
+            return 0;
+        }
+
+        config_setvar(config, "receiver", ui->lirc_receiver->mvalue()->label());
+        config_setvar(config2, "receiver", ui->lirc_receiver->mvalue()->label());
+        config_setvar(config, "remote", ui->lirc_remote->mvalue()->label());
+        config_setvar(config2, "remote", ui->lirc_remote->mvalue()->label());
+
+        config_write(config, PATH_BASEISO "/boot/yaboot.conf");
+        config_write(config2, PATH_BASEISO "/boot/netboot/yaboot.conf");
+        config_destroy(config);
+        config_destroy(config2);
     }
-
-    remote = ui->lirc_remote->mvalue()->label();
-    receiver = ui->lirc_receiver->mvalue()->label();
-
-    sprintf(buf, "lirc/lircrc_%s", remote);
-    sprintf(buf2, PATH_BASEISO "/etc/lircrc");
-    copy_file(buf, buf2);
-
-    sprintf(buf, "lirc/lircd_%s", receiver);
-    sprintf(buf2, PATH_BASEISO "/etc/lircd");
-    copy_file(buf, buf2);
-
-    sprintf(buf, "lirc/lircd_%s.conf", remote);
-    sprintf(buf2, PATH_BASEISO "/etc/lircd.conf");
-    copy_file(buf, buf2);
 
     return 1;
 }
+

@@ -161,7 +161,7 @@ int init_network_tab(GeneratorUI *ui)
         tree->selection_mode(FLU_SINGLE_SELECT);
         tree->insertion_mode(FLU_INSERT_BACK);
 
-        driver_name = search_driver(PATH_BASEISO "/ndiswrapper");
+        driver_name = search_driver(PATH_BASEISO "/etc/ndiswrapper");
         if (driver_name != "") {
             inf = PATH_BASEISO "/ndiswrapper/" + driver_name + "/" + driver_name + ".inf";
             load_driver_node(tree, inf.c_str(), 0);

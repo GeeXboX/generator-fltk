@@ -46,8 +46,8 @@ recorder.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
 recorder.o: configparser.h fs.h recorder.h system.h utils.h
 remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 remote.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
-remote.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h fs.h
-remote.o: remote.h
+remote.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
+remote.o: configparser.h compile.h fs.h remote.h
 theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 theme.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 theme.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h

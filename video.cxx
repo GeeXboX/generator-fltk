@@ -131,15 +131,18 @@ int write_video_settings(GeneratorUI *ui)
     int vgamode;
 
     if (target_arch == TARGET_ARCH_I386) {
-        config_t *config;
+        config_t *config, *config2;
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
-        if (!config) {
+        config2 = config_open(PATH_BASEISO "/boot/pxelinux.cfg/default", 0);
+        if (!config || !config2) {
             fl_alert("Failed to open for write isolinux configuration.\n");
             return 0;
         }
 
         config_setvar_location(config, "splash", 1,
+				    ui->video_splash->value() ? "silent" : "0");
+        config_setvar_location(config2, "splash", 1,
 				    ui->video_splash->value() ? "silent" : "0");
 
         depth = ui->vesa_depth->value();
@@ -166,25 +169,33 @@ int write_video_settings(GeneratorUI *ui)
         vgamode = res + depth;
 
         config_setvar_int(config, "vga", vgamode);
+        config_setvar_int(config2, "vga", vgamode);
 
         config_write(config, PATH_BASEISO "/boot/isolinux.cfg");
+        config_write(config, PATH_BASEISO "/boot/pxelinux.cfg/default");
         config_destroy(config);
+        config_destroy(config2);
     }
     else if (target_arch == TARGET_ARCH_PPC)
     {
-        config_t *config;
+        config_t *config, *config2;
 
         config = config_open(PATH_BASEISO "/boot/yaboot.conf", 0);
-        if (!config) {
+        config2 = config_open(PATH_BASEISO "/boot/netboot/yaboot.conf", 0);
+        if (!config || !config2) {
             fl_alert("Failed to open for write yaboot configuration.\n");
             return 0;
         }
 
         config_setvar_location(config, "splash", 1,
 				    ui->video_splash->value() ? "silent" : "0");
+        config_setvar_location(config2, "splash", 1,
+				    ui->video_splash->value() ? "silent" : "0");
 
         config_write(config, PATH_BASEISO "/boot/yaboot.conf");
+        config_write(config2, PATH_BASEISO "/boot/netboot/yaboot.conf");
         config_destroy(config);
+        config_destroy(config2);
     }
 
     return 1;

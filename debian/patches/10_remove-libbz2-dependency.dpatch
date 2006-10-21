@@ -1,0 +1,34 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 10_remove-libbz2-dependency.dpatch by Alexis Saettler <alexis@saettler.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad geexbox-generator-1.0~/Makefile geexbox-generator-1.0/Makefile
+--- geexbox-generator-1.0~/Makefile	2006-09-19 21:25:09.000000000 +0200
++++ geexbox-generator-1.0/Makefile	2006-09-20 20:17:14.000000000 +0200
+@@ -5,7 +5,6 @@
+ SRCS_CXX+=Fl_Gel_Tabs/Fl_Gel_Tabs.cxx 
+ SRCS_CXX+=FLU/Flu_Tree_Browser.cxx FLU/FluSimpleString.cxx FLU/flu_pixmaps.cxx
+ SRCS_C+=libmd/md5c.c libmd/md5hl.c
+-SRCS_C+=libbz2/bzlib.c libbz2/crctable.c libbz2/decompress.c libbz2/huffman.c libbz2/randtable.c
+ FLSRCS=generatorUI.fl
+ 
+ FLTKCONFIG?=fltk-config
+@@ -20,7 +19,6 @@
+ INCFLAGS+=-IFl_Gel_Tabs
+ INCFLAGS+=-IFLU
+ INCFLAGS+=-Ilibmd
+-INCFLAGS+=-Ilibbz2
+ 
+ CC?=gcc
+ CXX?=g++
+@@ -28,6 +26,7 @@
+ #LDFLAGS+=-static
+ LDFLAGS+=$(FLTKLDFLAGS)
+ LDFLAGS+=$(CURLLDFLAGS)
++LDFLAGS+=-lbz2
+ CXXFLAGS+=-Wall -Wno-strict-aliasing -Werror $(INCFLAGS)
+ CXXFLAGS+=$(FLTKCXXFLAGS)
+ CXXFLAGS+=$(CURLCFLAGS)

@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+## debian/rules file, using cdbs
+
+## cdbs support
+include /usr/share/cdbs/1/rules/debhelper.mk
+#include /usr/share/cdbs/1/rules/simple-patchsys.mk
+
+include /usr/share/cdbs/1/rules/dpatch.mk
+## needed to use the dpatch tools (like dpatch-edit-patch)
+include /usr/share/dpatch/dpatch.make
+
+
+##--------------
+## common target
+##--------------
+debian/%.1:: debian/%.sgml
+	/usr/bin/docbook-to-man $< > $@
+
+##------------------
+## geexbox-generator
+##------------------
+MANPAGES := $(patsubst %.sgml,%.1,$(wildcard debian/*.sgml))
+DEB_INSTALL_MANPAGES_geexbox-generator := $(MANPAGES)
+DEB_INSTALL_DIRS_geexbox-generator := /usr/bin
+DEB_INSTALL_DIRS_geexbox-generator += /usr/share/geexbox-generator
+DEB_INSTALL_DIRS_geexbox-generator += /usr/share/pixmaps
+build/geexbox-generator:: $(MANPAGES)
+	$(MAKE)
+install/geexbox-generator::
+	install -m 755 $(CURDIR)/generator \
+		$(CURDIR)/debian/$(cdbs_curpkg)/usr/bin/$(cdbs_curpkg)
+	install -m 755 $(CURDIR)/debian/geexbox-generator.sh \
+		$(CURDIR)/debian/$(cdbs_curpkg)/usr/share/$(cdbs_curpkg)/
+	install -m 755 $(CURDIR)/debian/$(cdbs_curpkg).xpm \
+		$(CURDIR)/debian/$(cdbs_curpkg)/usr/share/pixmaps
+
+cleanbuilddir/geexbox-generator::
+	$(MAKE) clean
+	-$(RM) $(MANPAGES)

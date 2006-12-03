@@ -45,7 +45,7 @@ my_progress_func(void *data, double dltot, double dlnow, double ultotal, double 
 
     if (dltot > 0)
     {
-	prog->value(dlnow*100.0/dltot + (int)prog->user_data());
+	prog->value(dlnow*100.0/dltot + *((int*) prog->user_data()));
 	Fl::check();
     }
 

@@ -294,9 +294,9 @@ static void start_package_downloading(GeneratorUI *ui)
 		rc = download_file(ui->package_button, ui->package_progress, url.c_str(), (char*)path.c_str(), md5);
 		if (!rc)
 		{
-		    int t = (int)ui->package_progress->user_data() + 100;
+		    int t = *((int*) ui->package_progress->user_data()) + 100;
 		    ui->package_progress->value(t);
-    	    	    ui->package_progress->user_data((void*)t);
+    	    	    ui->package_progress->user_data(&t);
 		} else
 		    break;
 	    }
@@ -392,10 +392,10 @@ static void process_package_license(GeneratorUI *ui, Flu_Tree_Browser::Node *n)
 	ui->license_disagree_button->label("Next");
     }
 
-    int c = (int)ui->license_progress->user_data() + 100;
+    int c = *((int*)ui->license_progress->user_data()) + 100;
 
     ui->license_progress->value(c);
-    ui->license_progress->user_data((void*)c);
+    ui->license_progress->user_data(&c);
 }
 
 void package_license_agree(GeneratorUI *ui, int agree)

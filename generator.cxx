@@ -26,7 +26,6 @@
 #include "lcd.h"
 #include "network.h"
 #include "packages.h"
-#include "recorder.h"
 #include "remote.h"
 #include "theme.h"
 #include "video.h"
@@ -144,7 +143,6 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_video_tab(ui)
 	&& init_remote_tab(ui)
 	&& init_network_tab(ui)
-	&& init_recorder_tab(ui)
 	&& init_lcd_tab(ui)
 	&& init_theme_tab(ui)
 	&& init_curl()

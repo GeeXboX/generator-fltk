@@ -27,7 +27,6 @@
 #include "lcd.h"
 #include "network.h"
 #include "packages.h"
-#include "recorder.h"
 #include "remote.h"
 #include "theme.h"
 #include "system.h"
@@ -83,7 +82,6 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Writing audio settings...", write_audio_settings },
       { "Writing video settings...", write_video_settings },
       { "Writing network settings...", write_network_settings },
-      { "Writing recorder settings...", write_recorder_settings },
       { "Writing lcd display settings...", write_lcd_settings },
     };
     unsigned int i;

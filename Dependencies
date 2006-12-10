@@ -12,7 +12,7 @@ compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 compile.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 compile.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h autoplay.h
 compile.o: compile.h config.h dvdnav.h fs.h language.h lcd.h network.h
-compile.o: packages.h recorder.h remote.h theme.h system.h video.h
+compile.o: packages.h remote.h theme.h system.h video.h
 curl.o: curl.h system.h libmd/md5.h libbz2/bzlib.h
 dvdnav.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 dvdnav.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
@@ -23,7 +23,7 @@ generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generator.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generator.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h
 generator.o: autoplay.h compile.h curl.h dvdnav.h language.h lcd.h network.h
-generator.o: packages.h recorder.h remote.h theme.h video.h
+generator.o: packages.h remote.h theme.h video.h
 language.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 language.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 language.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
@@ -40,10 +40,6 @@ packages.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 packages.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 packages.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
 packages.o: curl.h fs.h generator.h packages.h utils.h
-recorder.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
-recorder.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
-recorder.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
-recorder.o: configparser.h fs.h recorder.h system.h utils.h
 remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 remote.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 remote.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h

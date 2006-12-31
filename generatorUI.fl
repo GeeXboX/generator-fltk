@@ -107,21 +107,25 @@ class GeneratorUI {open
           }
           Fl_Group {} {
             label {DVD playback method:} open
-            xywh {495 65 215 80} align 5
+            xywh {495 65 215 70} align 5
           } {
             Fl_Round_Button dvdnav_direct {
               label {Direct playback}
-              xywh {510 80 175 25} type Radio down_box ROUND_DOWN_BOX
+              xywh {510 75 175 25} type Radio down_box ROUND_DOWN_BOX
             }
             Fl_Round_Button dvdnav_menu {
               label {DVD navigation menu}
-              xywh {510 105 175 25} type Radio down_box ROUND_DOWN_BOX
+              xywh {510 100 175 25} type Radio down_box ROUND_DOWN_BOX
             }
           }
           Fl_Check_Button media_autoplay {
             label {Autoplay inserted media}
-            xywh {495 165 200 25} down_box DOWN_BOX
+            xywh {495 145 200 25} down_box DOWN_BOX
           }
+          Fl_Choice keymap {
+            label {Keyboard map:} open
+            xywh {600 195 100 25} down_box BORDER_BOX
+          } {}
         }
         Fl_Group {} {
           label {Audio} open

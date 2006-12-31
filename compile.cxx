@@ -23,6 +23,7 @@
 #include "config.h"
 #include "dvdnav.h"
 #include "fs.h"
+#include "keymap.h"
 #include "language.h"
 #include "lcd.h"
 #include "network.h"
@@ -79,6 +80,7 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Writing remote settings...", write_remote_settings },
       { "Writing DVD navigation settings...", write_dvdnav_settings },
       { "Writing autoplay settings...", write_autoplay_settings },
+      { "Writing keymap settings...", write_keymap_settings },
       { "Writing audio settings...", write_audio_settings },
       { "Writing video settings...", write_video_settings },
       { "Writing network settings...", write_network_settings },

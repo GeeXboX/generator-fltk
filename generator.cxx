@@ -22,6 +22,7 @@
 #include "compile.h"
 #include "curl.h"
 #include "dvdnav.h"
+#include "keymap.h"
 #include "language.h"
 #include "lcd.h"
 #include "network.h"
@@ -139,6 +140,7 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_language_tab(ui)
 	&& init_autoplay_tab(ui)
 	&& init_dvdnav_tab(ui)
+	&& init_keymap_tab(ui)
 	&& init_audio_tab(ui)
 	&& init_video_tab(ui)
 	&& init_remote_tab(ui)

@@ -13,5 +13,5 @@ done
 rm -rf "$DIR"
 mkdir -p "$DIR"
 cp -pPR *.c *.cxx *.h *.fl linux-i386-generator macosx-generator generator.exe Dependencies Makefile Fl_Gel_Tabs FLU libmd libbz2 "$DIR"
-find "$DIR" \( -name .arch-ids -or -name '*.o' \) -exec rm -rf '{}' \; 2>/dev/null
+find "$DIR" \( -name '*.o' \) -exec rm -rf '{}' \; 2>/dev/null
 tar -czf "$DIR.tar.gz" "$DIR"

@@ -1,6 +1,7 @@
 #!/bin/sh
 
-DIR="`tla pristines | tail -1 | cut -f 2 -d /`"
+REV=`hg tip --template={rev}`
+DIR="generator-fltk-r$REV"
 
 for i in generator.exe linux-i386-generator macosx-generator generatorUI.cxx generatorUI.h; do
   if [ ! -f "$i" ]; then

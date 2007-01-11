@@ -35,7 +35,7 @@ int init_keymap_tab(GeneratorUI *ui)
     struct dirent **files;
     const Fl_Menu_Item *m;
 
-    ui->keymap->add("querty");
+    ui->keymap->add("qwerty");
     if ((num_files = fl_filename_list(PATH_BASEISO "/etc/keymaps/", &files, NULL)) > 0)
     {
         for (i = 0; i < num_files; i++)
@@ -80,7 +80,7 @@ int init_keymap_tab(GeneratorUI *ui)
 
     if ((m = ui->keymap->find_item(keymap)))
         ui->keymap->value(m);
-    else if ((m = ui->keymap->find_item("querty")))
+    else if ((m = ui->keymap->find_item("qwerty")))
         ui->keymap->value(m);
     else
         ui->keymap->value(0);

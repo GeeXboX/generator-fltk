@@ -86,7 +86,7 @@ void load_drvwin32(Flu_Tree_Browser *tree)
             if (strstr(new_driver, ".inf") != NULL || strstr(new_driver, ".INF") != NULL)
                 load_driver_node(tree, new_driver, 1);
             else
-                fl_alert("You don't have chosen a .inf file!\n");
+                fl_alert("You haven't chosen a .inf file!\n");
         }
     }
     else

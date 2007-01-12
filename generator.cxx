@@ -108,6 +108,22 @@ void update_tabs_status(GeneratorUI *ui)
 	break;
     }
 
+    switch (ui->wifi_enc->value())
+    {
+    case GeneratorUI::WIFI_ENC_WPA:
+	ui->wifi_key->activate();
+	ui->wpa_drv->activate();
+	break;
+    case GeneratorUI::WIFI_ENC_WEP:
+	ui->wifi_key->activate();
+	ui->wpa_drv->deactivate();
+	break;
+    case GeneratorUI::WIFI_ENC_NONE:
+	ui->wifi_key->deactivate();
+	ui->wpa_drv->deactivate();
+	break;
+    }
+
     switch (ui->network_conf->value())
     {
     case GeneratorUI::NETWORK_CONF_MANUAL:

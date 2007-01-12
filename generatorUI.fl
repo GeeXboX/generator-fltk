@@ -49,6 +49,10 @@ class GeneratorUI {open
   }
   decl {enum { HW_NONE = 0, HW_AC3, HW_DTS, HW_AC3DTS };} {public
   }
+  decl {enum { WIFI_ENC_NONE = 0, WIFI_ENC_WEP, WIFI_ENC_WPA };} {public
+  }
+  decl {enum { WPA_DRV_WEXT = 0, WPA_DRV_NDISWRAPPER, WPA_DRV_IPW, WPA_DRV_ATMEL, WPA_DRV_DEFAULT };} {public
+  }
   Function {GeneratorUI()} {open
   } {
     Fl_Window mainWindow {
@@ -304,12 +308,12 @@ class GeneratorUI {open
               }
               Fl_Group {} {
                 label {Connection Settings} open
-                xywh {30 90 390 165} box ENGRAVED_FRAME align 5
+                xywh {25 90 395 165} box ENGRAVED_FRAME align 5
               } {
                 Fl_Choice network_conf {
                   label {Configuration:}
                   callback {update_tabs_status(this);} open
-                  xywh {170 100 230 25} down_box BORDER_BOX
+                  xywh {165 100 230 25} down_box BORDER_BOX
                 } {
                   MenuItem {} {
                     label Manual
@@ -322,28 +326,28 @@ class GeneratorUI {open
                 }
                 Fl_Input network_ip {
                   label {IP address:}
-                  xywh {170 130 230 25}
+                  xywh {165 130 230 25}
                 }
                 Fl_Input network_subnet {
                   label {Subnet mask:}
-                  xywh {170 160 230 25}
+                  xywh {165 160 230 25}
                 }
                 Fl_Input network_gateway {
                   label {Gateway address:}
-                  xywh {170 190 230 25}
+                  xywh {165 190 230 25}
                 }
                 Fl_Input network_dns {
                   label {DNS Server:}
-                  xywh {170 220 230 25}
+                  xywh {165 220 230 25}
                 }
               }
               Fl_Group wifi_settings {
                 label {WiFi settings} open
-                xywh {455 90 285 165} box ENGRAVED_FRAME align 5
+                xywh {430 90 315 165} box ENGRAVED_FRAME align 5
               } {
                 Fl_Choice wifi_mode {
                   label {Mode:} open
-                  xywh {530 100 190 25} down_box BORDER_BOX
+                  xywh {545 100 190 25} down_box BORDER_BOX
                 } {
                   MenuItem {} {
                     label Managed
@@ -354,13 +358,52 @@ class GeneratorUI {open
                     xywh {10 10 100 20} value 1
                   }
                 }
-                Fl_Input wifi_wep {
-                  label {WEP key:}
-                  xywh {530 135 190 25}
+                Fl_Input wifi_key {
+                  label {WEP/WPA key:}
+                  xywh {545 190 190 25}
                 }
                 Fl_Input wifi_ssid {
                   label {SSID:}
-                  xywh {530 170 190 25}
+                  xywh {545 130 190 25}
+                }
+                Fl_Choice wifi_enc {
+                  label {WiFi encrypt:}
+                  callback {update_tabs_status(this);} open
+                  xywh {545 160 190 25} down_box BORDER_BOX
+                } {
+                  MenuItem {} {
+                    label None
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label WEP
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label WPA
+                    xywh {0 0 34 21}
+                  }
+                }
+                Fl_Choice wpa_drv {
+                  label {WPA driver:} open
+                  xywh {545 220 190 25} down_box BORDER_BOX
+                } {
+                  MenuItem {} {
+                    label wext
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label ndiswrapper
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label ipw
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label atmel
+                    xywh {0 0 34 21}
+                  }
                 }
               }
             }

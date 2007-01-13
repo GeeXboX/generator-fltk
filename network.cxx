@@ -196,15 +196,9 @@ int init_network_tab(GeneratorUI *ui)
     ui->wifi_ssid->value(buf);
 
     config_getvar(config, "WPA_DRV", buf, sizeof(buf));
-    ui->wpa_drv->value(!my_strcasecmp(buf, "wext") ? 
-				GeneratorUI::WPA_DRV_WEXT :
-                !my_strcasecmp(buf, "ndiswrapper") ?
-				GeneratorUI::WPA_DRV_NDISWRAPPER :
-                !my_strcasecmp(buf, "ipw") ?
-				GeneratorUI::WPA_DRV_IPW :
-                !my_strcasecmp(buf, "atmel") ?
+    ui->wpa_drv->value(!my_strcasecmp(buf, "atmel") ? 
 				GeneratorUI::WPA_DRV_ATMEL :
-				GeneratorUI::WPA_DRV_DEFAULT );
+				GeneratorUI::WPA_DRV_WEXT );
 
     config_getvar(config, "GATEWAY", buf, sizeof(buf));
     ui->network_gateway->value(buf);
@@ -302,15 +296,8 @@ int write_network_settings(GeneratorUI *ui)
     config_setvar(config, "WIFI_KEY", ui->wifi_key->value());
     config_setvar(config, "WIFI_ESSID", ui->wifi_ssid->value());
     config_setvar(config, "WPA_DRV",
-		(ui->wpa_drv->value() == GeneratorUI::WPA_DRV_WEXT)
-		    ? "wext" : 
-		(ui->wpa_drv->value() == GeneratorUI::WPA_DRV_NDISWRAPPER)
-		    ? "ndiswrapper" : 
-		(ui->wpa_drv->value() == GeneratorUI::WPA_DRV_IPW)
-		    ? "ipw" : 
 		(ui->wpa_drv->value() == GeneratorUI::WPA_DRV_ATMEL)
-		    ? "atmel" : 
-            "wext");
+		    ? "atmel" : "wext" );
 
     manual = (ui->network_conf->value() == GeneratorUI::NETWORK_CONF_MANUAL);
     config_setvar(config, "HOST", manual ? ui->network_ip->value() : "");

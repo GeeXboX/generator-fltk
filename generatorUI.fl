@@ -51,7 +51,7 @@ class GeneratorUI {open
   }
   decl {enum { WIFI_ENC_NONE = 0, WIFI_ENC_WEP, WIFI_ENC_WPA };} {public
   }
-  decl {enum { WPA_DRV_WEXT = 0, WPA_DRV_NDISWRAPPER, WPA_DRV_IPW, WPA_DRV_ATMEL, WPA_DRV_DEFAULT };} {public
+  decl {enum { WPA_DRV_WEXT = 0, WPA_DRV_ATMEL };} {public
   }
   Function {GeneratorUI()} {open
   } {
@@ -390,14 +390,6 @@ class GeneratorUI {open
                 } {
                   MenuItem {} {
                     label wext
-                    xywh {0 0 34 21}
-                  }
-                  MenuItem {} {
-                    label ndiswrapper
-                    xywh {0 0 34 21}
-                  }
-                  MenuItem {} {
-                    label ipw
                     xywh {0 0 34 21}
                   }
                   MenuItem {} {

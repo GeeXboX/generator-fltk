@@ -250,6 +250,7 @@ static void start_package_downloading(GeneratorUI *ui)
     Package *p;
     std::string url, path, label;
     int rc;
+    int pp_data = 0;
 
     rc = 0;
     for (n = ui->package_tree->first_leaf(); n; n = n->next_leaf())
@@ -265,7 +266,7 @@ static void start_package_downloading(GeneratorUI *ui)
     ui->package_progress->minimum(0);
     ui->package_progress->maximum(rc*100);
     ui->package_progress->value(0);
-    ui->package_progress->user_data((void*)0);
+    ui->package_progress->user_data(&pp_data);
     ui->package_progress->label("");
 
     ui->package_tree->deactivate();
@@ -414,13 +415,14 @@ void package_license_agree(GeneratorUI *ui, int agree)
 void open_licenses_window(GeneratorUI *ui, int count)
 {
     Flu_Tree_Browser::Node *n;
+    int lp_data = 0;
 
     if (!ui->license_window) ui->make_license_window();
 
     ui->license_progress->minimum(0);
     ui->license_progress->maximum(count*100);
     ui->license_progress->value(0);
-    ui->license_progress->user_data((void*)0);
+    ui->license_progress->user_data(&lp_data);
 
     ui->license_window->show();
 

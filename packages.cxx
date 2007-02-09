@@ -393,7 +393,8 @@ static void process_package_license(GeneratorUI *ui, Flu_Tree_Browser::Node *n)
 	ui->license_disagree_button->label("Next");
     }
 
-    int c = *((int*)ui->license_progress->user_data()) + 100;
+    static int c;
+    c = *((int*)ui->license_progress->user_data()) + 100;
 
     ui->license_progress->value(c);
     ui->license_progress->user_data(&c);

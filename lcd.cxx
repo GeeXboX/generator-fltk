@@ -38,15 +38,10 @@ int init_lcd_tab(GeneratorUI *ui)
     const char *model = "Display ";
 
     /* only for i386 */
-    if (target_arch != TARGET_ARCH_I386) {
+    config = config_open(PATH_BASEISO "/etc/lcddisplay", 1);
+    if (target_arch != TARGET_ARCH_I386 || !config) {
         ui->setting_tabs->remove(ui->lcd_tab);
         return 1;
-    }
-
-    config = config_open(PATH_BASEISO "/etc/lcddisplay", 1);
-    if (!config) {
-        fl_alert("Missing lcddisplay configuration files.\n");
-        return 0;
     }
 
     config_getvar(config, "LCD_ENABLED", buf, sizeof(buf));
@@ -94,14 +89,9 @@ int write_lcd_settings(GeneratorUI *ui)
     config_t *config;
 
     /* only for i386 */
-    if (target_arch != TARGET_ARCH_I386) {
-        return 1;
-    }
-
     config = config_open(PATH_BASEISO "/etc/lcddisplay", 1);
-    if (!config) {
-        fl_alert("Failed to write lcddisplay configuration.\n");
-        return 0;
+    if (target_arch != TARGET_ARCH_I386 || !config) {
+        return 1;
     }
 
     config_setvar(config, "LCD_ENABLED", yes_no(ui->lcd_enabled->value()));

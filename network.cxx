@@ -140,6 +140,7 @@ int init_network_tab(GeneratorUI *ui)
     std::string inf;
     std::string driver_name;
     config_t *config;
+    const Fl_Menu_Item *m;
 
     Flu_Tree_Browser *tree = ui->drvwin32_tree;
 
@@ -194,6 +195,14 @@ int init_network_tab(GeneratorUI *ui)
 
     config_getvar(config, "WIFI_ESSID", buf, sizeof(buf));
     ui->wifi_ssid->value(buf);
+
+    config_getvar(config, "WIFI_CHANNEL", buf, sizeof(buf));
+    if (!strcmp(buf, ""))
+        strcpy(buf, "AUTO");
+    if ((m = ui->wifi_channel->find_item(buf)))
+        ui->wifi_channel->value(m);
+    else
+        ui->wifi_channel->value(0);
 
     config_getvar(config, "WPA_DRV", buf, sizeof(buf));
     ui->wpa_drv->value(!my_strcasecmp(buf, "atmel") ? 
@@ -295,6 +304,8 @@ int write_network_settings(GeneratorUI *ui)
             ? "WPA" : "none");
     config_setvar(config, "WIFI_KEY", ui->wifi_key->value());
     config_setvar(config, "WIFI_ESSID", ui->wifi_ssid->value());
+    config_setvar(config, "WIFI_CHANNEL", strcmp(ui->wifi_channel->mvalue()->label(), "AUTO")
+                                          ? ui->wifi_channel->mvalue()->label() : "");
     config_setvar(config, "WPA_DRV",
 		(ui->wpa_drv->value() == GeneratorUI::WPA_DRV_ATMEL)
 		    ? "atmel" : "wext" );

@@ -347,7 +347,7 @@ class GeneratorUI {open
               } {
                 Fl_Choice wifi_mode {
                   label {Mode:} open
-                  xywh {545 100 190 25} down_box BORDER_BOX
+                  xywh {500 100 95 25} down_box BORDER_BOX
                 } {
                   MenuItem {} {
                     label Managed
@@ -364,7 +364,7 @@ class GeneratorUI {open
                 }
                 Fl_Input wifi_ssid {
                   label {SSID:}
-                  xywh {545 130 190 25}
+                  xywh {500 130 235 25}
                 }
                 Fl_Choice wifi_enc {
                   label {WiFi encrypt:}
@@ -394,6 +394,67 @@ class GeneratorUI {open
                   }
                   MenuItem {} {
                     label atmel
+                    xywh {0 0 34 21}
+                  }
+                }
+                Fl_Choice wifi_channel {
+                  label {Channel:} open
+                  xywh {665 100 70 25} down_box BORDER_BOX
+                } {
+                  MenuItem {} {
+                    label AUTO
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 01
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 02
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 03
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 04
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 05
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 06
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 07
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 08
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 09
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 10
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 11
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 12
+                    xywh {0 0 34 21}
+                  }
+                  MenuItem {} {
+                    label 13
                     xywh {0 0 34 21}
                   }
                 }

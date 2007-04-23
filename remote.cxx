@@ -70,7 +70,7 @@ int init_remote_tab(GeneratorUI *ui)
 
         config_destroy(config);
     }
-    else if (target_arch == TARGET_ARCH_PPC)
+    else if (target_arch == TARGET_ARCH_POWERPC)
     {
         config_t *config;
 
@@ -125,7 +125,7 @@ int write_remote_settings(GeneratorUI *ui)
         config_destroy(config);
         config_destroy(config2);
     }
-    else if (target_arch == TARGET_ARCH_PPC)
+    else if (target_arch == TARGET_ARCH_POWERPC)
     {
         config_t *config, *config2;
 

@@ -51,8 +51,8 @@ const char *get_target_arch_string(void)
     {
     case TARGET_ARCH_I386:
 	return "i386";
-    case TARGET_ARCH_PPC:
-	return "ppc";
+    case TARGET_ARCH_POWERPC:
+	return "powerpc";
     default:
 	return NULL;
     }
@@ -137,7 +137,7 @@ static int compile_isoimage(GeneratorUI *ui)
     case TARGET_ARCH_I386:
 	mkisofs_arch = "-no-emul-boot -boot-info-table -boot-load-size 4 -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog";
 	break;
-    case TARGET_ARCH_PPC:
+    case TARGET_ARCH_POWERPC:
 	mkisofs_arch = "-hfs -part -no-desktop -map maps -hfs-volid GEEXBOX -hfs-bless ziso/GEEXBOX/boot";
 	break;
     }
@@ -292,7 +292,7 @@ int init_compile(GeneratorUI *ui)
     if (file_exists(PATH_BASEISO "/boot/isolinux.bin"))
 	target_arch = TARGET_ARCH_I386;
     else if (file_exists(PATH_BASEISO "/boot/yaboot"))
-	target_arch = TARGET_ARCH_PPC;
+	target_arch = TARGET_ARCH_POWERPC;
     else {
 	fl_alert("Failed to detect iso target arch");
 	return 0;

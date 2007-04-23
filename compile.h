@@ -20,7 +20,7 @@
 
 typedef enum {
   TARGET_ARCH_I386,
-  TARGET_ARCH_PPC
+  TARGET_ARCH_POWERPC
 } target_arch_t;
 
 extern target_arch_t target_arch;

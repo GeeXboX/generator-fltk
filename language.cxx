@@ -205,8 +205,8 @@ int copy_language_files(GeneratorUI *ui)
     sprintf(buf, PATH_BASEISO "/usr/share/mplayer/help_%s.txt", l->shortname);
     copy_file(buf2, buf);
 
-    sprintf(buf2, "i18n/texts/menu_%s.conf", l->shortname);
-    sprintf(buf, PATH_BASEISO "/etc/mplayer/menu_%s.conf", l->shortname);
+    sprintf(buf2, "i18n/texts/%s.lang", l->shortname);
+    sprintf(buf, PATH_BASEISO "/etc/mplayer/%s.lang", l->shortname);
     copy_file(buf2, buf);
 
     sprintf(buf2, "i18n/lang.conf");

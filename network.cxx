@@ -139,7 +139,7 @@ int init_network_tab(GeneratorUI *ui)
     char buf[256];
     std::string inf;
     std::string driver_name;
-    config_t *config;
+    config_t *config, *config2;
     const Fl_Menu_Item *m;
 
     Flu_Tree_Browser *tree = ui->drvwin32_tree;
@@ -147,6 +147,12 @@ int init_network_tab(GeneratorUI *ui)
     config = config_open(PATH_BASEISO "/etc/network", 1);
     if (!config) {
 	fl_alert("Missing network configuration files.\n");
+	return 0;
+    }
+
+    config2 = config_open(PATH_BASEISO "/etc/ftp", 1);
+    if (!config2) {
+	fl_alert("Missing ftp configuration files.\n");
 	return 0;
     }
 
@@ -265,18 +271,32 @@ int init_network_tab(GeneratorUI *ui)
 
     config_destroy(config);
 
+    config_getvar(config2, "USERNAME", buf, sizeof(buf));
+    ui->ftp_user->value(buf);
+
+    config_getvar(config2, "PASSWORD", buf, sizeof(buf));
+    ui->ftp_pass->value(buf);
+
+    config_destroy(config2);
+
     return 1;
 }
 
 int write_network_settings(GeneratorUI *ui)
 {
     int manual;
-    config_t *config;
+    config_t *config, *config2;
     const char *str = NULL;
 
     config = config_open(PATH_BASEISO "/etc/network", 1);
     if (!config) {
 	fl_alert("Failed to write network configuration.\n");
+	return 0;
+    }
+
+    config2 = config_open(PATH_BASEISO "/etc/ftp", 1);
+    if (!config) {
+	fl_alert("Failed to write ftp configuration.\n");
 	return 0;
     }
 
@@ -335,6 +355,12 @@ int write_network_settings(GeneratorUI *ui)
 
     config_write(config, PATH_BASEISO "/etc/network");
     config_destroy(config);
+
+    config_setvar(config2, "USERNAME", ui->ftp_user->value());
+    config_setvar(config2, "PASSWORD", ui->ftp_pass->value());
+
+    config_write(config2, PATH_BASEISO "/etc/ftp");
+    config_destroy(config2);
 
     return 1;
 }

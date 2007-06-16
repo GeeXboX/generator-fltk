@@ -84,6 +84,15 @@ void update_tabs_status(GeneratorUI *ui)
     else
 	ui->menu_font->deactivate();
 
+    if (ui->server_ftp->value()) {
+        ui->ftp_user->activate();
+        ui->ftp_pass->activate();
+    }
+    else {
+        ui->ftp_user->deactivate();
+        ui->ftp_pass->deactivate();
+    }
+
     switch (ui->soundcard_mode->value())
     {
     case GeneratorUI::SOUNDCARD_MODE_SPDIF:

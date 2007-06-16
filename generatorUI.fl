@@ -483,46 +483,55 @@ class GeneratorUI {open
           }
         }
         Fl_Group {} {
-          label Services open
-          xywh {15 25 740 270} hide
+          label Services
+          xywh {15 25 740 270}
         } {
           Fl_Group {} {
             label {Windows shares:} open
-            xywh {40 60 260 85} box ENGRAVED_FRAME align 5
+            xywh {40 60 260 95} box ENGRAVED_FRAME align 5
           } {
             Fl_Input samba_user {
               label {Username:}
-              xywh {130 72 150 25}
+              xywh {130 75 150 25}
             }
             Fl_Input samba_pass {
               label {Password:}
-              xywh {130 110 150 25}
+              xywh {130 115 150 25}
             }
           }
           Fl_Group {} {
             label {Network services:} open
-            xywh {330 60 350 85} box ENGRAVED_FRAME align 5
+            xywh {320 60 405 95} box ENGRAVED_FRAME align 5
           } {
             Fl_Check_Button server_ftp {
               label {FTP server}
-              xywh {345 65 125 25} down_box DOWN_BOX
+              callback {update_tabs_status(this);} open
+              xywh {330 65 125 25} down_box DOWN_BOX
             }
             Fl_Check_Button server_telnet {
               label {Telnet server}
-              xywh {345 90 125 25} down_box DOWN_BOX
+              xywh {530 65 125 25} down_box DOWN_BOX
             }
             Fl_Check_Button server_http {
               label {Web server}
-              xywh {345 115 125 25} down_box DOWN_BOX
+              xywh {530 90 125 25} down_box DOWN_BOX
             }
             Fl_Check_Button upnp_discovery {
               label {UPnP devices discovery}
-              xywh {475 65 190 25} down_box DOWN_BOX
+              xywh {530 120 190 25} down_box DOWN_BOX
+            }
+            Fl_Input ftp_user {
+              label {Username:}
+              xywh {410 90 105 25}
+            }
+            Fl_Input ftp_pass {
+              label {Password:}
+              xywh {410 120 105 25}
             }
           }
           Fl_Group {} {
             label {Network streaming:} open
-            xywh {40 175 640 105} box ENGRAVED_FRAME align 5
+            xywh {40 175 685 105} box ENGRAVED_FRAME align 5
           } {
             Fl_Check_Button streaming_shoutcast {
               label {SHOUTcast Radio Playlist}
@@ -539,19 +548,19 @@ class GeneratorUI {open
             }
             Fl_Input streaming_whitelist {
               label {Whitelist:}
-              xywh {345 216 315 24}
+              xywh {345 216 360 24}
             }
             Fl_Input streaming_blacklist {
               label {Blacklist:}
-              xywh {345 185 315 25}
+              xywh {345 185 360 25}
             }
             Fl_Input streaming_timeout {
               label {Timeout (second):}
-              xywh {475 246 30 24}
+              xywh {480 246 30 24}
             }
             Fl_Input streaming_tries {
               label {Retries number:}
-              xywh {630 246 30 24}
+              xywh {675 246 30 24}
             }
           }
         }

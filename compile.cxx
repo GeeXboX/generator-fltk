@@ -77,6 +77,7 @@ static int write_geexbox_files(GeneratorUI *ui)
     } funcs[] = {
       { "Copying theme files...", copy_theme_files },
       { "Copying language files...", copy_language_files },
+      { "Writing language settings...", write_language_settings },
       { "Writing remote settings...", write_remote_settings },
       { "Writing DVD navigation settings...", write_dvdnav_settings },
       { "Writing autoplay settings...", write_autoplay_settings },

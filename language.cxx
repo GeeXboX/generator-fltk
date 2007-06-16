@@ -19,6 +19,7 @@
 
 #include "config.h"
 #include "configparser.h"
+#include "compile.h"
 #include "fs.h"
 #include "language.h"
 #include "theme.h"
@@ -48,11 +49,35 @@ void change_font(Fl_Output *o, Fl_Check_Button *b)
 int init_language_tab(GeneratorUI *ui)
 {
     char buf[256], *word;
-    char buf2[50], buf3[256];
+    char buf2[50], buf3[256], buf4[256], buf5[256];
+    char lang[256];
     struct lang_info *l;
     struct charset_info *c;
     const Fl_Menu_Item *m;
     config_t *config;
+
+    if (target_arch == TARGET_ARCH_I386) {
+        config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
+        if (!config) {
+            fl_alert("Missing isolinux configuration files.\n");
+            return 0;
+        }
+
+        config_getvar(config, "lang", lang, sizeof(lang));
+
+        config_destroy(config);
+    }
+    else if (target_arch == TARGET_ARCH_POWERPC) {
+        config = config_open(PATH_BASEISO "/boot/yaboot.conf", 0);
+        if (!config) {
+            fl_alert("Missing yaboot configuration files.\n");
+            return 0;
+        }
+
+        config_getvar(config, "lang", lang, sizeof(lang));
+
+        config_destroy(config);
+    }
 
     config = config_open(PATH_LANGCONF, 1);
     if (!config) {
@@ -131,20 +156,78 @@ int init_language_tab(GeneratorUI *ui)
     config_getvar(config, "DEFAULT_LANGUAGE", buf, sizeof(buf));
 
     sprintf(buf2, "%s_charset", buf);
+    sprintf(buf4, "%s_charset", lang);
     config_getvar(config, buf2, buf3, sizeof(buf3));
-    if ((m = ui->sub_charset->find_item(buf3)))
+    config_getvar(config, buf4, buf5, sizeof(buf5));
+    if ((m = ui->sub_charset->find_item(buf5)))
+	ui->sub_charset->value(m);
+    else if ((m = ui->sub_charset->find_item(buf3)))
 	ui->sub_charset->value(m);
     else
 	ui->sub_charset->value(0);
 
     sprintf(buf2, "%s_name", buf);
+    sprintf(buf4, "%s_name", lang);
     config_getvar(config, buf2, buf3, sizeof(buf3));
-    if ((m = ui->menu_lang->find_item(buf3)))
+    config_getvar(config, buf4, buf5, sizeof(buf5));
+    if ((m = ui->menu_lang->find_item(buf5)))
+	ui->menu_lang->value(m);
+    else if ((m = ui->menu_lang->find_item(buf3)))
 	ui->menu_lang->value(m);
     else
 	ui->menu_lang->value(0);
 
     config_destroy(config);
+
+    return 1;
+}
+
+int write_language_settings(GeneratorUI *ui)
+{
+    struct lang_info *l;
+
+    if (!ui->menu_lang->mvalue()) {
+        fl_alert("Please pick menu language.\n");
+        return 0;
+    }
+    l = (struct lang_info*)ui->menu_lang->mvalue()->user_data();
+
+    if (target_arch == TARGET_ARCH_I386) {
+        config_t *config, *config2;
+
+        config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
+        config2 = config_open(PATH_BASEISO "/boot/pxelinux.cfg/default", 0);
+        if (!config || !config2) {
+            fl_alert("Failed to open for write isolinux configuration.\n");
+            return 0;
+        }
+
+        config_setvar(config, "lang", l->shortname);
+        config_setvar(config2, "lang", l->shortname);
+
+        config_write(config, PATH_BASEISO "/boot/isolinux.cfg");
+        config_write(config2, PATH_BASEISO "/boot/pxelinux.cfg/default");
+        config_destroy(config);
+        config_destroy(config2);
+    }
+    else if (target_arch == TARGET_ARCH_POWERPC) {
+        config_t *config, *config2;
+
+        config = config_open(PATH_BASEISO "/boot/yaboot.conf", 0);
+        config2 = config_open(PATH_BASEISO "/boot/netboot/yaboot.conf", 0);
+        if (!config || !config2) {
+            fl_alert("Failed to open for write yaboot configuration.\n");
+            return 0;
+        }
+
+        config_setvar(config, "lang", l->shortname);
+        config_setvar(config2, "lang", l->shortname);
+
+        config_write(config, PATH_BASEISO "/boot/yaboot.conf");
+        config_write(config2, PATH_BASEISO "/boot/netboot/yaboot.conf");
+        config_destroy(config);
+        config_destroy(config2);
+    }
 
     return 1;
 }

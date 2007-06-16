@@ -32,6 +32,7 @@ struct lang_info {
 
 void change_font(Fl_Output *o, Fl_Check_Button *b);
 int init_language_tab(GeneratorUI *ui);
+int write_language_settings(GeneratorUI *ui);
 int copy_language_files(GeneratorUI *ui);
 
 #endif /* language_h */

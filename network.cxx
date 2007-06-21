@@ -180,22 +180,22 @@ int init_network_tab(GeneratorUI *ui)
 
     config_getvar(config, "PHY_TYPE", buf, sizeof(buf));
     ui->phy_iface->value(!my_strcasecmp(buf, "wifi") ? 
-				GeneratorUI::NETWORK_PHY_IFACE_WIFI :
+                                GeneratorUI::NETWORK_PHY_IFACE_WIFI :
                          !my_strcasecmp(buf, "ethernet") ?
-				GeneratorUI::NETWORK_PHY_IFACE_ETHER :
-				GeneratorUI::NETWORK_PHY_IFACE_AUTO);
+                                GeneratorUI::NETWORK_PHY_IFACE_ETHER :
+                                GeneratorUI::NETWORK_PHY_IFACE_AUTO);
 
     config_getvar(config, "WIFI_MODE", buf, sizeof(buf));
     ui->wifi_mode->value(!my_strcasecmp(buf, "ad-hoc") ? 
-				GeneratorUI::WIFI_MODE_ADHOC :
-				GeneratorUI::WIFI_MODE_MANAGED);
+                                GeneratorUI::WIFI_MODE_ADHOC :
+                                GeneratorUI::WIFI_MODE_MANAGED);
 
     config_getvar(config, "WIFI_ENC", buf, sizeof(buf));
     ui->wifi_enc->value(!my_strcasecmp(buf, "WEP") ? 
-				GeneratorUI::WIFI_ENC_WEP :
-                !my_strcasecmp(buf, "WPA") ?
-				GeneratorUI::WIFI_ENC_WPA :
-				GeneratorUI::WIFI_ENC_NONE);
+                                GeneratorUI::WIFI_ENC_WEP :
+                        !my_strcasecmp(buf, "WPA") ?
+                                GeneratorUI::WIFI_ENC_WPA :
+                                GeneratorUI::WIFI_ENC_NONE);
 
     config_getvar(config, "WIFI_KEY", buf, sizeof(buf));
     ui->wifi_key->value(buf);
@@ -213,8 +213,8 @@ int init_network_tab(GeneratorUI *ui)
 
     config_getvar(config, "WPA_DRV", buf, sizeof(buf));
     ui->wpa_drv->value(!my_strcasecmp(buf, "atmel") ? 
-				GeneratorUI::WPA_DRV_ATMEL :
-				GeneratorUI::WPA_DRV_WEXT );
+                                GeneratorUI::WPA_DRV_ATMEL :
+                                GeneratorUI::WPA_DRV_WEXT );
 
     config_getvar(config, "WPA_AP_SCAN", buf, sizeof(buf));
     if ((m = ui->wpa_scan->find_item(buf)))
@@ -322,20 +322,20 @@ int write_network_settings(GeneratorUI *ui)
     config_setvar(config, "PHY_TYPE", str);
 
     config_setvar(config, "WIFI_MODE",
-		(ui->wifi_mode->value() == GeneratorUI::WIFI_MODE_ADHOC)
-		    ? "ad-hoc" : "managed");
+                  (ui->wifi_mode->value() == GeneratorUI::WIFI_MODE_ADHOC)
+                      ? "ad-hoc" : "managed");
     config_setvar(config, "WIFI_ENC",
-		(ui->wifi_enc->value() == GeneratorUI::WIFI_ENC_WEP)
-		    ? "WEP" :
-           (ui->wifi_enc->value() == GeneratorUI::WIFI_ENC_WPA)
-            ? "WPA" : "none");
+                  (ui->wifi_enc->value() == GeneratorUI::WIFI_ENC_WEP)
+                      ? "WEP" :
+                  (ui->wifi_enc->value() == GeneratorUI::WIFI_ENC_WPA)
+                      ? "WPA" : "none");
     config_setvar(config, "WIFI_KEY", ui->wifi_key->value());
     config_setvar(config, "WIFI_ESSID", ui->wifi_ssid->value());
     config_setvar(config, "WIFI_CHANNEL", strcmp(ui->wifi_channel->mvalue()->label(), "AUTO")
                                           ? ui->wifi_channel->mvalue()->label() : "");
     config_setvar(config, "WPA_DRV",
-		(ui->wpa_drv->value() == GeneratorUI::WPA_DRV_ATMEL)
-		    ? "atmel" : "wext" );
+                  (ui->wpa_drv->value() == GeneratorUI::WPA_DRV_ATMEL)
+                      ? "atmel" : "wext" );
     config_setvar(config, "WPA_AP_SCAN", ui->wpa_scan->mvalue()->label());
 
     manual = (ui->network_conf->value() == GeneratorUI::NETWORK_CONF_MANUAL);

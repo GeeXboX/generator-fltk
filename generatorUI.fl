@@ -308,12 +308,12 @@ class GeneratorUI {open
               }
               Fl_Group {} {
                 label {Connection Settings} open
-                xywh {25 90 395 165} box ENGRAVED_FRAME align 5
+                xywh {25 90 350 165} box ENGRAVED_FRAME align 5
               } {
                 Fl_Choice network_conf {
                   label {Configuration:}
                   callback {update_tabs_status(this);} open
-                  xywh {165 100 230 25} down_box BORDER_BOX
+                  xywh {165 100 190 25} down_box BORDER_BOX
                 } {
                   MenuItem {} {
                     label Manual
@@ -326,24 +326,24 @@ class GeneratorUI {open
                 }
                 Fl_Input network_ip {
                   label {IP address:}
-                  xywh {165 130 230 25}
+                  xywh {165 130 190 25}
                 }
                 Fl_Input network_subnet {
                   label {Subnet mask:}
-                  xywh {165 160 230 25}
+                  xywh {165 160 190 25}
                 }
                 Fl_Input network_gateway {
                   label {Gateway address:}
-                  xywh {165 190 230 25}
+                  xywh {165 190 190 25}
                 }
                 Fl_Input network_dns {
                   label {DNS Server:}
-                  xywh {165 220 230 25}
+                  xywh {165 220 190 25}
                 }
               }
               Fl_Group wifi_settings {
                 label {WiFi settings} open
-                xywh {430 90 315 165} box ENGRAVED_FRAME align 5
+                xywh {385 90 360 165} box ENGRAVED_FRAME align 5
               } {
                 Fl_Choice wifi_mode {
                   label {Mode:} open
@@ -360,7 +360,7 @@ class GeneratorUI {open
                 }
                 Fl_Input wifi_key {
                   label {WEP/WPA key:}
-                  xywh {545 190 190 25}
+                  xywh {500 190 235 25}
                 }
                 Fl_Input wifi_ssid {
                   label {SSID:}
@@ -369,7 +369,7 @@ class GeneratorUI {open
                 Fl_Choice wifi_enc {
                   label {WiFi encrypt:}
                   callback {update_tabs_status(this);} open
-                  xywh {545 160 190 25} down_box BORDER_BOX
+                  xywh {500 160 235 25} down_box BORDER_BOX
                 } {
                   MenuItem {} {
                     label None
@@ -386,7 +386,7 @@ class GeneratorUI {open
                 }
                 Fl_Choice wpa_drv {
                   label {WPA driver:} open
-                  xywh {545 220 190 25} down_box BORDER_BOX
+                  xywh {500 220 65 25} down_box BORDER_BOX
                 } {
                   MenuItem {} {
                     label wext
@@ -456,6 +456,23 @@ class GeneratorUI {open
                   MenuItem {} {
                     label 13
                     xywh {0 0 34 21}
+                  }
+                }
+                Fl_Choice wpa_scan {
+                  label {AP Scan Method:} open
+                  xywh {695 220 40 25} down_box BORDER_BOX
+                } {
+                  MenuItem {} {
+                    label 0
+                    xywh {10 10 34 21}
+                  }
+                  MenuItem {} {
+                    label 1
+                    xywh {10 10 34 21}
+                  }
+                  MenuItem {} {
+                    label 2
+                    xywh {0 0 38 25}
                   }
                 }
               }

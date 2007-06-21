@@ -216,6 +216,12 @@ int init_network_tab(GeneratorUI *ui)
 				GeneratorUI::WPA_DRV_ATMEL :
 				GeneratorUI::WPA_DRV_WEXT );
 
+    config_getvar(config, "WPA_AP_SCAN", buf, sizeof(buf));
+    if ((m = ui->wpa_scan->find_item(buf)))
+        ui->wpa_scan->value(m);
+    else
+        ui->wpa_scan->value(0);
+
     config_getvar(config, "GATEWAY", buf, sizeof(buf));
     ui->network_gateway->value(buf);
 
@@ -330,6 +336,7 @@ int write_network_settings(GeneratorUI *ui)
     config_setvar(config, "WPA_DRV",
 		(ui->wpa_drv->value() == GeneratorUI::WPA_DRV_ATMEL)
 		    ? "atmel" : "wext" );
+    config_setvar(config, "WPA_AP_SCAN", ui->wpa_scan->mvalue()->label());
 
     manual = (ui->network_conf->value() == GeneratorUI::NETWORK_CONF_MANUAL);
     config_setvar(config, "HOST", manual ? ui->network_ip->value() : "");

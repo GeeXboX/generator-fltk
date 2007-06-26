@@ -206,7 +206,7 @@ static int real_compile_iso(GeneratorUI *ui)
     update_progress(ui, "Creating ziso tree...");
     cleanup_zisotree();
     if (my_mkdir("ziso") < 0) {
-	fl_alert("Failed to create temporery ziso directory.\n");
+	fl_alert("Failed to create temporary ziso directory.\n");
 	return 0;
     }
 
@@ -215,7 +215,7 @@ static int real_compile_iso(GeneratorUI *ui)
 	return 0;
     }
 
-    update_progress(ui, "Cleaning temporery files...");
+    update_progress(ui, "Cleaning temporary files...");
     cleanup_isotree();
 
     update_progress(ui, "Copying boot files...");

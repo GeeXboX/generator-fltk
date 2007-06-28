@@ -508,6 +508,9 @@ static void add_folder_node(Flu_Tree_Browser *tree, std::string dir)
     Extrafile *e = NULL;
     struct stat st;
 
+    if (dir.substr(dir.length() - 1) != "/")
+        dir.append("/");
+
     size = dir.find_last_of("/", dir.length() - 2);
     dirname = dir.substr(size + 1, dir.length() - size);
 

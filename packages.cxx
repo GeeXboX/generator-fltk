@@ -522,6 +522,7 @@ static void add_folder_node(Flu_Tree_Browser *tree, std::string dir)
         n->auto_label_color(true);
         e = new Extrafile;
         e->path = strdup(dir.c_str());
+        *(e->path + strlen(e->path) - 1) = '\0';
         e->size = 0;
         n->user_data(e);
         num_files = fl_filename_list(dir.c_str(), &files, NULL);

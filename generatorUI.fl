@@ -261,6 +261,11 @@ class GeneratorUI {open
             label {VESA mode (dec):}
             xywh {180 120 80 25}
           }
+          Fl_Check_Button hdtv {
+            label {HDTV (X.Org)}
+            callback {update_tabs_status(this);}
+            xywh {55 45 125 25} down_box DOWN_BOX
+          }
         }
         Fl_Group {} {
           label {Remote Control} open

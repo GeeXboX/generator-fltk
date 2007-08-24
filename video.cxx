@@ -62,6 +62,22 @@ int init_video_tab(GeneratorUI *ui)
 
     if (target_arch == TARGET_ARCH_I386) {
         config_t *config;
+        FILE *isolinux;
+
+        /* part for read the default boot label */
+        isolinux = fopen(PATH_BASEISO "/boot/isolinux.cfg", "rb");
+        if (!isolinux) {
+            fl_alert("Missing isolinux configuration files.\n");
+            return 0;
+        }
+        ui->hdtv->value(0);
+        while (fgets(buf, sizeof(buf), isolinux)) {
+            if (strstr(buf, "DEFAULT") && strstr(buf, "hdtv")) {
+                ui->hdtv->value(1);
+                break;
+            }
+        }
+        fclose(isolinux);
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
         if (!config) {
@@ -125,6 +141,52 @@ int init_video_tab(GeneratorUI *ui)
     return 1;
 }
 
+static int write_boot_default(GeneratorUI *ui, const char *path)
+{
+    int res = 0;
+    char buf[256];
+    char *buf2;
+    struct stat st;
+    FILE *f;
+
+    if (!path)
+        return res;
+
+    f = fopen(path, "rb");
+    if (f) {
+        stat(path, &st);
+
+        while (fgets(buf, sizeof(buf), f)) {
+            /* search the 'DEFAULT' line */
+            if (strstr(buf, "DEFAULT")) {
+                buf2 = (char *)malloc(st.st_size - strlen(buf));
+                if (buf2)
+                    fread(buf2, 1, st.st_size - strlen(buf), f);
+                else
+                    break;
+                fclose(f);
+
+                f = fopen(path, "wb");
+                if (f) {
+                    if (ui->hdtv->value())
+                        fprintf(f, "DEFAULT hdtv\n");
+                    else
+                        fprintf(f, "DEFAULT geexbox\n");
+
+                    fwrite(buf2, 1, st.st_size - strlen(buf), f);
+                    res = 1;
+                }
+                free(buf2);
+                break;
+            }
+        }
+        if (f)
+            fclose(f);
+    }
+
+    return res;
+}
+
 int write_video_settings(GeneratorUI *ui)
 {
     int res, depth;
@@ -132,6 +194,13 @@ int write_video_settings(GeneratorUI *ui)
 
     if (target_arch == TARGET_ARCH_I386) {
         config_t *config, *config2;
+
+        if (!write_boot_default(ui, PATH_BASEISO "/boot/isolinux.cfg") ||
+            !write_boot_default(ui, PATH_BASEISO "/boot/pxelinux.cfg/default"))
+        {
+            fl_alert("Failed to open for write isolinux configuration.\n");
+            return 0;
+        }
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
         config2 = config_open(PATH_BASEISO "/boot/pxelinux.cfg/default", 0);

@@ -210,9 +210,9 @@ int write_video_settings(GeneratorUI *ui)
         }
 
         config_setvar_location(config, "splash", 1,
-				    ui->video_splash->value() ? "silent" : "0");
+                               ui->video_splash->value() ? "silent" : "0");
         config_setvar_location(config2, "splash", 1,
-				    ui->video_splash->value() ? "silent" : "0");
+                               ui->video_splash->value() ? "silent" : "0");
 
         depth = ui->vesa_depth->value();
         switch (ui->vesa_res->value()) {
@@ -257,9 +257,9 @@ int write_video_settings(GeneratorUI *ui)
         }
 
         config_setvar_location(config, "splash", 1,
-				    ui->video_splash->value() ? "silent" : "0");
+                               ui->video_splash->value() ? "silent" : "0");
         config_setvar_location(config2, "splash", 1,
-				    ui->video_splash->value() ? "silent" : "0");
+                               ui->video_splash->value() ? "silent" : "0");
 
         config_write(config, PATH_BASEISO "/boot/yaboot.conf");
         config_write(config2, PATH_BASEISO "/boot/netboot/yaboot.conf");

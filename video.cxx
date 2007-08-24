@@ -172,7 +172,7 @@ int write_video_settings(GeneratorUI *ui)
         config_setvar_int(config2, "vga", vgamode);
 
         config_write(config, PATH_BASEISO "/boot/isolinux.cfg");
-        config_write(config, PATH_BASEISO "/boot/pxelinux.cfg/default");
+        config_write(config2, PATH_BASEISO "/boot/pxelinux.cfg/default");
         config_destroy(config);
         config_destroy(config2);
     }

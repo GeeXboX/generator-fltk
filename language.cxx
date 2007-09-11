@@ -285,8 +285,8 @@ int copy_language_files(GeneratorUI *ui)
     l = (struct lang_info*)ui->menu_lang->mvalue()->user_data();
     c = (struct charset_info*)ui->sub_charset->mvalue()->user_data();
 
-    sprintf(buf2, "i18n/texts/help_%s.txt", l->shortname);
-    sprintf(buf, PATH_BASEISO "/usr/share/mplayer/help_%s.txt", l->shortname);
+    sprintf(buf2, "i18n/texts/help_en.txt");
+    sprintf(buf, PATH_BASEISO "/usr/share/mplayer/help_en.txt");
     copy_file(buf2, buf);
 
     strcpy(buf2, "i18n/texts/en.lang");
@@ -294,6 +294,10 @@ int copy_language_files(GeneratorUI *ui)
     copy_file(buf2, buf);
 
     if (strcmp(l->shortname, "en")) {
+        sprintf(buf2, "i18n/texts/help_%s.txt", l->shortname);
+        sprintf(buf, PATH_BASEISO "/usr/share/mplayer/help_%s.txt", l->shortname);
+        copy_file(buf2, buf);
+
         sprintf(buf2, "i18n/texts/%s.lang", l->shortname);
         sprintf(buf, PATH_BASEISO "/etc/mplayer/%s.lang", l->shortname);
         copy_file(buf2, buf);

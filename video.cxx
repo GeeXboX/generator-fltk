@@ -193,6 +193,7 @@ int write_video_settings(GeneratorUI *ui)
     int vgamode;
 
     if (target_arch == TARGET_ARCH_I386) {
+        int i;
         config_t *config, *config2;
 
         if (!write_boot_default(ui, PATH_BASEISO "/boot/isolinux.cfg") ||
@@ -209,10 +210,12 @@ int write_video_settings(GeneratorUI *ui)
             return 0;
         }
 
-        config_setvar_location(config, "splash", 1,
-                               ui->video_splash->value() ? "silent" : "0");
-        config_setvar_location(config2, "splash", 1,
-                               ui->video_splash->value() ? "silent" : "0");
+        for (i = 1; i <= 2; i++) {
+            config_setvar_location(config, "splash", i,
+                                   ui->video_splash->value() ? "silent" : "0");
+            config_setvar_location(config2, "splash", i,
+                                   ui->video_splash->value() ? "silent" : "0");
+        }
 
         depth = ui->vesa_depth->value();
         switch (ui->vesa_res->value()) {

@@ -26,6 +26,8 @@
 
 #include <FL/fl_ask.H> /* fl_alert */
 
+#include <sys/stat.h> /* stat */
+
 const char *get_target_resolution(GeneratorUI *ui)
 {
     char *res;

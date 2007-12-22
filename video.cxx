@@ -66,7 +66,8 @@ int init_video_tab(GeneratorUI *ui)
 
     if (target_arch == TARGET_ARCH_I386) {
         config_t *config, *config2;
-        FILE *isolinux;
+        FILE *isolinux, *xorg_drivers;
+        const Fl_Menu_Item *m;
 
         /* part for read the default boot label */
         isolinux = fopen(PATH_BASEISO "/boot/isolinux.cfg", "rb");
@@ -123,6 +124,24 @@ int init_video_tab(GeneratorUI *ui)
         ui->vesa_depth->value(depth);
 
         if (xorg_exists) {
+            xorg_drivers = fopen(PATH_BASEISO "/etc/X11/drivers", "rb");
+            ui->xorg_drivers->add("auto", 0, NULL, (char *)"auto");
+            if (xorg_drivers) {
+                while (fgets(buf, sizeof(buf), xorg_drivers)) {
+                    buf[strlen(buf) - 1] = '\0';
+                    ui->xorg_drivers->add(buf, 0, NULL, buf);
+                }
+                fclose(xorg_drivers);
+            }
+
+            config_getvar(config2, "XORG_DRIVER", buf, sizeof(buf));
+            if ((m = ui->xorg_drivers->find_item(buf)))
+                ui->xorg_drivers->value(m);
+            else if ((m = ui->xorg_drivers->find_item("auto")))
+                ui->xorg_drivers->value(m);
+            else
+                ui->xorg_drivers->value(0);
+
             config_getvar(config2, "XORG_RESX", xorg_w, sizeof(xorg_w));
             config_getvar(config2, "XORG_RESY", xorg_h, sizeof(xorg_h));
             if (!my_strcasecmp(xorg_w, "720") &&
@@ -295,6 +314,9 @@ int write_video_settings(GeneratorUI *ui)
         config_setvar_int(config2, "vga", vgamode);
 
         if (xorg_exists) {
+            config_setvar(config3, "XORG_DRIVER",
+                          ui->xorg_drivers->mvalue()->label());
+
             switch (ui->xorg_res->value()) {
             case GeneratorUI::XORG_AUTO:
                 strcpy(xorg_w, "auto");

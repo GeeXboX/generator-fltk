@@ -297,6 +297,10 @@ class GeneratorUI {open
               xywh {10 10 34 21}
             }
           }
+          Fl_Choice xorg_drivers {
+            label {Driver:}
+            xywh {350 80 130 25} down_box BORDER_BOX
+          } {}
           Fl_Input xorg_custom_w {
             label {width:}
             xywh {180 120 80 25}

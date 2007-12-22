@@ -53,6 +53,8 @@ void update_tabs_status(GeneratorUI *ui)
     if (!ui->hdtv->value()) {
         ui->xorg_res->deactivate();
         ui->xorg_res->hide();
+        ui->xorg_drivers->deactivate();
+        ui->xorg_drivers->hide();
         ui->xorg_custom_w->deactivate();
         ui->xorg_custom_w->hide();
         ui->xorg_custom_h->deactivate();
@@ -89,6 +91,8 @@ void update_tabs_status(GeneratorUI *ui)
 
         ui->xorg_res->activate();
         ui->xorg_res->show();
+        ui->xorg_drivers->activate();
+        ui->xorg_drivers->show();
 
         ui->video_splash->activate();
 

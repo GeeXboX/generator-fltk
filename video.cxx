@@ -61,9 +61,11 @@ int init_video_tab(GeneratorUI *ui)
     char buf[256];
     int vgamode;
     int res, depth;
+    int xorg_exists;
+    char xorg_w[8], xorg_h[8];
 
     if (target_arch == TARGET_ARCH_I386) {
-        config_t *config;
+        config_t *config, *config2;
         FILE *isolinux;
 
         /* part for read the default boot label */
@@ -87,8 +89,8 @@ int init_video_tab(GeneratorUI *ui)
             return 0;
         }
 
-        config_getvar_location(config, "splash", 1, buf, sizeof(buf));
-        ui->video_splash->value(!my_strcasecmp(buf, "silent"));
+        config2 = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
+        xorg_exists = config2 ? 1 : 0;
 
         config_getvar_int_location(config, "vga", 1, &vgamode);
         if (vgamode >= 784 && vgamode <= 786) {
@@ -119,6 +121,44 @@ int init_video_tab(GeneratorUI *ui)
         }
         ui->vesa_res->value(res);
         ui->vesa_depth->value(depth);
+
+        if (xorg_exists) {
+            config_getvar(config2, "XORG_RESX", xorg_w, sizeof(xorg_w));
+            config_getvar(config2, "XORG_RESY", xorg_h, sizeof(xorg_h));
+            if (!my_strcasecmp(xorg_w, "720") &&
+                !my_strcasecmp(xorg_h, "480"))
+                res = GeneratorUI::XORG_RES_720;
+            else if (!my_strcasecmp(xorg_w, "1280") &&
+                     !my_strcasecmp(xorg_h, "720"))
+                res = GeneratorUI::XORG_RES_1280;
+            else if (!my_strcasecmp(xorg_w, "1360") &&
+                     !my_strcasecmp(xorg_h, "768"))
+                res = GeneratorUI::XORG_RES_1360;
+            else if (!my_strcasecmp(xorg_w, "1368") &&
+                     !my_strcasecmp(xorg_h, "768"))
+                res = GeneratorUI::XORG_RES_1368;
+            else if (!my_strcasecmp(xorg_w, "1920") &&
+                     !my_strcasecmp(xorg_h, "1080"))
+                res = GeneratorUI::XORG_RES_1920;
+            else if (!my_strcasecmp(xorg_w, "auto") ||
+                     !my_strcasecmp(xorg_h, "auto"))
+                res = GeneratorUI::XORG_AUTO;
+            else {
+                res = GeneratorUI::XORG_CUSTOM;
+                ui->xorg_custom_w->value(xorg_w);
+                ui->xorg_custom_h->value(xorg_h);
+            }
+            ui->xorg_res->value(res);
+
+            config_destroy(config2);
+        }
+        else {
+            ui->hdtv->value(0);
+            ui->hdtv->deactivate();
+        }
+
+        config_getvar_location(config, "splash", 1, buf, sizeof(buf));
+        ui->video_splash->value(!my_strcasecmp(buf, "silent"));
 
         config_destroy(config);
     }
@@ -193,10 +233,12 @@ int write_video_settings(GeneratorUI *ui)
 {
     int res, depth;
     int vgamode;
+    int xorg_exists;
+    char xorg_w[8], xorg_h[8];
 
     if (target_arch == TARGET_ARCH_I386) {
         int i;
-        config_t *config, *config2;
+        config_t *config, *config2, *config3;
 
         if (!write_boot_default(ui, PATH_BASEISO "/boot/isolinux.cfg") ||
             !write_boot_default(ui, PATH_BASEISO "/boot/pxelinux.cfg/default"))
@@ -211,6 +253,9 @@ int write_video_settings(GeneratorUI *ui)
             fl_alert("Failed to open for write isolinux configuration.\n");
             return 0;
         }
+
+        config3 = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
+        xorg_exists = config3 ? 1 : 0;
 
         for (i = 1; i <= 2; i++) {
             config_setvar_location(config, "splash", i,
@@ -244,6 +289,50 @@ int write_video_settings(GeneratorUI *ui)
 
         config_setvar_int(config, "vga", vgamode);
         config_setvar_int(config2, "vga", vgamode);
+
+        if (xorg_exists) {
+            switch (ui->xorg_res->value()) {
+            case GeneratorUI::XORG_AUTO:
+                strcpy(xorg_w, "auto");
+                strcpy(xorg_h, "auto");
+                break;
+            case GeneratorUI::XORG_RES_720:
+                strcpy(xorg_w, "720");
+                strcpy(xorg_h, "640");
+                break;
+            case GeneratorUI::XORG_RES_1280:
+                strcpy(xorg_w, "1280");
+                strcpy(xorg_h, "720");
+                break;
+            case GeneratorUI::XORG_RES_1360:
+                strcpy(xorg_w, "1360");
+                strcpy(xorg_h, "768");
+                break;
+            case GeneratorUI::XORG_RES_1368:
+                strcpy(xorg_w, "1368");
+                strcpy(xorg_h, "768");
+                break;
+            case GeneratorUI::XORG_RES_1920:
+                strcpy(xorg_w, "1920");
+                strcpy(xorg_h, "1080");
+                break;
+            default:
+                strncpy(xorg_w, ui->xorg_custom_w->value(), sizeof(xorg_w));
+                strncpy(xorg_h, ui->xorg_custom_h->value(), sizeof(xorg_h));
+                xorg_w[sizeof(xorg_w) - 1] = '\0';
+                xorg_h[sizeof(xorg_h) - 1] = '\0';
+            }
+
+            config_setvar(config3, "XORG_RESX", xorg_w);
+            config_setvar(config3, "XORG_RESY", xorg_h);
+
+            config_write(config3, PATH_BASEISO "/etc/X11/X.cfg");
+            config_destroy(config3);
+        }
+        else {
+            ui->hdtv->value(0);
+            ui->hdtv->deactivate();
+        }
 
         config_write(config, PATH_BASEISO "/boot/isolinux.cfg");
         config_write(config2, PATH_BASEISO "/boot/pxelinux.cfg/default");

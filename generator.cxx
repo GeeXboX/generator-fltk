@@ -51,8 +51,17 @@ void update_tabs_status(GeneratorUI *ui)
     }
 
     if (!ui->hdtv->value()) {
+        ui->xorg_res->deactivate();
+        ui->xorg_res->hide();
+        ui->xorg_custom_w->deactivate();
+        ui->xorg_custom_w->hide();
+        ui->xorg_custom_h->deactivate();
+        ui->xorg_custom_h->hide();
+
         ui->vesa_res->activate();
+        ui->vesa_res->show();
         ui->vesa_depth->activate();
+        ui->vesa_depth->show();
 
         if (ui->vesa_res->value() == GeneratorUI::VESA_CUSTOM) {
             ui->vesa_custom->activate();
@@ -72,10 +81,29 @@ void update_tabs_status(GeneratorUI *ui)
     }
     else {
         ui->vesa_res->deactivate();
+        ui->vesa_res->hide();
         ui->vesa_depth->deactivate();
+        ui->vesa_depth->hide();
         ui->vesa_custom->deactivate();
         ui->vesa_custom->hide();
+
+        ui->xorg_res->activate();
+        ui->xorg_res->show();
+
         ui->video_splash->activate();
+
+        if (ui->xorg_res->value() == GeneratorUI::XORG_CUSTOM) {
+            ui->xorg_custom_w->activate();
+            ui->xorg_custom_w->show();
+            ui->xorg_custom_h->activate();
+            ui->xorg_custom_h->show();
+        }
+        else {
+            ui->xorg_custom_w->deactivate();
+            ui->xorg_custom_w->hide();
+            ui->xorg_custom_h->deactivate();
+            ui->xorg_custom_h->hide();
+        }
     }
 
     if (ui->streaming_shoutcasttv->value()) {

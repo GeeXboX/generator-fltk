@@ -41,6 +41,8 @@ class GeneratorUI {open
   }
   decl {enum { VESA_DEPTH_15 = 0, VESA_DEPTH_16 = 1, VESA_DEPTH_24 = 2 };} {public
   }
+  decl {enum { XORG_AUTO = 0, XORG_RES_720 = 1, XORG_RES_1280 = 2, XORG_RES_1360 = 3, XORG_RES_1368 = 4, XORG_RES_1920 = 5, XORG_CUSTOM = 6 };} {public
+  }
   decl {enum { NETWORK_PHY_IFACE_AUTO = 0, NETWORK_PHY_IFACE_WIFI, NETWORK_PHY_IFACE_ETHER };} {public
   }
   decl {enum { NETWORK_CONF_MANUAL = 0, NETWORK_CONF_DHCP };} {public
@@ -260,6 +262,48 @@ class GeneratorUI {open
           Fl_Input vesa_custom {
             label {VESA mode (dec):}
             xywh {180 120 80 25}
+          }
+          Fl_Choice xorg_res {
+            label {Resolution:}
+            callback {update_tabs_status(this);}
+            xywh {180 80 110 25} down_box BORDER_BOX
+          } {
+            MenuItem {} {
+              label Auto
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 720x480
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1280x720
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1360x768
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1368x768
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1920x1080
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label Custom
+              xywh {10 10 34 21}
+            }
+          }
+          Fl_Input xorg_custom_w {
+            label {width:}
+            xywh {180 120 80 25}
+          }
+          Fl_Input xorg_custom_h {
+            label {height:}
+            xywh {330 120 80 25}
           }
           Fl_Check_Button hdtv {
             label {HDTV (X.Org)}

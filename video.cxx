@@ -366,8 +366,10 @@ int write_video_settings(GeneratorUI *ui)
                 xorg_h[sizeof(xorg_h) - 1] = '\0';
             }
 
-            config_setvar(config3, "XORG_RESX", xorg_w);
-            config_setvar(config3, "XORG_RESY", xorg_h);
+            config_setvar(config3, "XORG_RESX", *xorg_w == '\0' ?
+                                                "auto" : xorg_w);
+            config_setvar(config3, "XORG_RESY", *xorg_h == '\0' ?
+                                                "auto" : xorg_h);
 
             config_write(config3, PATH_BASEISO "/etc/X11/X.cfg");
             config_destroy(config3);

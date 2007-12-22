@@ -172,6 +172,10 @@ int init_video_tab(GeneratorUI *ui)
             return 0;
         }
 
+        /* no X.Org with PowerPC */
+        ui->hdtv->value(0);
+        ui->hdtv->deactivate();
+
         config_getvar_location(config, "splash", 1, buf, sizeof(buf));
         ui->video_splash->value(!my_strcasecmp(buf, "silent"));
 

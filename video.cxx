@@ -61,13 +61,13 @@ int init_video_tab(GeneratorUI *ui)
     char buf[256];
     int vgamode;
     int res, depth;
-    int xorg_exists;
-    char xorg_w[8], xorg_h[8];
 
     if (target_arch == TARGET_ARCH_I386) {
         config_t *config, *config2;
         FILE *isolinux, *xorg_drivers;
         const Fl_Menu_Item *m;
+        int xorg_exists;
+        char xorg_w[8], xorg_h[8];
 
         /* part for read the default boot label */
         isolinux = fopen(PATH_BASEISO "/boot/isolinux.cfg", "rb");

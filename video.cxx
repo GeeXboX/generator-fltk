@@ -263,12 +263,12 @@ int write_video_settings(GeneratorUI *ui)
 {
     int res, depth;
     int vgamode;
-    int xorg_exists;
-    char xorg_w[8], xorg_h[8];
 
     if (target_arch == TARGET_ARCH_I386) {
         int i;
         config_t *config, *config2, *config3;
+        int xorg_exists;
+        char xorg_w[8], xorg_h[8];
 
         if (!write_boot_default(ui, PATH_BASEISO "/boot/isolinux.cfg") ||
             !write_boot_default(ui, PATH_BASEISO "/boot/pxelinux.cfg/default"))

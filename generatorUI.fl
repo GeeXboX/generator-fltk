@@ -314,6 +314,26 @@ class GeneratorUI {open
             callback {update_tabs_status(this);}
             xywh {55 45 125 25} down_box DOWN_BOX
           }
+          Fl_Group {xorg_monitor} {
+            label {Monitor Settings} open
+            xywh {520 70 190 120} box ENGRAVED_FRAME align 5
+          } {
+            Fl_Input xorg_rate {
+              label {Refresh rate:}
+              tooltip {Desired screen refresh rate, under the form "60" or "auto"}
+              xywh {625 80 70 25}
+            }
+            Fl_Input xorg_horizsync {
+              label {Horiz. sync:}
+              tooltip {Monitor horizontal sync, under the form "28-51" or "auto"}
+              xywh {625 115 70 25}
+            }
+            Fl_Input xorg_vertrefresh {
+              label {Vert. refresh:}
+              tooltip {Monitor vertical refresh, under the form "43-60" or "auto"}
+              xywh {625 150 70 25}
+            }
+          }
         }
         Fl_Group {} {
           label {Remote Control} open

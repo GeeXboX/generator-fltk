@@ -142,6 +142,13 @@ int init_video_tab(GeneratorUI *ui)
             else
                 ui->xorg_drivers->value(0);
 
+            config_getvar(config2, "XORG_RATE", buf, sizeof(buf));
+            ui->xorg_rate->value(buf);
+            config_getvar(config2, "XORG_HORIZSYNC", buf, sizeof(buf));
+            ui->xorg_horizsync->value(buf);
+            config_getvar(config2, "XORG_VERTREFRESH", buf, sizeof(buf));
+            ui->xorg_vertrefresh->value(buf);
+
             config_getvar(config2, "XORG_RESX", xorg_w, sizeof(xorg_w));
             config_getvar(config2, "XORG_RESY", xorg_h, sizeof(xorg_h));
             if (!my_strcasecmp(xorg_w, "720") &&
@@ -316,6 +323,16 @@ int write_video_settings(GeneratorUI *ui)
         if (xorg_exists) {
             config_setvar(config3, "XORG_DRIVER",
                           ui->xorg_drivers->mvalue()->label());
+
+            config_setvar(config3, "XORG_RATE",
+                          *ui->xorg_rate->value() == '\0' ?
+                          "auto" : ui->xorg_rate->value());
+            config_setvar(config3, "XORG_HORIZSYNC",
+                          *ui->xorg_horizsync->value() == '\0' ?
+                          "auto" : ui->xorg_horizsync->value());
+            config_setvar(config3, "XORG_VERTREFRESH",
+                          *ui->xorg_vertrefresh->value() == '\0' ?
+                          "auto" : ui->xorg_vertrefresh->value());
 
             switch (ui->xorg_res->value()) {
             case GeneratorUI::XORG_AUTO:

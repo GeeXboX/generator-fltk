@@ -165,7 +165,7 @@ int init_network_tab(GeneratorUI *ui)
         tree->when(FL_WHEN_NOT_CHANGED);
         tree->show_root(true);
         tree->label("Windows driver");
-        tree->animate(true);
+        tree->animate(false);
         tree->selection_mode(FLU_SINGLE_SELECT);
         tree->insertion_mode(FLU_INSERT_BACK);
 

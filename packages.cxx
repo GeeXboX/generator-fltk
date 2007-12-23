@@ -177,7 +177,7 @@ int init_packages_tab(GeneratorUI *ui)
     tree->get_root()->always_open(true);
     tree->when(FL_WHEN_NOT_CHANGED);
     tree->show_root(false);
-    tree->animate(true);
+    tree->animate(false);
     tree->selection_mode(FLU_SINGLE_SELECT);
     tree->insertion_mode(FLU_INSERT_SORTED);
     tree->callback(tree_callback, ui);
@@ -188,7 +188,7 @@ int init_packages_tab(GeneratorUI *ui)
     tree2->get_root()->always_open(true);
     tree2->show_root(true);
     tree2->label("iso");
-    tree2->animate(true);
+    tree2->animate(false);
     tree2->selection_mode(FLU_SINGLE_SELECT);
     tree2->insertion_mode(FLU_INSERT_SORTED);
 

@@ -36,6 +36,14 @@
 #include <stdio.h> /* fprintf */
 
 #include <FL/Fl.H> /* Fl::run Fl::scheme */
+#include <FL/x.H>
+
+#ifdef _WIN32
+#include "icon.h"
+#elif defined(__linux__)
+#include <X11/xpm.h>
+#include "generator.xpm"
+#endif
 
 void update_tabs_status(GeneratorUI *ui)
 {
@@ -267,6 +275,15 @@ main(int argc, char **argv)
     Fl::scheme("plastic");
 
     GeneratorUI *ui = new GeneratorUI;
+
+#ifdef _WIN32
+    ui->mainWindow->icon((char *)LoadIcon(fl_display, MAKEINTRESOURCE(IDI_ICON)));
+#elif defined(__linux__)
+    Pixmap p, mask;
+    XpmCreatePixmapFromData(fl_display, DefaultRootWindow(fl_display),
+                            generator_xpm, &p, &mask, NULL);
+    ui->mainWindow->icon((char *)p);
+#endif
 
     if (!find_geexbox_tree(argv[0]) || tree_corrupted())
 	return 1;

@@ -53,6 +53,7 @@ export F77=$CROSS_PREFIX-g77
 export AS=$CROSS_PREFIX-as
 export NM=$CROSS_PREFIX-nm
 export CPP=$CROSS_PREFIX-cpp
+export RC=$CROSS_PREFIX-windres
 
 TMPDIR=tmp
 FLTKDIR=$TMPDIR/fltk-$FLTKVER

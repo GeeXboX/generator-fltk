@@ -6,6 +6,7 @@ SRCS_CXX+=Fl_Gel_Tabs/Fl_Gel_Tabs.cxx
 SRCS_CXX+=FLU/Flu_Tree_Browser.cxx FLU/FluSimpleString.cxx FLU/flu_pixmaps.cxx
 SRCS_C+=libmd/md5c.c libmd/md5hl.c
 SRCS_C+=libbz2/bzlib.c libbz2/crctable.c libbz2/decompress.c libbz2/huffman.c libbz2/randtable.c
+SRCS_RC=icon.rc
 FLSRCS=generatorUI.fl
 
 FLTKCONFIG?=fltk-config
@@ -34,10 +35,14 @@ CXXFLAGS+=$(CURLCFLAGS)
 #CXXFLAGS+=-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_LARGE_FILES -D_FILE_OFFSET_BITS=64
 EXEEXT?=
 
-PROGSRCS=$(SRCS_CXX) $(SRCS_C) $(FLSRCS:.fl=.cxx)
+PROGSRCS=$(SRCS_CXX) $(SRCS_C) $(FLSRCS:.fl=.cxx) $(SRCS_RC)
 PROGOBJS=$(SRCS_CXX:.cxx=.o) $(SRCS_C:.c=.o) $(FLSRCS:.fl=.o)
 
 all: $(PROJ)$(EXEEXT)
+
+ifeq ($(PROJ),generator.exe)
+PROGOBJS+= ${SRCS_RC:.rc=.o}
+endif
 
 $(PROJ)$(EXEEXT): $(PROGOBJS)
 	$(CXX) $(CXXFLAGS) $(PROGOBJS) -o $@ $(LDFLAGS)
@@ -46,6 +51,7 @@ $(PROJ)$(EXEEXT): $(PROGOBJS)
 .SUFFIXES: .fl
 .SUFFIXES: .c
 .SUFFIXES: .cxx
+.SUFFIXES: .rc
 
 %.cxx %.h: %.fl
 	$(FLUID) -c $<
@@ -56,9 +62,12 @@ $(PROJ)$(EXEEXT): $(PROGOBJS)
 %.o: %.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+%.o: %.rc
+	${RC} $< $@
+
 .PHONY: clean
 clean:
-	rm -f $(PROJ)$(EXEEXT) $(PROGOBJS)
+	rm -f $(PROJ)$(EXEEXT) $(PROGOBJS) ${SRCS_RC:.rc=.o}
 
 .PHONY: distclean
 distclean: clean

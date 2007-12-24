@@ -66,7 +66,6 @@ int init_video_tab(GeneratorUI *ui)
         config_t *config, *config2;
         FILE *isolinux, *xorg_drivers;
         const Fl_Menu_Item *m;
-        int xorg_exists;
         char xorg_w[8], xorg_h[8];
 
         /* part for read the default boot label */
@@ -91,9 +90,7 @@ int init_video_tab(GeneratorUI *ui)
         }
 
         config2 = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
-        xorg_exists = config2 ? 1 : 0;
-
-        if (xorg_exists) {
+        if (config2) {
             xorg_drivers = fopen(PATH_BASEISO "/etc/X11/drivers", "rb");
             ui->xorg_drivers->add("auto", 0, NULL, (char *)"auto");
             if (xorg_drivers) {
@@ -267,7 +264,6 @@ int write_video_settings(GeneratorUI *ui)
     if (target_arch == TARGET_ARCH_I386) {
         int i;
         config_t *config, *config2, *config3;
-        int xorg_exists;
         char xorg_w[8], xorg_h[8];
 
         if (!write_boot_default(ui, PATH_BASEISO "/boot/isolinux.cfg") ||
@@ -285,9 +281,7 @@ int write_video_settings(GeneratorUI *ui)
         }
 
         config3 = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
-        xorg_exists = config3 ? 1 : 0;
-
-        if (xorg_exists) {
+        if (config3) {
             config_setvar(config3, "XORG_DRIVER",
                           ui->xorg_drivers->mvalue()->label());
 

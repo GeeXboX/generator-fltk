@@ -289,9 +289,11 @@ int write_video_settings(GeneratorUI *ui)
 
         for (i = 1; i <= 2; i++) {
             config_setvar_location(config, "splash", i,
-                                   ui->video_splash->value() ? "silent" : "0");
+                ui->video_splash->value() &&
+                ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM ? "silent" : "0");
             config_setvar_location(config2, "splash", i,
-                                   ui->video_splash->value() ? "silent" : "0");
+                ui->video_splash->value() &&
+                ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM ? "silent" : "0");
         }
 
         depth = ui->vesa_depth->value();

@@ -93,36 +93,6 @@ int init_video_tab(GeneratorUI *ui)
         config2 = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
         xorg_exists = config2 ? 1 : 0;
 
-        config_getvar_int_location(config, "vga", 1, &vgamode);
-        if (vgamode >= 784 && vgamode <= 786) {
-            res = GeneratorUI::VESA_RES_640;
-            depth = vgamode - 784;
-        }
-        else if (vgamode >= 787 && vgamode <= 789) {
-            res = GeneratorUI::VESA_RES_800;
-            depth = vgamode - 787;
-        }
-        else if (vgamode >= 790 && vgamode <= 792) {
-            res = GeneratorUI::VESA_RES_1024;
-            depth = vgamode - 790;
-        }
-        else if (vgamode >= 793 && vgamode <= 795) {
-            res = GeneratorUI::VESA_RES_1280;
-            depth = vgamode - 793;
-        }
-        else if (vgamode >= 797 && vgamode <= 799) {
-            res = GeneratorUI::VESA_RES_1600;
-            depth = vgamode - 797;
-        }
-        else {
-            res = GeneratorUI::VESA_CUSTOM;
-            depth = GeneratorUI::VESA_DEPTH_24;
-            sprintf(buf, "%i", vgamode);
-            ui->vesa_custom->value(buf);
-        }
-        ui->vesa_res->value(res);
-        ui->vesa_depth->value(depth);
-
         if (xorg_exists) {
             xorg_drivers = fopen(PATH_BASEISO "/etc/X11/drivers", "rb");
             ui->xorg_drivers->add("auto", 0, NULL, (char *)"auto");
@@ -182,6 +152,36 @@ int init_video_tab(GeneratorUI *ui)
             ui->hdtv->value(0);
             ui->hdtv->deactivate();
         }
+
+        config_getvar_int_location(config, "vga", 1, &vgamode);
+        if (vgamode >= 784 && vgamode <= 786) {
+            res = GeneratorUI::VESA_RES_640;
+            depth = vgamode - 784;
+        }
+        else if (vgamode >= 787 && vgamode <= 789) {
+            res = GeneratorUI::VESA_RES_800;
+            depth = vgamode - 787;
+        }
+        else if (vgamode >= 790 && vgamode <= 792) {
+            res = GeneratorUI::VESA_RES_1024;
+            depth = vgamode - 790;
+        }
+        else if (vgamode >= 793 && vgamode <= 795) {
+            res = GeneratorUI::VESA_RES_1280;
+            depth = vgamode - 793;
+        }
+        else if (vgamode >= 797 && vgamode <= 799) {
+            res = GeneratorUI::VESA_RES_1600;
+            depth = vgamode - 797;
+        }
+        else {
+            res = GeneratorUI::VESA_CUSTOM;
+            depth = GeneratorUI::VESA_DEPTH_24;
+            sprintf(buf, "%i", vgamode);
+            ui->vesa_custom->value(buf);
+        }
+        ui->vesa_res->value(res);
+        ui->vesa_depth->value(depth);
 
         config_getvar_location(config, "splash", 1, buf, sizeof(buf));
         ui->video_splash->value(!my_strcasecmp(buf, "silent"));
@@ -287,41 +287,6 @@ int write_video_settings(GeneratorUI *ui)
         config3 = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
         xorg_exists = config3 ? 1 : 0;
 
-        for (i = 1; i <= 2; i++) {
-            config_setvar_location(config, "splash", i,
-                ui->video_splash->value() &&
-                ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM ? "silent" : "0");
-            config_setvar_location(config2, "splash", i,
-                ui->video_splash->value() &&
-                ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM ? "silent" : "0");
-        }
-
-        depth = ui->vesa_depth->value();
-        switch (ui->vesa_res->value()) {
-        case GeneratorUI::VESA_RES_640:
-            res = 784;
-            break;
-        case GeneratorUI::VESA_RES_800:
-            res = 787;
-            break;
-        case GeneratorUI::VESA_RES_1024:
-            res = 790;
-            break;
-        case GeneratorUI::VESA_RES_1280:
-            res = 793;
-            break;
-        case GeneratorUI::VESA_RES_1600:
-            res = 797;
-            break;
-        default:
-            res = atoi(ui->vesa_custom->value());
-            depth = 0;
-        }
-        vgamode = res + depth;
-
-        config_setvar_int(config, "vga", vgamode);
-        config_setvar_int(config2, "vga", vgamode);
-
         if (xorg_exists) {
             config_setvar(config3, "XORG_DRIVER",
                           ui->xorg_drivers->mvalue()->label());
@@ -380,6 +345,41 @@ int write_video_settings(GeneratorUI *ui)
             ui->hdtv->value(0);
             ui->hdtv->deactivate();
         }
+
+        for (i = 1; i <= 2; i++) {
+            config_setvar_location(config, "splash", i,
+                ui->video_splash->value() &&
+                ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM ? "silent" : "0");
+            config_setvar_location(config2, "splash", i,
+                ui->video_splash->value() &&
+                ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM ? "silent" : "0");
+        }
+
+        depth = ui->vesa_depth->value();
+        switch (ui->vesa_res->value()) {
+        case GeneratorUI::VESA_RES_640:
+            res = 784;
+            break;
+        case GeneratorUI::VESA_RES_800:
+            res = 787;
+            break;
+        case GeneratorUI::VESA_RES_1024:
+            res = 790;
+            break;
+        case GeneratorUI::VESA_RES_1280:
+            res = 793;
+            break;
+        case GeneratorUI::VESA_RES_1600:
+            res = 797;
+            break;
+        default:
+            res = atoi(ui->vesa_custom->value());
+            depth = 0;
+        }
+        vgamode = res + depth;
+
+        config_setvar_int(config, "vga", vgamode);
+        config_setvar_int(config2, "vga", vgamode);
 
         config_write(config, PATH_BASEISO "/boot/isolinux.cfg");
         config_write(config2, PATH_BASEISO "/boot/pxelinux.cfg/default");

@@ -12,6 +12,6 @@ done
 
 rm -rf "$DIR"
 mkdir -p "$DIR"
-cp -pPR *.c *.cxx *.h *.fl linux-i386-generator macosx-generator generator.exe Dependencies Makefile Fl_Gel_Tabs FLU libmd libbz2 debian "$DIR"
+cp -pPR *.c *.cxx *.h *.fl *.rc *.ico *.xpm linux-i386-generator macosx-generator generator.exe Dependencies Makefile Fl_Gel_Tabs FLU libmd libbz2 debian "$DIR"
 find "$DIR" \( -name '*.o' \) -exec rm -rf '{}' \; 2>/dev/null
 tar -czf "$DIR.tar.gz" "$DIR"

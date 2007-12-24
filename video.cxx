@@ -334,6 +334,10 @@ int write_video_settings(GeneratorUI *ui)
 
             config_write(config3, PATH_BASEISO "/etc/X11/X.cfg");
             config_destroy(config3);
+
+            /* 800x600 bootsplash with HDTV */
+            if (ui->hdtv->value() && ui->video_splash->value())
+                ui->vesa_res->value(GeneratorUI::VESA_RES_800);
         }
         else {
             ui->hdtv->value(0);

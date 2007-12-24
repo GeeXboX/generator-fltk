@@ -210,6 +210,7 @@ void update_tabs_status(GeneratorUI *ui)
     }
 
     update_theme_tab(ui);
+    update_nfs_tab(ui);
 }
 
 void generator_exit(GeneratorUI *ui)

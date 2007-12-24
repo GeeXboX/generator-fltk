@@ -570,6 +570,38 @@ class GeneratorUI {open
                 class Flu_Tree_Browser
               }
             }
+            Fl_Group nfs_subtab {
+              label {Network File System} open
+              xywh {15 25 740 255} align 2 hide
+            } {
+              Fl_Button {} {
+                label Add
+                callback {add_nfs(this);}
+                xywh {185 220 80 25}
+              }
+              Fl_Button {} {
+                label Remove
+                callback {remove_nfs(this);}
+                xywh {270 220 80 25}
+              }
+              Fl_Choice nfs_shares {
+                label {NFS Shares:}
+                callback {update_tabs_status(this);}
+                xywh {150 55 200 25} down_box BORDER_BOX
+              } {}
+              Fl_Input nfs_server {
+                label {Server IP:}
+                xywh {150 100 200 25}
+              }
+              Fl_Input nfs_dir {
+                label {Directory:}
+                xywh {150 130 200 25}
+              }
+              Fl_Input nfs_mountpoint {
+                label {Mountpoint name:}
+                xywh {185 170 165 25}
+              }
+            }
           }
         }
         Fl_Group {} {

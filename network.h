@@ -23,4 +23,8 @@ void unload_drvwin32(Flu_Tree_Browser *tree);
 int init_network_tab(GeneratorUI *ui);
 int write_network_settings(GeneratorUI *ui);
 
+void add_nfs(GeneratorUI *ui);
+void remove_nfs(GeneratorUI *ui);
+void update_nfs_tab(GeneratorUI *ui);
+
 #endif

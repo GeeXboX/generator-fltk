@@ -22,7 +22,6 @@
 #include "configparser.h"
 #include "video.h"
 #include "system.h"
-#include "fs.h"
 
 #include <FL/fl_ask.H> /* fl_alert */
 

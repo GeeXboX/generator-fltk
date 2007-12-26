@@ -21,7 +21,6 @@
 #include "config.h"
 #include "configparser.h"
 #include "system.h"
-#include "utils.h"
 
 #include <FL/fl_ask.H> /* fl_alert */
 

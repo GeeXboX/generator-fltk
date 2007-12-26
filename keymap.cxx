@@ -20,7 +20,6 @@
 #include "config.h"
 #include "configparser.h"
 #include "compile.h"
-#include "fs.h"
 #include "keymap.h"
 
 #include <stdlib.h> /* free */

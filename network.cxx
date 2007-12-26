@@ -22,7 +22,6 @@
 #include "configparser.h"
 #include "network.h"
 #include "system.h"
-#include "utils.h"
 
 #include <FL/fl_ask.H> /* fl_alert */
 #include <FL/Fl_File_Chooser.H> /* fl_file_chooser */

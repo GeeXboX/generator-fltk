@@ -19,7 +19,6 @@
 
 #include "compile.h"
 #include "config.h"
-#include "configparser.h"
 #include "fs.h"
 #include "ndiswrapper.h"
 #include "system.h"

@@ -305,7 +305,7 @@ int init_compile(GeneratorUI *ui)
     if (!f || !fgets(buf, sizeof(buf), f)) {
 	if (f)
 	    fclose(f);
-	fl_alert("Failed to detect geexbox version");
+	fl_alert("Failed to detect GeeXboX version");
 	return 0;
     }
     fclose(f);

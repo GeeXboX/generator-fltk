@@ -27,6 +27,7 @@
 #include "language.h"
 #include "lcd.h"
 #include "network.h"
+#include "nfs.h"
 #include "packages.h"
 #include "remote.h"
 #include "theme.h"
@@ -231,6 +232,7 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_video_tab(ui)
 	&& init_remote_tab(ui)
 	&& init_network_tab(ui)
+	&& init_nfs_tab(ui)
 	&& init_lcd_tab(ui)
 	&& init_theme_tab(ui)
 	&& init_curl()

@@ -27,6 +27,7 @@
 #include "language.h"
 #include "lcd.h"
 #include "network.h"
+#include "nfs.h"
 #include "packages.h"
 #include "remote.h"
 #include "theme.h"
@@ -85,6 +86,7 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Writing audio settings...", write_audio_settings },
       { "Writing video settings...", write_video_settings },
       { "Writing network settings...", write_network_settings },
+      { "Writing nfs settings...", write_nfs_settings },
       { "Writing lcd display settings...", write_lcd_settings },
     };
     unsigned int i;

@@ -29,6 +29,8 @@ decl {\#include "language.h"} {}
 
 decl {\#include "network.h"} {} 
 
+decl {\#include "nfs.h"} {} 
+
 decl {\#include "compile.h"} {} 
 
 class GeneratorUI {open

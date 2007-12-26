@@ -33,11 +33,6 @@
 
 #define yes_no(x) ((x) ? "yes" : "no") 
 
-typedef struct {
-    std::string server;
-    std::string dir;
-} Nfsshare;
-
 const char *path_ndiswrapper;
 
 static void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
@@ -140,98 +135,6 @@ static std::string search_driver(const char *path)
     return ret;
 }
 
-static std::string get_str_nospace(char *buf, int loc)
-{
-    int i, len;
-    char *start, *end, *str;
-    char buf2[256];
-    std::string res;
-
-    str = buf;
-    for (i = 1; i <= loc; i++) {
-        while (isspace(*str) && *str != '\n' && *str != '\0')
-            str++;
-
-        if (*str == '#')
-            break;
-
-        start = str;
-        while (!isspace(*str) && *str != '\n' && *str != '\0')
-            str++;
-        end = str;
-
-        if (i == loc) {
-            if (end - start + 1 <= (signed)sizeof(buf2))
-                len = end - start;
-            else
-                len = sizeof(buf2) - 1;
-
-            snprintf(buf2, len + 1, "%s", start);
-            buf2[len] = '\0';
-            res = buf2;
-            break;
-        }
-    }
-    return res;
-}
-
-void update_nfs_tab(GeneratorUI *ui)
-{
-    Nfsshare *n;
-
-    n = (Nfsshare*)ui->nfs_shares->mvalue()->user_data();
-
-    if (n && ui->nfs_shares->size() > 2) {
-        ui->nfs_server->value(n->server.c_str());
-        ui->nfs_dir->value(n->dir.c_str());
-        ui->nfs_mountpoint->value(ui->nfs_shares->mvalue()->label());
-    }
-    else {
-        ui->nfs_server->value("");
-        ui->nfs_dir->value("");
-        ui->nfs_mountpoint->value("");
-    }
-}
-
-void add_nfs(GeneratorUI *ui)
-{
-    Nfsshare *n = new Nfsshare;
-    std::string mp;
-
-    mp = get_str_nospace((char*)ui->nfs_mountpoint->value(), 1);
-    n->server = get_str_nospace((char*)ui->nfs_server->value(), 1);
-    n->dir = get_str_nospace((char*)ui->nfs_dir->value(), 1);
-
-    if (!n->server.empty() && !n->dir.empty() && !mp.empty()) {
-        ui->nfs_shares->add(mp.c_str(), 0, 0, (Nfsshare*)n, 0);
-        ui->nfs_shares->value(0);
-        update_nfs_tab(ui);
-    }
-    else
-        delete n;
-}
-
-void remove_nfs(GeneratorUI *ui)
-{
-    if (ui->nfs_shares->size() > 2) {
-        int i;
-        const char *item;
-
-        item = ui->nfs_shares->mvalue()->label();
-        if (strcmp(item, "<new>")) {
-            for (i = 1; i < ui->nfs_shares->size() - 1; i++) {
-                ui->nfs_shares->value(i);
-                if (!strcmp(ui->nfs_shares->mvalue()->label(), item)) {
-                    ui->nfs_shares->value(0);
-                    ui->nfs_shares->remove(i);
-                    break;
-                }
-            }
-            update_nfs_tab(ui);
-        }
-    }
-}
-
 int init_network_tab(GeneratorUI *ui)
 {
     char buf[256];
@@ -239,7 +142,6 @@ int init_network_tab(GeneratorUI *ui)
     std::string driver_name;
     config_t *config, *config2;
     const Fl_Menu_Item *m;
-    FILE *f;
 
     Flu_Tree_Browser *tree = ui->drvwin32_tree;
 
@@ -253,12 +155,6 @@ int init_network_tab(GeneratorUI *ui)
     if (!config2) {
 	fl_alert("Missing ftp configuration files.\n");
 	return 0;
-    }
-
-    f = fopen(PATH_BASEISO "/etc/nfs", "rb");
-    if (!f) {
-        fl_alert("Missing nfs configuration files.\n");
-        return 0;
     }
 
     if (target_arch == TARGET_ARCH_I386) {
@@ -390,45 +286,14 @@ int init_network_tab(GeneratorUI *ui)
 
     config_destroy(config2);
 
-    /* Read all NFS mountpoints */
-    ui->nfs_shares->add("<new>");
-
-    while ((fgets(buf, sizeof(buf), f))) {
-        std::string src, dst;
-
-        src = get_str_nospace(buf, 1);
-        dst = get_str_nospace(buf, 2);
-
-        if (!src.empty() && !dst.empty()) {
-            std::string::size_type index;
-            std::string server, dir;
-
-            index = src.find(':');
-            if (index != std::string::npos) {
-                Nfsshare *n = new Nfsshare;
-
-                server = src.substr(0, index);
-                dir = src.substr(index + 1);
-                n->server = server;
-                n->dir = dir;
-                ui->nfs_shares->add(dst.c_str(), 0, 0, (Nfsshare*)n, 0);
-            }
-        }
-    }
-    ui->nfs_shares->value(0);
-    fclose(f);
-
     return 1;
 }
 
 int write_network_settings(GeneratorUI *ui)
 {
-    int manual, i;
+    int manual;
     config_t *config, *config2;
     const char *str = NULL;
-    FILE *f;
-    std::string share;
-    Nfsshare *n;
 
     config = config_open(PATH_BASEISO "/etc/network", 1);
     if (!config) {
@@ -440,12 +305,6 @@ int write_network_settings(GeneratorUI *ui)
     if (!config) {
 	fl_alert("Failed to write ftp configuration.\n");
 	return 0;
-    }
-
-    f = fopen(PATH_BASEISO "/etc/nfs", "wb");
-    if (!f) {
-        fl_alert("Failed to write nfs configuration.\n");
-        return 0;
     }
 
     switch (ui->phy_iface->value())
@@ -510,21 +369,6 @@ int write_network_settings(GeneratorUI *ui)
 
     config_write(config2, PATH_BASEISO "/etc/ftp");
     config_destroy(config2);
-
-    /* Write all NFS mountpoints */
-    for (i = 1; i < ui->nfs_shares->size() - 1; i++) {
-        ui->nfs_shares->value(i);
-        n = (Nfsshare*)ui->nfs_shares->mvalue()->user_data();
-
-        if (n) {
-            share = n->server + ":" + n->dir + " ";
-            share += ui->nfs_shares->mvalue()->label() + std::string("\n");
-            fputs(share.c_str(), f);
-        }
-    }
-    fclose(f);
-    ui->nfs_shares->value(0);
-    update_nfs_tab(ui);
 
     return 1;
 }

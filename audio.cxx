@@ -51,9 +51,9 @@ int init_audio_tab(GeneratorUI *ui)
     ui->alsacard_id->value(i);
 
     config_getvar(config, "SOUNDCARD_MODE", buf, sizeof(buf));
-    ui->soundcard_mode->value(my_strcasecmp(buf, "spdif") ? 
-				GeneratorUI::SOUNDCARD_MODE_ANALOG :
-				GeneratorUI::SOUNDCARD_MODE_SPDIF);
+    ui->soundcard_mode->value(my_strcasecmp(buf, "spdif") ?
+                              GeneratorUI::SOUNDCARD_MODE_ANALOG :
+                              GeneratorUI::SOUNDCARD_MODE_SPDIF);
 
     config_getvar(config, "AC3_DECODER", buf, sizeof(buf));
     ui->hwac3->value(!my_strcasecmp(buf, "none") ? GeneratorUI::HW_NONE :
@@ -88,14 +88,14 @@ int write_audio_settings(GeneratorUI *ui)
     }
 
     config_setvar_int(config, "ALSA_CARD", (int)ui->alsacard_id->value());
-    config_setvar(config, "SOUNDCARD_MODE", 
-		(ui->soundcard_mode->value() == GeneratorUI::SOUNDCARD_MODE_SPDIF)
-		    ? "SPDIF" : "analog");
+    config_setvar(config, "SOUNDCARD_MODE",
+                  (ui->soundcard_mode->value() == GeneratorUI::SOUNDCARD_MODE_SPDIF)
+                  ? "SPDIF" : "analog");
     config_setvar(config, "AC3_DECODER",
-                ui->hwac3->value() == GeneratorUI::HW_NONE ? "none" :
-                ui->hwac3->value() == GeneratorUI::HW_AC3 ? "ac3" :
-                ui->hwac3->value() == GeneratorUI::HW_DTS ? "dts" :
-                "ac3dts");
+                  ui->hwac3->value() == GeneratorUI::HW_NONE ? "none" :
+                  ui->hwac3->value() == GeneratorUI::HW_AC3 ? "ac3" :
+                  ui->hwac3->value() == GeneratorUI::HW_DTS ? "dts" :
+                  "ac3dts");
 
     switch (ui->channels->value())
     {

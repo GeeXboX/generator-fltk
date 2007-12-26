@@ -1,6 +1,6 @@
 /*
- *  External packages support for GeeXboX FLTK Generator
- *  Copyright (C) 2005-2006  Amir Shalem
+ *  Extra files support for GeeXboX FLTK Generator
+ *  Copyright (C) 2006-2007 Mathieu Schroeter
  *
  *   This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,15 +15,17 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef packages_h
-#define packages_h
+#ifndef extrafiles_h
+#define extrafiles_h
 
-void package_license_agree(GeneratorUI *ui, int);
-void package_license_exit(GeneratorUI *ui);
-void package_download(GeneratorUI *ui);
+typedef struct {
+    char *path;
+    unsigned int size;
+} Extrafile;
 
-int init_packages_tab(GeneratorUI *ui);
-int write_packages_settings(GeneratorUI *ui);
-int is_package_downloaded(Flu_Tree_Browser::Node *n);
+void add_files(Flu_Tree_Browser *tree, GeneratorUI *ui);
+void add_folders(Flu_Tree_Browser *tree, GeneratorUI *ui);
+void remove_nodes(Flu_Tree_Browser *tree, GeneratorUI *ui);
+int init_extrafiles_tab(GeneratorUI *ui);
 
 #endif

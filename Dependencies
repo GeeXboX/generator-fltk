@@ -11,20 +11,24 @@ autoplay.o: configparser.h autoplay.h system.h
 compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 compile.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 compile.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h autoplay.h
-compile.o: compile.h config.h dvdnav.h fs.h keymap.h language.h lcd.h
-compile.o: network.h nfs.h packages.h remote.h theme.h system.h video.h
+compile.o: compile.h config.h dvdnav.h extrafiles.h fs.h keymap.h language.h
+compile.o: lcd.h network.h nfs.h packages.h remote.h theme.h system.h video.h
 curl.o: curl.h system.h libmd/md5.h libbz2/bzlib.h
 dvdnav.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 dvdnav.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 dvdnav.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
 dvdnav.o: configparser.h dvdnav.h system.h
+extrafiles.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+extrafiles.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+extrafiles.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
+extrafiles.o: generator.h extrafiles.h
 fs.o: fs.h system.h
 generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generator.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generator.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h
-generator.o: autoplay.h compile.h curl.h dvdnav.h keymap.h language.h lcd.h
-generator.o: ndiswrapper.h network.h nfs.h packages.h remote.h theme.h
-generator.o: video.h
+generator.o: autoplay.h compile.h curl.h dvdnav.h extrafiles.h keymap.h
+generator.o: language.h lcd.h ndiswrapper.h network.h nfs.h packages.h
+generator.o: remote.h theme.h video.h
 keymap.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 keymap.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 keymap.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
@@ -92,5 +96,6 @@ libbz2/randtable.o: libbz2/bzlib_private.h libbz2/bzlib.h
 generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generatorUI.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generatorUI.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h generator.h
-generatorUI.o: packages.h language.h ndiswrapper.h network.h nfs.h compile.h
+generatorUI.o: packages.h extrafiles.h language.h ndiswrapper.h network.h
+generatorUI.o: nfs.h compile.h
 icon.o: icon.h

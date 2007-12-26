@@ -25,6 +25,8 @@ decl {\#include "generator.h"} {}
 
 decl {\#include "packages.h"} {} 
 
+decl {\#include "extrafiles.h"} {} 
+
 decl {\#include "language.h"} {} 
 
 decl {\#include "ndiswrapper.h"} {} 

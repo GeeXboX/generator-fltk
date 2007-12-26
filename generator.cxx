@@ -23,6 +23,7 @@
 #include "compile.h"
 #include "curl.h"
 #include "dvdnav.h"
+#include "extrafiles.h"
 #include "keymap.h"
 #include "language.h"
 #include "lcd.h"
@@ -239,6 +240,7 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_theme_tab(ui)
 	&& init_curl()
 	&& init_packages_tab(ui)
+	&& init_extrafiles_tab(ui)
 	;
 }
 

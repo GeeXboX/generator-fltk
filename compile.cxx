@@ -22,6 +22,7 @@
 #include "compile.h"
 #include "config.h"
 #include "dvdnav.h"
+#include "extrafiles.h"
 #include "fs.h"
 #include "keymap.h"
 #include "language.h"

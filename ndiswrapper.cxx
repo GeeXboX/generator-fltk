@@ -153,7 +153,7 @@ int init_ndiswrapper_tab(GeneratorUI *ui)
         driver_name = search_driver(PATH_BASEISO "/etc/ndiswrapper");
         if (driver_name != "") {
             inf = PATH_BASEISO "/etc/ndiswrapper/" + driver_name + "/" + driver_name + ".inf";
-            load_driver_node(tree, inf.c_str(), 0);
+            load_driver_node(tree, inf, 0);
         }
     }
     else

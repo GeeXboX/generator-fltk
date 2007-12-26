@@ -309,11 +309,11 @@ class GeneratorUI {open
             xywh {350 80 130 25} down_box BORDER_BOX
           } {}
           Fl_Input xorg_custom_w {
-            label {width:}
+            label {Width:}
             xywh {180 120 80 25}
           }
           Fl_Input xorg_custom_h {
-            label {height:}
+            label {Height:}
             xywh {330 120 80 25}
           }
           Fl_Check_Button hdtv {

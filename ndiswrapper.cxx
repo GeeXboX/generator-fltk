@@ -33,7 +33,7 @@ const char *path_ndiswrapper;
 
 static void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
 {
-    char buf[512];
+    std::string buf;
     std::string src, dst, dir;
     std::string drivername, filename;
     std::string dst_dir = PATH_BASEISO "/etc/ndiswrapper";
@@ -49,8 +49,8 @@ static void load_driver_node(Flu_Tree_Browser *tree, std::string inf, int copy)
             my_mkdir(dst_dir.c_str());
 
         if (copy) {
-            snprintf(buf, sizeof(buf), "%s -i \"%s\" -o \"%s\" -a", path_ndiswrapper, inf.c_str(), dst_dir.c_str());
-            if (execute_bg_program(buf) != 0) {
+            buf = std::string(path_ndiswrapper) + " -i \"" + inf + "\" -o \"" + dst_dir + "\" -a";
+            if (execute_bg_program((char*)buf.c_str()) != 0) {
                 fl_alert("Error with the INF file processing!\n");
                 return;
             }

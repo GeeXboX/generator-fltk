@@ -91,7 +91,7 @@ void add_nfs(GeneratorUI *ui)
     n->server = get_str_nospace((char*)ui->nfs_server->value(), 1);
     n->dir = get_str_nospace((char*)ui->nfs_dir->value(), 1);
 
-    if (!n->server.empty() && !n->dir.empty() && !mp.empty()) {
+    if (mp != "<new>" && !n->server.empty() && !n->dir.empty() && !mp.empty()) {
         ui->nfs_shares->add(mp.c_str(), 0, 0, (Nfsshare*)n, 0);
         ui->nfs_shares->value(0);
         update_nfs_tab(ui);

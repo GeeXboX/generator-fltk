@@ -26,6 +26,7 @@
 #include "keymap.h"
 #include "language.h"
 #include "lcd.h"
+#include "ndiswrapper.h"
 #include "network.h"
 #include "nfs.h"
 #include "packages.h"
@@ -231,6 +232,7 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_audio_tab(ui)
 	&& init_video_tab(ui)
 	&& init_remote_tab(ui)
+	&& init_ndiswrapper_tab(ui)
 	&& init_network_tab(ui)
 	&& init_nfs_tab(ui)
 	&& init_lcd_tab(ui)

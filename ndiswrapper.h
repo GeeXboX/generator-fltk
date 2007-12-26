@@ -1,6 +1,6 @@
 /*
- *  Network support for GeeXboX FLTK Generator
- *  Copyright (C) 2005-2006  Amir Shalem
+ *  Ndiswrapper support for GeeXboX FLTK Generator
+ *  Copyright (C) 2006-2007 Mathieu Schroeter
  *
  *   This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,10 +15,11 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef network_h
-#define network_h
+#ifndef ndiswrapper_h
+#define ndiswrapper_h
 
-int init_network_tab(GeneratorUI *ui);
-int write_network_settings(GeneratorUI *ui);
+void load_drvwin32(Flu_Tree_Browser *tree);
+void unload_drvwin32(Flu_Tree_Browser *tree);
+int init_ndiswrapper_tab(GeneratorUI *ui);
 
 #endif

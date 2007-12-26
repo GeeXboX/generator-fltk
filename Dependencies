@@ -23,7 +23,8 @@ generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generator.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generator.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h
 generator.o: autoplay.h compile.h curl.h dvdnav.h keymap.h language.h lcd.h
-generator.o: network.h nfs.h packages.h remote.h theme.h video.h
+generator.o: ndiswrapper.h network.h nfs.h packages.h remote.h theme.h
+generator.o: video.h
 keymap.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 keymap.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 keymap.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
@@ -36,10 +37,14 @@ lcd.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H FLU/FLU/Flu_Tree_Browser.h
 lcd.o: FLU/FLU/Flu_Enumerations.h FLU/FLU/flu_export.h
 lcd.o: FLU/FLU/FluSimpleString.h compile.h config.h configparser.h lcd.h
 lcd.o: system.h
+ndiswrapper.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+ndiswrapper.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+ndiswrapper.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h
+ndiswrapper.o: config.h configparser.h fs.h ndiswrapper.h system.h
 network.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 network.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
-network.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
-network.o: configparser.h fs.h network.h system.h utils.h
+network.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
+network.o: configparser.h network.h system.h utils.h
 nfs.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H FLU/FLU/Flu_Tree_Browser.h
 nfs.o: FLU/FLU/Flu_Enumerations.h FLU/FLU/flu_export.h
 nfs.o: FLU/FLU/FluSimpleString.h config.h configparser.h nfs.h system.h
@@ -87,5 +92,5 @@ libbz2/randtable.o: libbz2/bzlib_private.h libbz2/bzlib.h
 generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generatorUI.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generatorUI.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h generator.h
-generatorUI.o: packages.h language.h network.h nfs.h compile.h
+generatorUI.o: packages.h language.h ndiswrapper.h network.h nfs.h compile.h
 icon.o: icon.h

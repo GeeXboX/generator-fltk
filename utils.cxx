@@ -19,11 +19,45 @@
 
 #include <stdio.h>
 #include <ctype.h> /* isspace */
-#include <string.h> /* strchr strcmp strncpy strrchr */
 
 void replace_char (char *str, const char o, const char n)
 {
     for (; *str; str++)
 	if (*str == o)
 	    *str = n;
+}
+
+std::string get_str_nospace(char *buf, int loc)
+{
+    int i, len;
+    char *start, *end, *str;
+    char buf2[256];
+    std::string res;
+
+    str = buf;
+    for (i = 1; i <= loc; i++) {
+        while (isspace(*str) && *str != '\n' && *str != '\0')
+            str++;
+
+        if (*str == '#')
+            break;
+
+        start = str;
+        while (!isspace(*str) && *str != '\n' && *str != '\0')
+            str++;
+        end = str;
+
+        if (i == loc) {
+            if (end - start + 1 <= (signed)sizeof(buf2))
+                len = end - start;
+            else
+                len = sizeof(buf2) - 1;
+
+            snprintf(buf2, len + 1, "%s", start);
+            buf2[len] = '\0';
+            res = buf2;
+            break;
+        }
+    }
+    return res;
 }

@@ -18,6 +18,9 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#include <string>
+
 void replace_char (char *str, char o, char n);
+std::string get_str_nospace(char *buf, int loc);
 
 #endif

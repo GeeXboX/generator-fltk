@@ -18,16 +18,6 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include <stdio.h>
-
 void replace_char (char *str, char o, char n);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif

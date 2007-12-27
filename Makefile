@@ -1,7 +1,7 @@
 PROJ=generator
 
-SRCS_CXX=audio.cxx autoplay.cxx compile.cxx curl.cxx dvdnav.cxx extrafiles.cxx fs.cxx generator.cxx keymap.cxx language.cxx lcd.cxx ndiswrapper.cxx network.cxx nfs.cxx packages.cxx remote.cxx theme.cxx system.cxx video.cxx
-SRCS_C=utils.c configparser.c
+SRCS_CXX=audio.cxx autoplay.cxx compile.cxx curl.cxx dvdnav.cxx extrafiles.cxx fs.cxx generator.cxx keymap.cxx language.cxx lcd.cxx ndiswrapper.cxx network.cxx nfs.cxx packages.cxx remote.cxx theme.cxx system.cxx utils.cxx video.cxx
+SRCS_C=configparser.c
 SRCS_CXX+=Fl_Gel_Tabs/Fl_Gel_Tabs.cxx 
 SRCS_CXX+=FLU/Flu_Tree_Browser.cxx FLU/FluSimpleString.cxx FLU/flu_pixmaps.cxx
 SRCS_C+=libmd/md5c.c libmd/md5hl.c

@@ -17,6 +17,7 @@
 
 #include "utils.h"
 
+#include <stdio.h>
 #include <ctype.h> /* isspace */
 #include <string.h> /* strchr strcmp strncpy strrchr */
 

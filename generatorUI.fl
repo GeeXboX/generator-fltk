@@ -670,54 +670,54 @@ class GeneratorUI {open
                   xywh {485 190 30 25}
                 }
               }
+              Fl_Group {} {
+                label {Dynamic mounts:} open
+                xywh {540 60 190 195} box ENGRAVED_FRAME align 5
+              } {
+                Fl_Input samba_user {
+                  label {Username:}
+                  xywh {620 70 100 25}
+                }
+                Fl_Input samba_pass {
+                  label {Password:}
+                  xywh {620 100 100 25}
+                }
+              }
             }
           }
         }
         Fl_Group {} {
           label Services
-          xywh {15 25 740 270}
+          xywh {15 25 740 270} hide
         } {
           Fl_Group {} {
-            label {Windows shares:} open
-            xywh {40 60 260 95} box ENGRAVED_FRAME align 5
-          } {
-            Fl_Input samba_user {
-              label {Username:}
-              xywh {130 75 150 25}
-            }
-            Fl_Input samba_pass {
-              label {Password:}
-              xywh {130 115 150 25}
-            }
-          }
-          Fl_Group {} {
             label {Network services:} open
-            xywh {320 60 405 95} box ENGRAVED_FRAME align 5
+            xywh {40 60 685 95} box ENGRAVED_FRAME align 5
           } {
             Fl_Check_Button server_ftp {
               label {FTP server}
-              callback {update_tabs_status(this);} open
-              xywh {330 65 125 25} down_box DOWN_BOX
+              callback {update_tabs_status(this);}
+              xywh {55 65 125 25} down_box DOWN_BOX
             }
             Fl_Check_Button server_telnet {
               label {Telnet server}
-              xywh {530 65 125 25} down_box DOWN_BOX
+              xywh {275 65 125 25} down_box DOWN_BOX
             }
             Fl_Check_Button server_http {
               label {Web server}
-              xywh {530 90 125 25} down_box DOWN_BOX
+              xywh {275 90 125 25} down_box DOWN_BOX
             }
             Fl_Check_Button upnp_discovery {
               label {UPnP devices discovery}
-              xywh {530 120 190 25} down_box DOWN_BOX
+              xywh {275 120 190 25} down_box DOWN_BOX
             }
             Fl_Input ftp_user {
               label {Username:}
-              xywh {410 90 105 25}
+              xywh {145 90 105 25}
             }
             Fl_Input ftp_pass {
               label {Password:}
-              xywh {410 120 105 25}
+              xywh {145 120 105 25}
             }
           }
           Fl_Group {} {

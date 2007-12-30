@@ -580,7 +580,7 @@ class GeneratorUI {open
               }
             }
             Fl_Group nfs_subtab {
-              label {Network File System} open
+              label {Unix shares} open
               xywh {15 25 740 255} align 2 hide
             } {
               Fl_Button {} {

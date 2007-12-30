@@ -62,8 +62,11 @@ void add_nfs(GeneratorUI *ui)
         ui->nfs_shares->value(0);
         update_nfs_tab(ui);
     }
-    else
+    else {
         delete n;
+
+        fl_alert("All fields are needed!\n");
+    }
 }
 
 void remove_nfs(GeneratorUI *ui)

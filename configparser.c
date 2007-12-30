@@ -67,18 +67,21 @@ int config_write(config_t *config, const char *filename)
       }
     else
       {
-	fputs(item->name, f);
-	fputc('=', f);
-        if (config->shell_escape)
-	  {
-	    fputc('\"', f);
-	    fputs(item->value, f);
-	    fputc('\"', f);
-	  }
-	else
-	  {
-	    fputs(item->value, f);
-	  }
+        if (item->value)
+          {
+            fputs(item->name, f);
+            fputc('=', f);
+            if (config->shell_escape)
+              {
+                fputc('\"', f);
+                fputs(item->value, f);
+                fputc('\"', f);
+              }
+            else
+              {
+                fputs(item->value, f);
+              }
+          }
       }
   }
 
@@ -332,14 +335,21 @@ int config_setvar_location (config_t *config, const char *name, int location, co
         {
 	  found = 1;
 	  free(item->value);
-	  item->value = strdup(value);
-	  if (!item->value)
-	    return 0;
+          if (value)
+            {
+	      item->value = strdup(value);
+	      if (!item->value)
+	        return 0;
+            }
+          else
+            item->value = NULL;
 	}
     }
 
   if (found)
     return 1;
+  else if (!value)
+    return 0;
   else
     return config_add_item(config, value, strlen(value), name, strlen(name)) &&
            config_add_item(config, "\n", 1, NULL, 0);

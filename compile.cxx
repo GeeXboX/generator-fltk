@@ -31,6 +31,7 @@
 #include "nfs.h"
 #include "packages.h"
 #include "remote.h"
+#include "samba.h"
 #include "theme.h"
 #include "system.h"
 #include "video.h"
@@ -88,6 +89,7 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Writing video settings...", write_video_settings },
       { "Writing network settings...", write_network_settings },
       { "Writing nfs settings...", write_nfs_settings },
+      { "Writing samba settings...", write_samba_settings },
       { "Writing lcd display settings...", write_lcd_settings },
     };
     unsigned int i;

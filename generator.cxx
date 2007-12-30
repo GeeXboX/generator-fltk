@@ -32,6 +32,7 @@
 #include "nfs.h"
 #include "packages.h"
 #include "remote.h"
+#include "samba.h"
 #include "theme.h"
 #include "video.h"
 
@@ -214,6 +215,7 @@ void update_tabs_status(GeneratorUI *ui)
 
     update_theme_tab(ui);
     update_nfs_tab(ui);
+    update_smb_tab(ui);
 }
 
 void generator_exit(GeneratorUI *ui)
@@ -236,6 +238,7 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_ndiswrapper_tab(ui)
 	&& init_network_tab(ui)
 	&& init_nfs_tab(ui)
+	&& init_samba_tab(ui)
 	&& init_lcd_tab(ui)
 	&& init_theme_tab(ui)
 	&& init_curl()

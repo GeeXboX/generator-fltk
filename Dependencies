@@ -12,7 +12,8 @@ compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 compile.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 compile.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h autoplay.h
 compile.o: compile.h config.h dvdnav.h extrafiles.h fs.h keymap.h language.h
-compile.o: lcd.h network.h nfs.h packages.h remote.h theme.h system.h video.h
+compile.o: lcd.h network.h nfs.h packages.h remote.h samba.h theme.h system.h
+compile.o: video.h
 curl.o: curl.h system.h libmd/md5.h libbz2/bzlib.h
 dvdnav.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 dvdnav.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
@@ -28,7 +29,7 @@ generator.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generator.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h
 generator.o: autoplay.h compile.h curl.h dvdnav.h extrafiles.h keymap.h
 generator.o: language.h lcd.h ndiswrapper.h network.h nfs.h packages.h
-generator.o: remote.h theme.h video.h
+generator.o: remote.h samba.h theme.h video.h
 keymap.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 keymap.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 keymap.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
@@ -51,7 +52,7 @@ network.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
 network.o: configparser.h network.h system.h
 nfs.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H FLU/FLU/Flu_Tree_Browser.h
 nfs.o: FLU/FLU/Flu_Enumerations.h FLU/FLU/flu_export.h
-nfs.o: FLU/FLU/FluSimpleString.h config.h nfs.h
+nfs.o: FLU/FLU/FluSimpleString.h config.h nfs.h utils.h
 packages.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 packages.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 packages.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
@@ -60,11 +61,16 @@ remote.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 remote.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 remote.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
 remote.o: configparser.h compile.h fs.h remote.h
+samba.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+samba.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+samba.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
+samba.o: configparser.h samba.h system.h utils.h
 theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 theme.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 theme.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
 theme.o: configparser.h fs.h language.h theme.h utils.h video.h
 system.o: system.h
+utils.o: utils.h
 video.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 video.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 video.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h compile.h
@@ -84,7 +90,6 @@ FLU/Flu_Tree_Browser.o: FLU/FLU/flu_pixmaps.h
 FLU/FluSimpleString.o: FLU/FLU/FluSimpleString.h FLU/FLU/Flu_Enumerations.h
 FLU/FluSimpleString.o: FLU/FLU/flu_export.h
 FLU/flu_pixmaps.o: FLU/FLU/flu_pixmaps.h FLU/FLU/flu_export.h
-utils.o: utils.h
 configparser.o: configparser.h
 libmd/md5c.o: libmd/md5.h
 libmd/md5hl.o: libmd/md5.h
@@ -97,5 +102,5 @@ generatorUI.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generatorUI.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generatorUI.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h generator.h
 generatorUI.o: packages.h extrafiles.h language.h ndiswrapper.h network.h
-generatorUI.o: nfs.h compile.h
+generatorUI.o: nfs.h samba.h compile.h
 icon.o: icon.h

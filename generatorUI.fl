@@ -36,6 +36,8 @@ decl {\#include "network.h"} {}
 
 decl {\#include "nfs.h"} {} 
 
+decl {\#include "samba.h"} {} 
+
 decl {\#include "compile.h"} {} 
 
 class GeneratorUI {open
@@ -607,6 +609,66 @@ class GeneratorUI {open
               Fl_Input nfs_mountpoint {
                 label {Mountpoint name:}
                 xywh {185 170 165 25}
+              }
+            }
+            Fl_Group smb_subtab {
+              label {Windows shares} open selected
+              xywh {15 25 740 255} align 2
+            } {
+              Fl_Group {} {
+                label {Static mounts:} open
+                xywh {40 60 490 195} box ENGRAVED_FRAME align 5
+              } {
+                Fl_Button {} {
+                  label Add
+                  callback {add_smb(this, 1);}
+                  xywh {165 219 80 26}
+                }
+                Fl_Button {} {
+                  label Remove
+                  callback {remove_smb(this);}
+                  xywh {250 220 80 25}
+                }
+                Fl_Choice smb_servers {
+                  label {Samba Shares:}
+                  callback {update_tabs_status(this);}
+                  xywh {160 70 320 25} down_box BORDER_BOX
+                } {}
+                Fl_Input smb_servername {
+                  label {Server name:}
+                  xywh {160 100 170 25}
+                }
+                Fl_Input smb_ip {
+                  label {Server IP:}
+                  xywh {160 130 170 25}
+                }
+                Fl_Input smb_username {
+                  label {Username:}
+                  xywh {195 160 135 25}
+                }
+                Fl_Input smb_password {
+                  label {Password:}
+                  xywh {195 190 135 25}
+                }
+                Fl_Browser smb_shares {
+                  xywh {350 100 130 115} box DOWN_BOX align 5
+                  code0 {\#include <FLU/Flu_Tree_Browser.h>}
+                  class Flu_Tree_Browser
+                }
+                Fl_Input smb_name {
+                  label {Name:}
+                  xywh {400 220 80 25}
+                }
+                Fl_Button {} {
+                  label {+}
+                  callback {add_smbshare(this);}
+                  xywh {485 220 30 25}
+                }
+                Fl_Button {} {
+                  label {-}
+                  callback {remove_smbshare(this);}
+                  xywh {485 190 30 25}
+                }
               }
             }
           }

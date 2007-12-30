@@ -69,19 +69,10 @@ void add_nfs(GeneratorUI *ui)
 void remove_nfs(GeneratorUI *ui)
 {
     if (ui->nfs_shares->size() > 2) {
-        int i;
-        const char *item;
+        if (strcmp(ui->nfs_shares->mvalue()->label(), "<new>")) {
+            ui->nfs_shares->remove(ui->nfs_shares->value());
+            ui->nfs_shares->value(0);
 
-        item = ui->nfs_shares->mvalue()->label();
-        if (strcmp(item, "<new>")) {
-            for (i = 1; i < ui->nfs_shares->size() - 1; i++) {
-                ui->nfs_shares->value(i);
-                if (!strcmp(ui->nfs_shares->mvalue()->label(), item)) {
-                    ui->nfs_shares->value(0);
-                    ui->nfs_shares->remove(i);
-                    break;
-                }
-            }
             update_nfs_tab(ui);
         }
     }

@@ -36,7 +36,7 @@ typedef struct {
     std::vector<std::string> shares;
 } Smbshare;
 
-int g_nbshare;
+static int g_nbshare;
 
 static void init_tree(Flu_Tree_Browser *tree)
 {

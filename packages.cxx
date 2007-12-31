@@ -158,6 +158,7 @@ static void tree_callback(Fl_Widget* w, void* data)
 void init_nodes(GeneratorUI *ui)
 {
     Flu_Tree_Browser::Node *n;
+    char label[256];
 
     for (n = ui->package_tree->first_leaf(); n; n = n->next_leaf())
     {
@@ -165,6 +166,9 @@ void init_nodes(GeneratorUI *ui)
         {
             n->clear();
             n->deactivate();
+
+            snprintf(label, sizeof(label), "%s (installed)", n->label());
+            n->label(label);
         }
     }
 }
@@ -244,6 +248,7 @@ static void start_package_downloading(GeneratorUI *ui)
     std::string url, path, label;
     int rc;
     int pp_data = 0;
+    char label2[256];
 
     rc = 0;
     for (n = ui->package_tree->first_leaf(); n; n = n->next_leaf())
@@ -308,6 +313,9 @@ static void start_package_downloading(GeneratorUI *ui)
             {
                 n->clear();
                 n->deactivate();
+
+                snprintf(label2, sizeof(label2), "%s (installed)", n->label());
+                n->label(label2);
             }
 	}
     }

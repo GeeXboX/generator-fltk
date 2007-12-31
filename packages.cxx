@@ -43,6 +43,8 @@ typedef struct {
     int agree;
 } Package;
 
+static int g_compile;
+
 static void insert_package_node(Flu_Tree_Browser *tree, const char *path, Package *p)
 {
     Flu_Tree_Browser::Node *n;
@@ -251,8 +253,17 @@ static void start_package_downloading(GeneratorUI *ui)
 	if (b && b->value() && (!p->license || p->agree))
 	    rc+=p->file.size();
     }
-    if (!rc)
+    if (!rc && g_compile) {
+        /* only compile the iso */
+        compile_iso(ui, 0);
+        g_compile = 0;
+        return;
+    }
+    else if (!rc)
 	return;
+
+    ui->setting_tabs->value(ui->packages_tab);
+    ui->packages_tabs->value(ui->packages_subtab);
 
     ui->package_progress->minimum(0);
     ui->package_progress->maximum(rc*100);
@@ -262,6 +273,7 @@ static void start_package_downloading(GeneratorUI *ui)
 
     ui->package_tree->deactivate();
     ui->package_button->label("Stop");
+    ui->compile_button->deactivate();
 
     rc = 0;
     for (n = ui->package_tree->first_leaf(); !rc && n; n = n->next_leaf())
@@ -320,10 +332,16 @@ static void start_package_downloading(GeneratorUI *ui)
 	ui->package_progress->label("");
     } else {
 	ui->package_progress->label("Done");
+        if (g_compile) {
+            /* only compile */
+            compile_iso(ui, 0);
+            g_compile = 0;
+        }
     }
 
     ui->package_button->label("Download");
     ui->package_tree->activate();
+    ui->compile_button->activate();
 
     update_tabs_status(ui);
 }
@@ -423,12 +441,14 @@ void open_licenses_window(GeneratorUI *ui, int count)
     process_package_license(ui, n);
 }
 
-void package_download(GeneratorUI *ui)
+void package_download(GeneratorUI *ui, int run_compile)
 {
     Flu_Tree_Browser::Node *n;
     Fl_Button *b;
     Package *p;
     int count;
+
+    g_compile = run_compile;
 
     count = 0;
     for (n = ui->package_tree->first_leaf(); n; n = n->next_leaf())

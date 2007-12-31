@@ -20,7 +20,7 @@
 
 void package_license_agree(GeneratorUI *ui, int);
 void package_license_exit(GeneratorUI *ui);
-void package_download(GeneratorUI *ui);
+void package_download(GeneratorUI *ui, int run_compile);
 
 int init_packages_tab(GeneratorUI *ui);
 int write_packages_settings(GeneratorUI *ui);

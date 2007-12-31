@@ -249,18 +249,23 @@ static int real_compile_iso(GeneratorUI *ui)
     return 1;
 }
 
-int compile_iso(GeneratorUI *ui)
+int compile_iso(GeneratorUI *ui, int check_packages)
 {
-    int rc;
+    int rc = 1;
 
-    ui->setting_tabs->deactivate();
-    ui->compile_button->deactivate();
-    Fl::check();
+    if (!check_packages) {
+        ui->setting_tabs->deactivate();
+        ui->compile_button->deactivate();
+        Fl::check();
 
-    rc = real_compile_iso(ui);
+        rc = real_compile_iso(ui);
 
-    ui->setting_tabs->activate();
-    ui->compile_button->activate();
+        ui->setting_tabs->activate();
+        ui->compile_button->activate();
+    }
+    else
+        /* run the compilation after the download */
+        package_download(ui, 1);
 
     return rc;
 }

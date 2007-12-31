@@ -777,16 +777,16 @@ class GeneratorUI {open
             xywh {275 131 35 24}
           }
         }
-        Fl_Group {} {
+        Fl_Group packages_tab {
           label Packages open
           xywh {15 25 740 270}
         } {
-          Fl_Tabs {} {open
+          Fl_Tabs packages_tabs {open
             xywh {15 25 740 270} box NO_BOX align 2
             code0 {\#include <FL/Fl_Gel_Tabs.H>}
             class Fl_Gel_Tabs
           } {
-            Fl_Group {} {
+            Fl_Group packages_subtab {
               label {Official packages} open
               xywh {15 25 740 255} align 2
             } {
@@ -806,7 +806,7 @@ class GeneratorUI {open
               }
               Fl_Button package_button {
                 label Download
-                callback {package_download(this);}
+                callback {package_download(this, 0);}
                 xywh {640 225 85 30}
               }
             }
@@ -849,7 +849,7 @@ class GeneratorUI {open
       }
       Fl_Button compile_button {
         label {Compile !}
-        callback {compile_iso(this);}
+        callback {compile_iso(this, 1);}
         xywh {680 310 75 30}
       }
       Fl_Progress progress {

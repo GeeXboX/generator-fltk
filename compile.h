@@ -27,7 +27,7 @@ extern target_arch_t target_arch;
 const char *get_target_arch_string(void);
 
 int init_compile(GeneratorUI *ui);
-int compile_iso(GeneratorUI *ui);
+int compile_iso(GeneratorUI *ui, int check_packages);
 void cleanup_compile(void);
 
 int find_geexbox_tree(const char *prog);

@@ -62,7 +62,32 @@ void update_tabs_status(GeneratorUI *ui)
 	ui->lcd_height->deactivate();
     }
 
+    if (ui->xorg_auto->value()) {
+        ui->xorg_res->deactivate();
+        ui->xorg_drivers->deactivate();
+        ui->xorg_monitor->deactivate();
+        ui->xorg_custom_w->deactivate();
+        ui->xorg_custom_h->deactivate();
+    }
+    else {
+        ui->xorg_res->activate();
+        ui->xorg_drivers->activate();
+        ui->xorg_monitor->activate();
+
+        if (ui->xorg_res->value() == GeneratorUI::XORG_CUSTOM) {
+            ui->xorg_custom_w->activate();
+            ui->xorg_custom_h->activate();
+        }
+        else {
+            ui->xorg_custom_w->deactivate();
+            ui->xorg_custom_h->deactivate();
+        }
+    }
+
     if (!ui->hdtv->value()) {
+        ui->xorg_auto->deactivate();
+        ui->xorg_auto->hide();
+
         ui->xorg_res->deactivate();
         ui->xorg_res->hide();
         ui->xorg_drivers->deactivate();
@@ -96,6 +121,15 @@ void update_tabs_status(GeneratorUI *ui)
         }
     }
     else {
+        ui->xorg_auto->activate();
+        ui->xorg_auto->show();
+
+        ui->xorg_res->show();
+        ui->xorg_drivers->show();
+        ui->xorg_monitor->show();
+        ui->xorg_custom_w->show();
+        ui->xorg_custom_h->show();
+
         ui->vesa_res->deactivate();
         ui->vesa_res->hide();
         ui->vesa_depth->deactivate();
@@ -103,27 +137,7 @@ void update_tabs_status(GeneratorUI *ui)
         ui->vesa_custom->deactivate();
         ui->vesa_custom->hide();
 
-        ui->xorg_res->activate();
-        ui->xorg_res->show();
-        ui->xorg_drivers->activate();
-        ui->xorg_drivers->show();
-        ui->xorg_monitor->activate();
-        ui->xorg_monitor->show();
-
         ui->video_splash->activate();
-
-        if (ui->xorg_res->value() == GeneratorUI::XORG_CUSTOM) {
-            ui->xorg_custom_w->activate();
-            ui->xorg_custom_w->show();
-            ui->xorg_custom_h->activate();
-            ui->xorg_custom_h->show();
-        }
-        else {
-            ui->xorg_custom_w->deactivate();
-            ui->xorg_custom_w->hide();
-            ui->xorg_custom_h->deactivate();
-            ui->xorg_custom_h->hide();
-        }
     }
 
     if (ui->streaming_shoutcasttv->value()) {

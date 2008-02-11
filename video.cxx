@@ -22,6 +22,7 @@
 #include "configparser.h"
 #include "video.h"
 #include "system.h"
+#include "fs.h"
 
 #include <FL/fl_ask.H> /* fl_alert */
 
@@ -88,7 +89,15 @@ int init_video_tab(GeneratorUI *ui)
             return 0;
         }
 
-        config2 = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
+        if (file_exists(PATH_BASEISO "/etc/X11/X.cfg")) {
+            ui->xorg_auto->value(0);
+            config2 = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
+        }
+        else {
+            ui->xorg_auto->value(1);
+            config2 = config_open(PATH_BASEISO "/etc/X11/X.cfg.sample", 1);
+        }
+
         if (config2) {
             xorg_drivers = fopen(PATH_BASEISO "/etc/X11/drivers", "rb");
             ui->xorg_drivers->add("auto", 0, NULL, (char *)"auto");
@@ -280,6 +289,9 @@ int write_video_settings(GeneratorUI *ui)
         }
 
         config3 = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
+        if (!config3)
+            config3 = config_open(PATH_BASEISO "/etc/X11/X.cfg.sample", 1);
+
         if (config3) {
             config_setvar(config3, "XORG_DRIVER",
                           ui->xorg_drivers->mvalue()->label());
@@ -331,8 +343,16 @@ int write_video_settings(GeneratorUI *ui)
             config_setvar(config3, "XORG_RESY", *xorg_h == '\0' ?
                                                 "auto" : xorg_h);
 
-            config_write(config3, PATH_BASEISO "/etc/X11/X.cfg");
+            config_write(config3, PATH_BASEISO "/etc/X11/X.cfg.sample");
             config_destroy(config3);
+
+            if (!ui->xorg_auto->value()) {
+                copy_file(PATH_BASEISO "/etc/X11/X.cfg.sample",
+                          PATH_BASEISO "/etc/X11/X.cfg");
+                unlink(PATH_BASEISO "/etc/X11/X.cfg.sample");
+            }
+            else
+                unlink(PATH_BASEISO "/etc/X11/X.cfg");
 
             /* 800x600 bootsplash with HDTV */
             if (ui->hdtv->value() && ui->video_splash->value())

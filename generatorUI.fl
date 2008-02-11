@@ -323,6 +323,11 @@ class GeneratorUI {open
             callback {update_tabs_status(this);}
             xywh {55 45 125 25} down_box DOWN_BOX
           }
+          Fl_Check_Button xorg_auto {
+            label {Auto settings}
+            callback {update_tabs_status(this);}
+            xywh {180 45 125 25} down_box DOWN_BOX
+          }
           Fl_Group {xorg_monitor} {
             label {Monitor Settings} open
             xywh {520 70 190 120} box ENGRAVED_FRAME align 5

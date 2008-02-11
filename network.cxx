@@ -68,7 +68,14 @@ int init_network_tab(GeneratorUI *ui)
                                 GeneratorUI::WIFI_ENC_NONE);
 
     config_getvar(config, "WIFI_KEY", buf, sizeof(buf));
-    ui->wifi_key->value(buf);
+    if (!strncmp(buf, "s:", 2)) {
+        ui->key_ascii->value(1);
+        ui->wifi_key->value(buf + 2);
+    }
+    else {
+        ui->key_ascii->value(0);
+        ui->wifi_key->value(buf);
+    }
 
     config_getvar(config, "WIFI_ESSID", buf, sizeof(buf));
     ui->wifi_ssid->value(buf);
@@ -161,6 +168,7 @@ int init_network_tab(GeneratorUI *ui)
 
 int write_network_settings(GeneratorUI *ui)
 {
+    char buf[256];
     int manual;
     config_t *config, *config2;
     const char *str = NULL;
@@ -199,7 +207,12 @@ int write_network_settings(GeneratorUI *ui)
                       ? "WEP" :
                   (ui->wifi_enc->value() == GeneratorUI::WIFI_ENC_WPA)
                       ? "WPA" : "none");
-    config_setvar(config, "WIFI_KEY", ui->wifi_key->value());
+
+    snprintf(buf, sizeof(buf), "%s%s", *ui->wifi_key->value() != '\0' &&
+                                       ui->key_ascii->value() ? "s:" : "",
+                                       ui->wifi_key->value());
+    config_setvar(config, "WIFI_KEY", buf);
+
     config_setvar(config, "WIFI_ESSID", ui->wifi_ssid->value());
     config_setvar(config, "WIFI_CHANNEL", strcmp(ui->wifi_channel->mvalue()->label(), "AUTO")
                                           ? ui->wifi_channel->mvalue()->label() : "");

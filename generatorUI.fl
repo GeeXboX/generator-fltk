@@ -456,7 +456,7 @@ class GeneratorUI {open
                 Fl_Choice wifi_enc {
                   label {WiFi encrypt:}
                   callback {update_tabs_status(this);} open
-                  xywh {500 160 235 25} down_box BORDER_BOX
+                  xywh {500 160 130 25} down_box BORDER_BOX
                 } {
                   MenuItem {} {
                     label None
@@ -470,6 +470,10 @@ class GeneratorUI {open
                     label WPA
                     xywh {0 0 34 21}
                   }
+                }
+                Fl_Check_Button key_ascii {
+                  label {Key is ASCII}
+                  xywh {635 160 100 25} down_box DOWN_BOX
                 }
                 Fl_Choice wpa_drv {
                   label {WPA driver:} open

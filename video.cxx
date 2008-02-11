@@ -313,7 +313,7 @@ int write_video_settings(GeneratorUI *ui)
                 break;
             case GeneratorUI::XORG_RES_720:
                 strcpy(xorg_w, "720");
-                strcpy(xorg_h, "640");
+                strcpy(xorg_h, "480");
                 break;
             case GeneratorUI::XORG_RES_1280:
                 strcpy(xorg_w, "1280");

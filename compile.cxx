@@ -352,7 +352,7 @@ int find_geexbox_tree(const char *prog)
 	}
 	free(prog_path);
     }
-    fl_alert("Failed to find GeeXboX iso directory.\norignal working directory is: %s\n", orig_cwd ? orig_cwd : "Unknown");
+    fl_alert("Failed to find GeeXboX iso directory.\noriginal working directory is: %s\n", orig_cwd ? orig_cwd : "Unknown");
     if (orig_cwd)
 	free(orig_cwd);
     return 0;

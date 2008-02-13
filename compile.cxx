@@ -304,7 +304,7 @@ int init_compile(GeneratorUI *ui)
     else if (file_exists(PATH_BASEISO "/boot/yaboot"))
 	target_arch = TARGET_ARCH_POWERPC;
     else {
-	fl_alert("Failed to detect iso target arch");
+	fl_alert("Failed to detect iso target arch.");
 	return 0;
     }
 
@@ -312,7 +312,7 @@ int init_compile(GeneratorUI *ui)
     if (!f || !fgets(buf, sizeof(buf), f)) {
 	if (f)
 	    fclose(f);
-	fl_alert("Failed to detect GeeXboX version");
+	fl_alert("Failed to detect GeeXboX version.");
 	return 0;
     }
     fclose(f);
@@ -352,7 +352,7 @@ int find_geexbox_tree(const char *prog)
 	}
 	free(prog_path);
     }
-    fl_alert("Failed to find GeeXboX iso directory.\noriginal working directory is: %s\n", orig_cwd ? orig_cwd : "Unknown");
+    fl_alert("Failed to find GeeXboX iso directory.\nOriginal working directory is: '%s'.\n", orig_cwd ? orig_cwd : "unknown");
     if (orig_cwd)
 	free(orig_cwd);
     return 0;

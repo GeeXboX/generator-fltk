@@ -325,16 +325,16 @@ static void start_package_downloading(GeneratorUI *ui)
 	switch (rc)
 	{
 	case 1:
-	    fl_alert("Had download errors in %s\n", url.c_str());
+	    fl_alert("Had download errors in '%s'.\n", url.c_str());
 	    break;
 	case 2:
-	    fl_alert("Couldn't open output file %s\n", path.c_str());
+	    fl_alert("Couldn't open output file '%s'.\n", path.c_str());
 	    break;
 	case 3:
-	    fl_alert("Wrong MD5 sum for %s\n", url.c_str());
+	    fl_alert("Wrong MD5 sum for '%s'.\n", url.c_str());
 	    break;
 	case 4:
-	    fl_alert("Failed to decompress %s\n", url.c_str());
+	    fl_alert("Failed to decompress '%s'.\n", url.c_str());
 	    break;
 	}
 	ui->package_progress->label("");

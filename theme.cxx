@@ -182,7 +182,7 @@ int copy_theme_boot_files(GeneratorUI *ui)
 	sprintf(buf2, "ziso/GEEXBOX/boot/initrd.gz");
 
 	if (!file_exists(buf)) {
-	    fl_alert("Theme %s doesn't have bootsplash data for resolution: %s\nPlease disable bootsplash screen, or switch to a different resolution.", theme, get_target_resolution(ui));
+	    fl_alert("Theme %s doesn't have bootsplash data for resolution: %s.\nPlease disable bootsplash screen, or switch to a different resolution.", theme, get_target_resolution(ui));
 	    return 0;
 	}
 

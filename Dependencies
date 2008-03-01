@@ -12,8 +12,8 @@ compile.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 compile.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 compile.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h autoplay.h
 compile.o: compile.h config.h dvdnav.h extrafiles.h fs.h keymap.h language.h
-compile.o: lcd.h network.h nfs.h packages.h remote.h samba.h theme.h system.h
-compile.o: video.h
+compile.o: lcd.h mplayer.h network.h nfs.h packages.h remote.h samba.h
+compile.o: theme.h system.h video.h
 curl.o: curl.h system.h libmd/md5.h libbz2/bzlib.h
 dvdnav.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 dvdnav.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
@@ -28,8 +28,8 @@ generator.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 generator.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 generator.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h
 generator.o: autoplay.h compile.h curl.h dvdnav.h extrafiles.h keymap.h
-generator.o: language.h lcd.h ndiswrapper.h network.h nfs.h packages.h
-generator.o: remote.h samba.h theme.h video.h
+generator.o: language.h lcd.h mplayer.h ndiswrapper.h network.h nfs.h
+generator.o: packages.h remote.h samba.h theme.h video.h
 keymap.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 keymap.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 keymap.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
@@ -42,6 +42,10 @@ lcd.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H FLU/FLU/Flu_Tree_Browser.h
 lcd.o: FLU/FLU/Flu_Enumerations.h FLU/FLU/flu_export.h
 lcd.o: FLU/FLU/FluSimpleString.h compile.h config.h configparser.h lcd.h
 lcd.o: system.h
+mplayer.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
+mplayer.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
+mplayer.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
+mplayer.o: configparser.h mplayer.h system.h
 ndiswrapper.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 ndiswrapper.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 ndiswrapper.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h

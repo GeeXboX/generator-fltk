@@ -28,6 +28,8 @@
 
 #include <sys/stat.h> /* stat */
 
+#define NB_BOOTLABEL  3
+
 const char *get_target_resolution(GeneratorUI *ui)
 {
     char *res;
@@ -363,7 +365,7 @@ int write_video_settings(GeneratorUI *ui)
             ui->hdtv->deactivate();
         }
 
-        for (i = 1; i <= 2; i++) {
+        for (i = 1; i <= NB_BOOTLABEL; i++) {
             config_setvar_location(config, "splash", i,
                 ui->video_splash->value() &&
                 ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM ? "silent" : "0");

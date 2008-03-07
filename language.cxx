@@ -304,15 +304,18 @@ int copy_language_files(GeneratorUI *ui)
     if (strcmp(l->shortname, "en")) {
         sprintf(buf2, "i18n/texts/help_%s.txt", l->shortname);
         sprintf(buf, PATH_BASEISO "/usr/share/mplayer/help_%s.txt", l->shortname);
-        copy_file(buf2, buf);
+        if (file_exists(buf2))
+            copy_file(buf2, buf);
 
         sprintf(buf2, "i18n/texts/%s.lang", l->shortname);
         sprintf(buf, PATH_BASEISO "/etc/mplayer/%s.lang", l->shortname);
-        copy_file(buf2, buf);
+        if (file_exists(buf2))
+            copy_file(buf2, buf);
 
         sprintf(buf2, "i18n/texts/%s.install", l->shortname);
         sprintf(buf, PATH_BASEISO "/etc/installator/%s.install", l->shortname);
-        copy_file(buf2, buf);
+        if (file_exists(buf2))
+            copy_file(buf2, buf);
     }
 
     sprintf(buf2, "i18n/lang.conf");

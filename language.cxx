@@ -23,6 +23,7 @@
 #include "compile.h"
 #include "fs.h"
 #include "language.h"
+#include "system.h"
 #include "theme.h"
 #include "utils.h"
 
@@ -285,12 +286,19 @@ int copy_language_files(GeneratorUI *ui)
     l = (struct lang_info*)ui->menu_lang->mvalue()->user_data();
     c = (struct charset_info*)ui->sub_charset->mvalue()->user_data();
 
+    if (!fl_filename_isdir(PATH_BASEISO "/etc/installator"))
+        my_mkdir(PATH_BASEISO "/etc/installator");
+
     sprintf(buf2, "i18n/texts/help_en.txt");
     sprintf(buf, PATH_BASEISO "/usr/share/mplayer/help_en.txt");
     copy_file(buf2, buf);
 
     strcpy(buf2, "i18n/texts/en.lang");
     strcpy(buf, PATH_BASEISO "/etc/mplayer/en.lang");
+    copy_file(buf2, buf);
+
+    strcpy(buf2, "i18n/texts/en.install");
+    strcpy(buf, PATH_BASEISO "/etc/installator/en.install");
     copy_file(buf2, buf);
 
     if (strcmp(l->shortname, "en")) {
@@ -300,6 +308,10 @@ int copy_language_files(GeneratorUI *ui)
 
         sprintf(buf2, "i18n/texts/%s.lang", l->shortname);
         sprintf(buf, PATH_BASEISO "/etc/mplayer/%s.lang", l->shortname);
+        copy_file(buf2, buf);
+
+        sprintf(buf2, "i18n/texts/%s.install", l->shortname);
+        sprintf(buf, PATH_BASEISO "/etc/installator/%s.install", l->shortname);
         copy_file(buf2, buf);
     }
 

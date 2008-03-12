@@ -289,6 +289,9 @@ int copy_language_files(GeneratorUI *ui)
     if (!fl_filename_isdir(PATH_BASEISO "/etc/installator"))
         my_mkdir(PATH_BASEISO "/etc/installator");
 
+    if (!fl_filename_isdir(PATH_BASEISO "/etc/configurator"))
+        my_mkdir(PATH_BASEISO "/etc/configurator");
+
     sprintf(buf2, "i18n/texts/help_en.txt");
     sprintf(buf, PATH_BASEISO "/usr/share/mplayer/help_en.txt");
     copy_file(buf2, buf);
@@ -299,6 +302,10 @@ int copy_language_files(GeneratorUI *ui)
 
     strcpy(buf2, "i18n/texts/en.install");
     strcpy(buf, PATH_BASEISO "/etc/installator/en.install");
+    copy_file(buf2, buf);
+
+    strcpy(buf2, "i18n/texts/en.config");
+    strcpy(buf, PATH_BASEISO "/etc/configurator/en.config");
     copy_file(buf2, buf);
 
     if (strcmp(l->shortname, "en")) {
@@ -314,6 +321,11 @@ int copy_language_files(GeneratorUI *ui)
 
         sprintf(buf2, "i18n/texts/%s.install", l->shortname);
         sprintf(buf, PATH_BASEISO "/etc/installator/%s.install", l->shortname);
+        if (file_exists(buf2))
+            copy_file(buf2, buf);
+
+        sprintf(buf2, "i18n/texts/%s.config", l->shortname);
+        sprintf(buf, PATH_BASEISO "/etc/configurator/%s.config", l->shortname);
         if (file_exists(buf2))
             copy_file(buf2, buf);
     }

@@ -148,6 +148,11 @@ int copy_theme_files(GeneratorUI *ui)
     }
     copy_file(buf, buf2);
 
+    sprintf(buf, "themes/theme-%s/background-wide.avi", theme);
+    sprintf(buf2, PATH_BASEISO "/usr/share/mplayer/background-wide.avi");
+    if (file_exists(buf))
+	copy_file(buf, buf2);
+
     sprintf(buf, "themes/theme-%s/background-audio.avi", theme);
     sprintf(buf2, PATH_BASEISO "/usr/share/mplayer/background-audio.avi");
     if (file_exists(buf))

@@ -23,12 +23,23 @@
 #include "video.h"
 #include "system.h"
 #include "fs.h"
+#include "utils.h"
 
 #include <FL/fl_ask.H> /* fl_alert */
 
 #include <sys/stat.h> /* stat */
+#include <string>
 
 #define NB_BOOTLABEL  3
+
+typedef struct isolinux_s {
+  std::string name;
+  std::string value;
+  struct isolinux_s *prev;
+  struct isolinux_s *next;
+  struct isolinux_s *parent;
+  struct isolinux_s *child;
+} isolinux_t;
 
 const char *get_target_resolution(GeneratorUI *ui)
 {
@@ -57,6 +68,216 @@ const char *get_target_resolution(GeneratorUI *ui)
     return res;
 }
 
+static isolinux_t *isolinux_load(const char *path)
+{
+    FILE *f;
+    char buf[256];
+    isolinux_t *first_line = NULL;
+    isolinux_t *line = NULL;
+
+    f = fopen(path, "rb");
+    if (!f)
+        return NULL;
+
+    while (fgets(buf, sizeof(buf), f)) {
+        if (!line) {
+            line = new isolinux_t;
+            line->prev = NULL;
+            line->next = NULL;
+            line->parent = NULL;
+            line->child = NULL;
+            first_line = line;
+        }
+        else {
+            line->next = new isolinux_t;
+            line->next->prev = line;
+            line = line->next;
+            line->next = NULL;
+            line->parent = NULL;
+            line->child = NULL;
+        }
+
+        /* sub-property */
+        if (strlen(buf) > 2 && *buf == ' ' && *(buf + 1) == ' ') {
+            line->name = get_str_nospace(buf, 1);
+            line->value = std::string(buf + line->name.length() + 3);
+            if (line->value.length())
+                line->value.resize(line->value.length() - 1);
+
+            /* first child ? */
+            if (!line->prev->child && !line->prev->parent) {
+                line->parent = line->prev;
+                line->prev->child = line;
+                line->prev = NULL;
+            }
+            else
+                line->parent = line->prev->parent;
+
+            continue;
+        }
+
+        /* return to root if the prev is a sub-property */
+        if (line->prev && line->prev->parent) {
+            line->prev->parent->next = line;
+            line->prev->next = NULL;
+            line->prev = line->prev->parent;
+        }
+
+        /* property */
+        if (*buf != ' ') {
+            line->name = get_str_nospace(buf, 1);
+            line->value = std::string(buf + line->name.length() + 1);
+            if (line->value.length())
+                line->value.resize(line->value.length() - 1);
+        }
+        /* unknown (empty line ?) */
+        else {
+            line->name = std::string(buf);
+            line->value = "";
+        }
+    }
+
+    fclose(f);
+    return first_line;
+}
+
+static void isolinux_unload(isolinux_t *isolinux)
+{
+    isolinux_t *next;
+
+    if (!isolinux);
+        return;
+
+    while (isolinux) {
+        if (isolinux->child)
+            isolinux_unload(isolinux->child);
+
+        next = isolinux->next;
+        delete isolinux;
+        isolinux = next;
+    }
+}
+
+static std::string isolinux_get_default(isolinux_t *isolinux)
+{
+    std::string res = "";
+
+    if (!isolinux)
+        return res;
+
+    while (isolinux && res.empty()) {
+        if (isolinux->child && !isolinux->parent)
+            res = isolinux_get_default(isolinux->child);
+        else if (isolinux->parent
+                 && isolinux->name == "MENU"
+                 && isolinux->value == "DEFAULT")
+        {
+            res = isolinux->parent->value;
+            break;
+        }
+
+        isolinux = isolinux->next;
+    }
+
+    return res;
+}
+
+static void isolinux_set_default(isolinux_t *isolinux, std::string label)
+{
+    std::string current_def;
+    isolinux_t *tmp, *new_prop;
+
+    current_def = isolinux_get_default(isolinux);
+
+    if (!isolinux || label.empty() || (label == current_def))
+        return;
+
+    tmp = isolinux;
+
+    /* remove the current default label */
+    if (!current_def.empty()) {
+        /* search the label */
+        while (tmp) {
+            if (tmp->name == "LABEL" && tmp->value == current_def) {
+                tmp = tmp->child;
+                break;
+            }
+            tmp = tmp->next;
+        }
+
+        /* remove the property */
+        while (tmp) {
+            if (tmp->name == "MENU" && tmp->value == "DEFAULT") {
+                if (tmp->prev)
+                    tmp->prev->next = tmp->next;
+                else
+                    tmp->parent->child = tmp->next;
+                delete tmp;
+                break;
+            }
+            tmp = tmp->next;
+        }
+    }
+
+    tmp = isolinux;
+
+    /* set the new default label */
+    while (tmp) {
+        if (tmp->name == "LABEL" && tmp->value == label) {
+            new_prop = new isolinux_t;
+            new_prop->name = "MENU";
+            new_prop->value = "DEFAULT";
+            new_prop->prev = NULL;
+            new_prop->child = NULL;
+
+            if (tmp->child) {
+                tmp = tmp->child;
+                tmp->parent->child = new_prop;
+                new_prop->next = tmp;
+                new_prop->parent = tmp->parent;
+            }
+            else {
+                tmp->child = new_prop;
+                new_prop->next = NULL;
+                new_prop->parent = tmp;
+            }
+            break;
+        }
+        tmp = tmp->next;
+    }
+}
+
+static void isolinux_write(isolinux_t *isolinux, const char *path)
+{
+    FILE *f;
+    isolinux_t *child;
+
+    if (!isolinux)
+        return;
+
+    f = fopen(path, "wb");
+    if (!f)
+        return;
+
+    while (isolinux) {
+        fprintf(f, "%s", isolinux->name.c_str());
+        if (!isolinux->value.empty())
+            fprintf(f, " %s", isolinux->value.c_str());
+        fprintf(f, "\n");
+
+        child = isolinux->child;
+        while (child) {
+            fprintf(f, "  %s", child->name.c_str());
+            if (!child->value.empty())
+                fprintf(f, " %s", child->value.c_str());
+            fprintf(f, "\n");
+            child = child->next;
+        }
+        isolinux = isolinux->next;
+    }
+
+    fclose(f);
+}
 
 int init_video_tab(GeneratorUI *ui)
 {
@@ -66,24 +287,21 @@ int init_video_tab(GeneratorUI *ui)
 
     if (target_arch == TARGET_ARCH_I386) {
         config_t *config, *config2;
-        FILE *isolinux, *xorg_drivers;
+        isolinux_t *isolinux;
+        FILE *xorg_drivers;
         const Fl_Menu_Item *m;
         char xorg_w[8], xorg_h[8];
 
         /* part for read the default boot label */
-        isolinux = fopen(PATH_BASEISO "/boot/isolinux.cfg", "rb");
+        isolinux = isolinux_load(PATH_BASEISO "/boot/isolinux.cfg");
         if (!isolinux) {
             fl_alert("Missing isolinux configuration files.\n");
             return 0;
         }
         ui->hdtv->value(0);
-        while (fgets(buf, sizeof(buf), isolinux)) {
-            if (strstr(buf, "DEFAULT") && strstr(buf, "hdtv")) {
-                ui->hdtv->value(1);
-                break;
-            }
-        }
-        fclose(isolinux);
+        if (isolinux_get_default(isolinux) == "hdtv")
+            ui->hdtv->value(1);
+        isolinux_unload(isolinux);
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
         if (!config) {
@@ -220,52 +438,6 @@ int init_video_tab(GeneratorUI *ui)
     return 1;
 }
 
-static int write_boot_default(GeneratorUI *ui, const char *path)
-{
-    int res = 0;
-    char buf[256];
-    char *buf2;
-    struct stat st;
-    FILE *f;
-
-    if (!path)
-        return res;
-
-    f = fopen(path, "rb");
-    if (f) {
-        stat(path, &st);
-
-        while (fgets(buf, sizeof(buf), f)) {
-            /* search the 'DEFAULT' line */
-            if (strstr(buf, "DEFAULT")) {
-                buf2 = (char *)malloc(st.st_size - strlen(buf));
-                if (buf2)
-                    fread(buf2, 1, st.st_size - strlen(buf), f);
-                else
-                    break;
-                fclose(f);
-
-                f = fopen(path, "wb");
-                if (f) {
-                    if (ui->hdtv->value())
-                        fprintf(f, "DEFAULT hdtv\n");
-                    else
-                        fprintf(f, "DEFAULT geexbox\n");
-
-                    fwrite(buf2, 1, st.st_size - strlen(buf), f);
-                    res = 1;
-                }
-                free(buf2);
-                break;
-            }
-        }
-        if (f)
-            fclose(f);
-    }
-
-    return res;
-}
-
 int write_video_settings(GeneratorUI *ui)
 {
     int res, depth;
@@ -274,14 +446,28 @@ int write_video_settings(GeneratorUI *ui)
     if (target_arch == TARGET_ARCH_I386) {
         int i;
         config_t *config, *config2, *config3;
+        isolinux_t *isolinux, *pxelinux;
         char xorg_w[8], xorg_h[8];
 
-        if (!write_boot_default(ui, PATH_BASEISO "/boot/isolinux.cfg") ||
-            !write_boot_default(ui, PATH_BASEISO "/boot/pxelinux.cfg/default"))
-        {
+        /* part for write the default boot label */
+        isolinux = isolinux_load(PATH_BASEISO "/boot/isolinux.cfg");
+        pxelinux = isolinux_load(PATH_BASEISO "/boot/pxelinux.cfg/default");
+        if (!isolinux || !pxelinux) {
             fl_alert("Failed to open for write isolinux configuration.\n");
             return 0;
         }
+        if (ui->hdtv->value()) {
+            isolinux_set_default(isolinux, "hdtv");
+            isolinux_set_default(pxelinux, "hdtv");
+        }
+        else {
+            isolinux_set_default(isolinux, "geexbox");
+            isolinux_set_default(pxelinux, "geexbox");
+        }
+        isolinux_write(isolinux, PATH_BASEISO "/boot/isolinux.cfg");
+        isolinux_write(pxelinux, PATH_BASEISO "/boot/pxelinux.cfg/default");
+        isolinux_unload(isolinux);
+        isolinux_unload(pxelinux);
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
         config2 = config_open(PATH_BASEISO "/boot/pxelinux.cfg/default", 0);

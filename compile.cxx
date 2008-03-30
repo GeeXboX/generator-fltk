@@ -118,6 +118,7 @@ static void cleanup_isotree(void)
     multi_delete(PATH_BASEISO "/etc/mplayer/", NULL, ".lang", 0);
 
     unlink(PATH_BASEISO "/usr/share/mplayer/background.avi");
+    unlink(PATH_BASEISO "/usr/share/mplayer/background-wide.avi");
     unlink(PATH_BASEISO "/usr/share/mplayer/background-audio.avi");
     unlink(PATH_BASEISO "/usr/share/grub-splash.xpm.gz");
     unlink(PATH_BASEISO "/etc/theme.conf");

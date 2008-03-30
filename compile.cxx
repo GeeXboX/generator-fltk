@@ -104,6 +104,12 @@ static int write_geexbox_files(GeneratorUI *ui)
     return 1;
 }
 
+static void cleanup_basetree(void)
+{
+    unlink("./bootsplash");
+    unlink("./cpio_list");
+}
+
 static void cleanup_isotree(void)
 {
     multi_delete(PATH_BASEISO "/usr/share/iconv/", NULL, NULL, 0);
@@ -246,6 +252,10 @@ static int real_compile_iso(GeneratorUI *ui)
 
     cleanup_zisotree();
 
+    update_progress(ui, "Cleaning base tree...");
+
+    cleanup_basetree();
+
     update_progress(ui, "DONE");
 
     return 1;
@@ -275,6 +285,7 @@ int compile_iso(GeneratorUI *ui, int check_packages)
 void cleanup_compile(void)
 {
     destroy_bg_program();
+    cleanup_basetree();
     cleanup_isotree();
     cleanup_zisotree();
 }

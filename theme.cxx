@@ -22,6 +22,7 @@
 #include "configparser.h"
 #include "fs.h"
 #include "language.h"
+#include "system.h"
 #include "theme.h"
 #include "utils.h"
 #include "video.h"
@@ -29,9 +30,12 @@
 #include <sys/types.h>
 #include <string.h> /* strcmp strncmp strlen strcpy strcat strstr */
 #include <stdlib.h> /* free */
+#include <stdio.h>
 
 #include <FL/fl_ask.H> /* fl_alert */
 #include <FL/filename.H> /* fl_filename_list */
+
+static const char *path_lzma, *path_cpio;
 
 int init_theme_tab(GeneratorUI *ui)
 {
@@ -53,6 +57,9 @@ int init_theme_tab(GeneratorUI *ui)
 	    ui->theme->value(m);
 	fclose(f);
     }
+
+    path_lzma = find_program("lzma");
+    path_cpio = find_program("cpio");
 
     return 1;
 }
@@ -176,25 +183,76 @@ int copy_theme_files(GeneratorUI *ui)
     return 1;
 }
 
+static int unlzma(const char *src, const char *dst)
+{
+    char buf[2048];
+
+    snprintf(buf, sizeof(buf), "%s d \"%s\" \"%s\"", path_lzma, src, dst);
+    return execute_bg_program(buf) == 0;
+}
+
+static int lzma(const char *src, const char *dst)
+{
+    char buf[2048];
+
+    snprintf(buf, sizeof(buf), "%s e \"%s\" \"%s\"", path_lzma, src, dst);
+    return execute_bg_program(buf) == 0;
+}
+
+static int cpio_append(const char *archive, const char *list)
+{
+    char buf[2048];
+
+    snprintf(buf, sizeof(buf), "%s -o -A -H newc -F \"%s\" < \"%s\"", path_cpio, archive, list);
+    return execute_bg_program(buf) == 0;
+}
+
 int copy_theme_boot_files(GeneratorUI *ui)
 {
-    char buf[256], buf2[256];
+    char buf[256], buf2[256], bootsplash[256];
     const char *theme = ui->theme->mvalue()->label();
+    FILE *f;
 
     if (ui->video_splash->value() && ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM)
     {
 	sprintf(buf, "themes/theme-%s/bootsplash-%s.dat", theme, get_target_resolution(ui));
-	sprintf(buf2, "ziso/GEEXBOX/boot/initrd.gz");
+	sprintf(bootsplash, "./bootsplash");
 
 	if (!file_exists(buf)) {
 	    fl_alert("Theme %s doesn't have bootsplash data for resolution: %s.\nPlease disable bootsplash screen, or switch to a different resolution.", theme, get_target_resolution(ui));
 	    return 0;
 	}
 
-	if (_copy_file(buf, buf2, 1)) {
-	    fl_alert("Failed to append bootplash data to initrd image.\n");
+	copy_file(buf, bootsplash);
+
+	sprintf(buf, PATH_BASEISO "/boot/initrd.gz");
+	sprintf(buf2, "ziso/GEEXBOX/boot/initrd");
+
+	if (!unlzma(buf, buf2)) {
+	    fl_alert("Failed to uncompress initrd.\n");
 	    return 0;
 	}
+
+	/* List of files appended to cpio archive, only ./bootsplash here */
+	f = fopen("./cpio_list", "wb");
+	if (f) {
+	    fprintf(f, bootsplash);
+	    fclose(f);
+	}
+
+	if (!cpio_append(buf2, "./cpio_list")) {
+	    fl_alert("Failed to append bootsplash to initrd.\n");
+	    return 0;
+	}
+
+	sprintf(buf, "ziso/GEEXBOX/boot/initrd.gz");
+
+	if (!lzma(buf2, buf)) {
+	    fl_alert("Failed to compress initrd.\n");
+	    return 0;
+	}
+
+	unlink(buf2);
     }
 
     if (target_arch == TARGET_ARCH_I386) {

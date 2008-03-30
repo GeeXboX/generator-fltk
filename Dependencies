@@ -72,7 +72,7 @@ samba.o: configparser.h samba.h system.h utils.h
 theme.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 theme.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 theme.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h compile.h config.h
-theme.o: configparser.h fs.h language.h theme.h utils.h video.h
+theme.o: configparser.h fs.h language.h system.h theme.h utils.h video.h
 system.o: system.h
 utils.o: utils.h
 video.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H

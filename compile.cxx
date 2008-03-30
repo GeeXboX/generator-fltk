@@ -117,6 +117,11 @@ static void cleanup_isotree(void)
     multi_delete(PATH_BASEISO "/usr/share/mplayer/", "help_", ".txt", 0);
     multi_delete(PATH_BASEISO "/etc/mplayer/", NULL, ".lang", 0);
 
+    multi_delete(PATH_BASEISO "/etc/installator/", NULL, NULL, 1);
+    multi_delete(PATH_BASEISO "/etc/configurator/", NULL, NULL, 1);
+    rmdir(PATH_BASEISO "/etc/installator");
+    rmdir(PATH_BASEISO "/etc/configurator");
+
     unlink(PATH_BASEISO "/usr/share/mplayer/background.avi");
     unlink(PATH_BASEISO "/usr/share/mplayer/background-wide.avi");
     unlink(PATH_BASEISO "/usr/share/mplayer/background-audio.avi");

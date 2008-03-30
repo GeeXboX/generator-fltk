@@ -129,7 +129,6 @@ static void cleanup_isotree(void)
     unlink(PATH_BASEISO "/etc/theme.conf");
     unlink(PATH_BASEISO "/etc/lang.conf");
     unlink(PATH_BASEISO "/etc/lang");
-    unlink(PATH_BASEISO "/etc/subfont");
 }
 
 static void cleanup_zisotree(void)

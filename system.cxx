@@ -35,11 +35,6 @@ static int bg_program = 0;
 #else
 static pid_t bg_pid = -1;
 static int bg_status;
-static void catch_bg_program(int sig)
-{
-    waitpid(bg_pid, &bg_status, 0);
-    bg_pid = -1;
-}
 #endif
 
 int execute_bg_program(char *string)
@@ -76,8 +71,6 @@ int execute_bg_program(char *string)
     if (bg_pid != -1) /* someone is already running program in background */
 	return -1;
 
-    signal(SIGCHLD, catch_bg_program);
-
     if ((bg_pid = vfork()) < 0)
 	return -1;
 
@@ -88,11 +81,12 @@ int execute_bg_program(char *string)
     }
 
     bg_status = 100;
-    while (bg_pid != -1)
+    while (!waitpid(bg_pid, &bg_status, WNOHANG))
     {
 	Fl::check();
 	my_msleep(10);
     }
+    bg_pid = -1;
 
     return bg_status;
 #endif
@@ -111,8 +105,8 @@ void destroy_bg_program(void)
 #else
     if (bg_pid == -1)
 	return;
-    signal(SIGCHLD, SIG_DFL);
     kill(bg_pid, SIGKILL);
-    catch_bg_program(SIGCHLD); /* wait & resets bg_pid */
+    waitpid(bg_pid, &bg_status, 0);
+    bg_pid = -1;
 #endif
 }

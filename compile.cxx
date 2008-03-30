@@ -210,7 +210,7 @@ static void compile_extrafiles(GeneratorUI *ui)
 static int real_compile_iso(GeneratorUI *ui)
 {
     ui->progress->minimum(0);
-    ui->progress->maximum(12);
+    ui->progress->maximum(22);
     ui->progress->value(0);
 
     copy_errors = 0;

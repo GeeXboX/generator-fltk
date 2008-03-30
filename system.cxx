@@ -21,6 +21,7 @@
 
 #ifdef _WIN32
 #include <windows.h> /* CreateProcess TerminateProcess */
+#include <stdio.h> /* snprintf */
 #else
 #include <sys/types.h>
 #include <sys/wait.h> /* waitpid */
@@ -42,6 +43,7 @@ int execute_bg_program(char *string)
 #ifdef _WIN32
     STARTUPINFO si;
     DWORD exitcode;
+    char cmd[2048];
 
     if (bg_program) /* someone is already running program in background */
 	return -1;
@@ -49,7 +51,8 @@ int execute_bg_program(char *string)
     ZeroMemory (&si, sizeof(si));
     si.cb = sizeof(si);
     ZeroMemory (&pi, sizeof(pi));
-    if (!CreateProcess(NULL, string, NULL, NULL, FALSE, 0 | CREATE_NO_WINDOW,
+    snprintf(cmd, sizeof(cmd), "cmd.exe /c %s", string);
+    if (!CreateProcess(NULL, cmd, NULL, NULL, FALSE, 0 | CREATE_NO_WINDOW,
                        NULL, NULL, &si, &pi))
 	return -1;
 

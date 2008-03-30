@@ -54,6 +54,7 @@ int config_write(config_t *config, const char *filename)
 {
   FILE *f;
   item_t *item;
+  char *it;
   
   f = fopen(filename, "wb");
   if (f == NULL)
@@ -74,7 +75,12 @@ int config_write(config_t *config, const char *filename)
             if (config->shell_escape)
               {
                 fputc('\"', f);
-                fputs(item->value, f);
+                for (it = item->value; *it; it++)
+                  {
+                    if (*it == '"')
+                      fputc('\\', f);
+                    fputc(*it, f);
+                  }
                 fputc('\"', f);
               }
             else
@@ -89,15 +95,31 @@ int config_write(config_t *config, const char *filename)
   return 1;
 }
 
-static char *config_dup_string(const char *str, size_t str_len)
+static char *config_dup_string(const char *str, size_t str_len, int shell_escape)
 {
   char *result =  malloc(str_len + 1);
+  char *it;
+  const char *str_it;
+  int len = 0;
 
-  if (result)
+  if (!result)
+    return NULL;
+
+  for (it = result, str_it = str; str_it - str < str_len; str_it++, it++)
     {
-      memcpy(result, str, str_len);
-      result[str_len] = '\0';
+      if (shell_escape && *str_it == '\\' && *(str_it + 1) == '"')
+        {
+          *it = *(++str_it);
+          len++;
+        }
+      else
+        *it = *str_it;
     }
+
+  if (len)
+    result = realloc(result, str_len - len + 1);
+  result[str_len - len] = '\0';
+
   return result;
 }
 
@@ -113,7 +135,7 @@ static int config_add_item(config_t *config, const char *value, size_t value_len
     return 0;
 
   item->next = NULL;
-  item->value = config_dup_string(value, value_len);
+  item->value = config_dup_string(value, value_len, config->shell_escape);
   if (!item->value)
     {
       free(item);
@@ -126,7 +148,7 @@ static int config_add_item(config_t *config, const char *value, size_t value_len
     }
   else
     {
-      item->name = config_dup_string(name, name_len);
+      item->name = config_dup_string(name, name_len, config->shell_escape);
       if (!item->name)
         {
 	  free(item->value);
@@ -176,7 +198,13 @@ static int config_read_line(config_t *config, char *line)
 	  if (config->shell_escape && (*value == '\"' || *value == '\''))
 	    {
 	      char strtype = *value++;
-	      value_end = strchr(value, strtype);
+	      value_end = value;
+	      do
+	        {
+		  value_end = strchr(value_end, strtype);
+	        }
+	      while (*(value_end - 1) == '\\' && value_end++);
+
 	      if (value_end)
 	        {
 		  next_line = value_end-- + 1;

@@ -99,6 +99,8 @@ int init_nfs_tab(GeneratorUI *ui)
         std::string src, dst;
 
         src = get_str_nospace(buf, 1);
+        if (*src.begin() == '#')
+            continue;
         dst = get_str_nospace(buf, 2);
 
         if (!src.empty() && !dst.empty()) {

@@ -40,9 +40,6 @@ std::string get_str_nospace(char *buf, int loc)
         while (isspace(*str) && *str != '\n' && *str != '\0')
             str++;
 
-        if (*str == '#')
-            break;
-
         start = str;
         while (!isspace(*str) && *str != '\n' && *str != '\0')
             str++;

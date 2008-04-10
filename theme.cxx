@@ -256,8 +256,8 @@ int copy_theme_boot_files(GeneratorUI *ui)
     }
 
     if (target_arch == TARGET_ARCH_I386) {
-	sprintf(buf, "themes/theme-%s/splash-isolinux.rle", theme);
-	sprintf(buf2, "ziso/GEEXBOX/boot/splash.rle");
+	sprintf(buf, "themes/theme-%s/splash.png", theme);
+	sprintf(buf2, "ziso/GEEXBOX/boot/splash.png");
 	if (file_exists(buf))
 	    copy_file(buf, buf2);
     }

@@ -35,7 +35,40 @@
 #include <FL/fl_ask.H> /* fl_alert */
 #include <FL/filename.H> /* fl_filename_list */
 
-static const char *path_lzma, *path_cpio;
+typedef enum archive_type {
+  ARCHIVE_UNKNOWN,
+  ARCHIVE_ERROR,
+  ARCHIVE_GZIP,
+  ARCHIVE_LZMA,
+} archive_type_t;
+
+static const char *path_lzma, *path_cpio, *path_gzip;
+
+static archive_type_t get_archive_type(const char *archive)
+{
+    FILE *fd;
+    uint8_t buf[16];
+
+    if (!archive)
+        return ARCHIVE_ERROR;
+
+    fd = fopen(archive, "rb");
+    if (!fd)
+        return ARCHIVE_ERROR;
+
+    fread(buf, 1, sizeof(buf), fd);
+    fclose(fd);
+
+    /* if gzip magic numbers */
+    if (buf[0] == 037 && ((buf[1] == 0213) || (buf[1] == 0236)))
+        return ARCHIVE_GZIP;
+
+    /* if lzma */
+    if(buf[0] < 9 * 5 * 5 && buf[9] == 0 && buf[10] == 0 && buf[11] == 0 && buf[12] == 0)
+        return ARCHIVE_LZMA;
+
+    return ARCHIVE_UNKNOWN;
+}
 
 int init_theme_tab(GeneratorUI *ui)
 {
@@ -58,6 +91,7 @@ int init_theme_tab(GeneratorUI *ui)
 	fclose(f);
     }
 
+    path_gzip = find_program("gzip");
     path_lzma = find_program("lzma");
     path_cpio = find_program("cpio");
 
@@ -183,6 +217,22 @@ int copy_theme_files(GeneratorUI *ui)
     return 1;
 }
 
+static int ungzip(const char *src, const char *dst)
+{
+    char buf[2048];
+
+    snprintf(buf, sizeof(buf), "%s -cd \"%s\" > \"%s\"", path_gzip, src, dst);
+    return execute_bg_program(buf) == 0;
+}
+
+static int gzip(const char *src, const char *dst)
+{
+    char buf[2048];
+
+    snprintf(buf, sizeof(buf), "%s -c9 \"%s\" > \"%s\"", path_gzip, src, dst);
+    return execute_bg_program(buf) == 0;
+}
+
 static int unlzma(const char *src, const char *dst)
 {
     char buf[2048];
@@ -212,6 +262,7 @@ int copy_theme_boot_files(GeneratorUI *ui)
     char buf[256], buf2[256], bootsplash[256];
     const char *theme = ui->theme->mvalue()->label();
     FILE *f;
+    archive_type_t archive_type;
 
     if (ui->video_splash->value() && ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM)
     {
@@ -228,7 +279,15 @@ int copy_theme_boot_files(GeneratorUI *ui)
 	sprintf(buf, PATH_BASEISO "/boot/initrd.gz");
 	sprintf(buf2, "ziso/GEEXBOX/boot/initrd");
 
-	if (!unlzma(buf, buf2)) {
+	archive_type = get_archive_type(buf);
+	if (archive_type != ARCHIVE_GZIP && archive_type != ARCHIVE_LZMA) {
+	    fl_alert("Failed to detect initrd type.");
+	    return 0;
+	}
+
+	if ((archive_type == ARCHIVE_LZMA && !unlzma(buf, buf2)) ||
+	    (archive_type == ARCHIVE_GZIP && !ungzip(buf, buf2)))
+	{
 	    fl_alert("Failed to uncompress initrd.\n");
 	    return 0;
 	}
@@ -247,7 +306,9 @@ int copy_theme_boot_files(GeneratorUI *ui)
 
 	sprintf(buf, "ziso/GEEXBOX/boot/initrd.gz");
 
-	if (!lzma(buf2, buf)) {
+	if ((archive_type == ARCHIVE_LZMA && !lzma(buf2, buf)) ||
+	    (archive_type == ARCHIVE_GZIP && !gzip(buf2, buf)))
+	{
 	    fl_alert("Failed to compress initrd.\n");
 	    return 0;
 	}

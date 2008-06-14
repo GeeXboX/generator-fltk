@@ -288,7 +288,7 @@ int copy_theme_boot_files(GeneratorUI *ui)
 	if ((archive_type == ARCHIVE_LZMA && !unlzma(buf, buf2)) ||
 	    (archive_type == ARCHIVE_GZIP && !ungzip(buf, buf2)))
 	{
-	    fl_alert("Failed to uncompress initrd.\n");
+	    fl_alert("Failed to decompress initrd.\n");
 	    return 0;
 	}
 

@@ -208,9 +208,11 @@ int write_network_settings(GeneratorUI *ui)
                   (ui->wifi_enc->value() == GeneratorUI::WIFI_ENC_WPA)
                       ? "WPA" : "none");
 
-    snprintf(buf, sizeof(buf), "%s%s", *ui->wifi_key->value() != '\0' &&
-                                       ui->key_ascii->value() ? "s:" : "",
-                                       ui->wifi_key->value());
+    snprintf(buf, sizeof(buf), "%s%s",
+             *ui->wifi_key->value() != '\0'
+             && ui->key_ascii->value()
+             && ui->wifi_enc->value() == GeneratorUI::WIFI_ENC_WEP
+                 ? "s:" : "", ui->wifi_key->value());
     config_setvar(config, "WIFI_KEY", buf);
 
     config_setvar(config, "WIFI_ESSID", ui->wifi_ssid->value());

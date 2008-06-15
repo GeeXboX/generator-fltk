@@ -287,7 +287,7 @@ class GeneratorUI {open
                 xywh {180 80 110 25} down_box BORDER_BOX
               } {
                 MenuItem {} {
-                  label Auto
+                  label auto
                   xywh {10 10 34 21}
                 }
                 MenuItem {} {

@@ -1,5 +1,5 @@
 /*
- *  Compliation code for GeeXboX FLTK Generator
+ *  Compilation code for GeeXboX FLTK Generator
  *  Copyright (C) 2005-2006  Amir Shalem
  *  Copyright (C) 2006-2008  Mathieu Schroeter
  *

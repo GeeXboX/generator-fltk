@@ -36,10 +36,10 @@
 #include <FL/filename.H> /* fl_filename_list */
 
 typedef enum archive_type {
-  ARCHIVE_UNKNOWN,
-  ARCHIVE_ERROR,
-  ARCHIVE_GZIP,
-  ARCHIVE_LZMA,
+    ARCHIVE_UNKNOWN,
+    ARCHIVE_ERROR,
+    ARCHIVE_GZIP,
+    ARCHIVE_LZMA,
 } archive_type_t;
 
 static const char *path_lzma, *path_cpio, *path_gzip;

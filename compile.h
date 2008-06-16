@@ -20,8 +20,8 @@
 #define compile_h
 
 typedef enum {
-  TARGET_ARCH_I386,
-  TARGET_ARCH_POWERPC
+    TARGET_ARCH_I386,
+    TARGET_ARCH_POWERPC
 } target_arch_t;
 
 extern target_arch_t target_arch;

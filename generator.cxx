@@ -321,7 +321,7 @@ main(int argc, char **argv)
 #elif defined(__linux__)
     Pixmap p, mask;
     XpmCreatePixmapFromData(fl_display, DefaultRootWindow(fl_display),
-                            generator_xpm, &p, &mask, NULL);
+                            (char **)generator_xpm, &p, &mask, NULL);
     ui->mainWindow->icon((char *)p);
 #endif
 

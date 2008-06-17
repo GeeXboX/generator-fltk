@@ -89,7 +89,7 @@ int read_packages_file(Flu_Tree_Browser *tree, const char *fname)
 	    p = new Package;
 	    strcpy(path, &buf[1]);
 
-	    p->name = "";
+	    p->name = strdup("");
 	    p->desc = "";
 	    p->file.clear();
 	    p->md5.clear();

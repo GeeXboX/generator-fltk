@@ -1,5 +1,5 @@
 /* XPM */
-static char * rt_sep_on_xpm[] = {
+static const char * rt_sep_on_xpm[] = {
 "5 21 27 1",
 " 	c None",
 ".	c #001177",

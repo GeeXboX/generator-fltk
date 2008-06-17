@@ -1,5 +1,5 @@
 /* XPM */
-static char * ct_mid_off_xpm[] = {
+static const char * ct_mid_off_xpm[] = {
 "5 21 23 1",
 " 	c None",
 ".	c #5A5A5A",

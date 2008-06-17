@@ -1,5 +1,5 @@
 /* XPM */
-static char * rt_crv_off_xpm[] = {
+static const char * rt_crv_off_xpm[] = {
 "5 21 41 1",
 " 	c None",
 ".	c #5A5A5A",

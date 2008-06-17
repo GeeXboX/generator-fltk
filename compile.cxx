@@ -150,7 +150,7 @@ static int compile_isoimage(GeneratorUI *ui)
 {
     char buf[2048];
     char iso_image[256];
-    char *mkisofs_arch = NULL;
+    const char *mkisofs_arch = NULL;
     switch (target_arch)
     {
     case TARGET_ARCH_I386:

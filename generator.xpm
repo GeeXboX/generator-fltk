@@ -1,5 +1,5 @@
 /* XPM */
-static char * generator_xpm[] = {
+static const char * generator_xpm[] = {
 "48 48 1062 2",
 "  	c None",
 ". 	c #FFFFFF",

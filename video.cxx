@@ -33,7 +33,7 @@
 
 const char *get_target_resolution(GeneratorUI *ui)
 {
-    char *res;
+    const char *res;
 
     switch (ui->vesa_res->value()) {
     case GeneratorUI::VESA_RES_640:

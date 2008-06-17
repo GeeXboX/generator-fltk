@@ -31,7 +31,7 @@ int init_audio_tab(GeneratorUI *ui)
     unsigned long k;
     config_t *config = config_open(PATH_BASEISO "/etc/audio", 1);
 
-    char *ac97_spsa[] = {
+    const char *ac97_spsa[] = {
 	"PCM1",
 	"PCM2, PCM1 (rear)",
 	"Centre and LFE",
@@ -44,7 +44,7 @@ int init_audio_tab(GeneratorUI *ui)
     }
 
     for (k = 0; k < sizeof(ac97_spsa)/sizeof(ac97_spsa[0]); k++) {
-	ui->ac97_spsa->add(ac97_spsa[k], 0, NULL, ac97_spsa[k]);
+	ui->ac97_spsa->add(ac97_spsa[k], 0, NULL, (void *)ac97_spsa[k]);
     }
 
     config_getvar_int(config, "ALSA_CARD", &i);

@@ -30,10 +30,7 @@ generator.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h audio.h
 generator.o: autoplay.h compile.h curl.h dvdnav.h extrafiles.h keymap.h
 generator.o: language.h lcd.h mplayer.h ndiswrapper.h network.h nfs.h
 generator.o: packages.h remote.h samba.h theme.h video.h
-isolinux.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
-isolinux.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
-isolinux.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
-isolinux.o: isolinux.h utils.h
+isolinux.o: config.h isolinux.h utils.h
 keymap.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 keymap.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 keymap.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h

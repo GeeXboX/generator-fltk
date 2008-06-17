@@ -27,7 +27,6 @@
 
 #include <FL/fl_ask.H> /* fl_alert */
 
-#include <sys/stat.h> /* stat */
 #include <string>
 
 #define NB_BOOTLABEL  3

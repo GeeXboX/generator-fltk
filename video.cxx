@@ -33,12 +33,12 @@
 #define NB_BOOTLABEL  3
 
 typedef struct isolinux_s {
-  std::string name;
-  std::string value;
-  struct isolinux_s *prev;
-  struct isolinux_s *next;
-  struct isolinux_s *parent;
-  struct isolinux_s *child;
+    std::string name;
+    std::string value;
+    struct isolinux_s *prev;
+    struct isolinux_s *next;
+    struct isolinux_s *parent;
+    struct isolinux_s *child;
 } isolinux_t;
 
 const char *get_target_resolution(GeneratorUI *ui)

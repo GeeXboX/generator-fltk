@@ -334,14 +334,6 @@ int copy_language_files(GeneratorUI *ui)
     sprintf(buf, PATH_BASEISO "/etc/lang.conf");
     copy_file(buf2, buf);
 
-    fp = fopen(PATH_BASEISO "/etc/lang", "wb");
-    if (!fp) {
-	fl_alert("Failed to write language configuration (%s).\n", "/etc/lang");
-	return 0;
-    }
-    fprintf(fp, "%s", l->shortname);
-    fclose(fp);
-
     fp = fopen(PATH_BASEISO "/etc/subfont", "wb");
     if (!fp) {
 	fl_alert("Failed to write language configuration (%s).\n", "/etc/subfont");

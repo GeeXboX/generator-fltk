@@ -129,7 +129,6 @@ static void cleanup_isotree(void)
     unlink(PATH_BASEISO "/usr/share/grub-splash.xpm.gz");
     unlink(PATH_BASEISO "/etc/theme.conf");
     unlink(PATH_BASEISO "/etc/lang.conf");
-    unlink(PATH_BASEISO "/etc/lang");
 }
 
 static void cleanup_zisotree(void)

@@ -234,33 +234,6 @@ int write_language_settings(GeneratorUI *ui)
     return 1;
 }
 
-static int copy_charset_iconv(const char *charset)
-{
-    char buf[256], buf2[256], buf3[256];
-    int charset_len;
-    FILE *f;
-
-    f = fopen(PATH_ICONV "/charset.db", "r");
-    if (!f) {
-	fl_alert("Failed to read iconv character set database.\n");
-	return 0;
-    }
-
-    charset_len = strlen(charset);
-
-    while (!feof(f))
-	if (fscanf(f, "%s %s", buf, buf3) == 2 && !strcmp(charset, buf))
-	{
-	    sprintf(buf2, PATH_ICONV "/%s", buf3);
-	    sprintf(buf, PATH_BASEISO "/usr/share/iconv/%s", buf3);
-	    copy_file(buf2, buf);
-	}
-
-    fclose(f);
-
-    return 1;
-}
-
 static void show_font_warning(const char *font)
 {
     fl_alert("Font '%s' is missing.\nBut exists as an external package, please download it using the Packages tab.\n", font);
@@ -397,9 +370,6 @@ int copy_language_files(GeneratorUI *ui)
     }
 
     fclose(fp); /* close /etc/lang.conf */
-
-    if (!copy_charset_iconv(c->name) || !copy_charset_iconv(l->c->name))
-	return 0;
 
     return 1;
 }

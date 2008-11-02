@@ -28,5 +28,6 @@ void isolinux_write(isolinux_t *isolinux, const char *path);
 
 std::string isolinux_get_default(isolinux_t *isolinux);
 void isolinux_set_default(isolinux_t *isolinux, std::string label);
+int isolinux_bootlabel_nb(isolinux_t *isolinux, int debug);
 
 #endif

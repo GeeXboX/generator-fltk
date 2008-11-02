@@ -29,7 +29,6 @@
 
 #include <string>
 
-#define NB_BOOTLABEL  3
 
 const char *get_target_resolution(GeneratorUI *ui)
 {
@@ -249,7 +248,7 @@ int write_video_settings(GeneratorUI *ui)
     int vgamode;
 
     if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
-        int i;
+        int i, bootlabel_nb;
         config_t *config, *config2, *config3;
         isolinux_t *isolinux, *pxelinux;
         char xorg_w[8], xorg_h[8];
@@ -261,6 +260,9 @@ int write_video_settings(GeneratorUI *ui)
             fl_alert("Failed to open for write isolinux configuration.\n");
             return 0;
         }
+
+        bootlabel_nb = isolinux_bootlabel_nb(isolinux, 0);
+
         if (ui->hdtv->value()) {
             isolinux_set_default(isolinux, "hdtv");
             isolinux_set_default(pxelinux, "hdtv");
@@ -356,7 +358,7 @@ int write_video_settings(GeneratorUI *ui)
             ui->hdtv->deactivate();
         }
 
-        for (i = 1; i <= NB_BOOTLABEL; i++) {
+        for (i = 1; i <= bootlabel_nb; i++) {
             config_setvar_location(config, "splash", i,
                 ui->video_splash->value() &&
                 ui->vesa_res->value() != GeneratorUI::VESA_CUSTOM ? "silent" : "0");

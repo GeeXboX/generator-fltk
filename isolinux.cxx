@@ -207,6 +207,20 @@ void isolinux_set_default(isolinux_t *isolinux, std::string label)
     }
 }
 
+int isolinux_bootlabel_nb(isolinux_t *isolinux, int debug)
+{
+  int nb = 0;
+
+  for (; isolinux; isolinux = isolinux->next)
+      if (isolinux->name == "LABEL") {
+          if (!debug && isolinux->value.find("debug") != std::string::npos)
+              continue;
+          nb++;
+      }
+
+  return nb;
+}
+
 void isolinux_write(isolinux_t *isolinux, const char *path)
 {
     FILE *f;

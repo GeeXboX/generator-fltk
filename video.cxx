@@ -58,6 +58,83 @@ const char *get_target_resolution(GeneratorUI *ui)
     return res;
 }
 
+static int init_video_hdtv(GeneratorUI *ui)
+{
+    char buf[256];
+    config_t *config;
+    FILE *xorg_drivers;
+    char xorg_w[8], xorg_h[8];
+    const Fl_Menu_Item *m;
+    int res;
+
+    if (file_exists(PATH_BASEISO "/etc/X11/X.cfg")) {
+        ui->xorg_auto->value(0);
+        config = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
+    }
+    else {
+        ui->xorg_auto->value(1);
+        config = config_open(PATH_BASEISO "/etc/X11/X.cfg.sample", 1);
+    }
+
+    if (!config)
+        return 0;
+
+    xorg_drivers = fopen(PATH_BASEISO "/etc/X11/drivers", "rb");
+    ui->xorg_drivers->add("auto", 0, NULL, (char *)"auto");
+    if (xorg_drivers) {
+        while (fgets(buf, sizeof(buf), xorg_drivers)) {
+            buf[strlen(buf) - 1] = '\0';
+            ui->xorg_drivers->add(buf, 0, NULL, buf);
+        }
+        fclose(xorg_drivers);
+    }
+
+    config_getvar(config, "XORG_DRIVER", buf, sizeof(buf));
+    if ((m = ui->xorg_drivers->find_item(buf)))
+        ui->xorg_drivers->value(m);
+    else if ((m = ui->xorg_drivers->find_item("auto")))
+        ui->xorg_drivers->value(m);
+    else
+        ui->xorg_drivers->value(0);
+
+    config_getvar(config, "XORG_RATE", buf, sizeof(buf));
+    ui->xorg_rate->value(buf);
+    config_getvar(config, "XORG_HORIZSYNC", buf, sizeof(buf));
+    ui->xorg_horizsync->value(buf);
+    config_getvar(config, "XORG_VERTREFRESH", buf, sizeof(buf));
+    ui->xorg_vertrefresh->value(buf);
+
+    config_getvar(config, "XORG_RESX", xorg_w, sizeof(xorg_w));
+    config_getvar(config, "XORG_RESY", xorg_h, sizeof(xorg_h));
+    if (!my_strcasecmp(xorg_w, "720") &&
+        !my_strcasecmp(xorg_h, "480"))
+        res = GeneratorUI::XORG_RES_720;
+    else if (!my_strcasecmp(xorg_w, "1280") &&
+             !my_strcasecmp(xorg_h, "720"))
+        res = GeneratorUI::XORG_RES_1280;
+    else if (!my_strcasecmp(xorg_w, "1360") &&
+             !my_strcasecmp(xorg_h, "768"))
+        res = GeneratorUI::XORG_RES_1360;
+    else if (!my_strcasecmp(xorg_w, "1368") &&
+             !my_strcasecmp(xorg_h, "768"))
+        res = GeneratorUI::XORG_RES_1368;
+    else if (!my_strcasecmp(xorg_w, "1920") &&
+             !my_strcasecmp(xorg_h, "1080"))
+        res = GeneratorUI::XORG_RES_1920;
+    else if (!my_strcasecmp(xorg_w, "auto") ||
+             !my_strcasecmp(xorg_h, "auto"))
+        res = GeneratorUI::XORG_AUTO;
+    else {
+        res = GeneratorUI::XORG_CUSTOM;
+        ui->xorg_custom_w->value(xorg_w);
+        ui->xorg_custom_h->value(xorg_h);
+    }
+    ui->xorg_res->value(res);
+
+    config_destroy(config);
+    return 1;
+}
+
 int init_video_tab(GeneratorUI *ui)
 {
     char buf[256];
@@ -65,11 +142,8 @@ int init_video_tab(GeneratorUI *ui)
     int res, depth;
 
     if (target_arch == TARGET_ARCH_I386) {
-        config_t *config, *config2;
+        config_t *config;
         isolinux_t *isolinux;
-        FILE *xorg_drivers;
-        const Fl_Menu_Item *m;
-        char xorg_w[8], xorg_h[8];
 
         /* part for read the default boot label */
         isolinux = isolinux_load(PATH_BASEISO "/boot/isolinux.cfg");
@@ -88,71 +162,7 @@ int init_video_tab(GeneratorUI *ui)
             return 0;
         }
 
-        if (file_exists(PATH_BASEISO "/etc/X11/X.cfg")) {
-            ui->xorg_auto->value(0);
-            config2 = config_open(PATH_BASEISO "/etc/X11/X.cfg", 1);
-        }
-        else {
-            ui->xorg_auto->value(1);
-            config2 = config_open(PATH_BASEISO "/etc/X11/X.cfg.sample", 1);
-        }
-
-        if (config2) {
-            xorg_drivers = fopen(PATH_BASEISO "/etc/X11/drivers", "rb");
-            ui->xorg_drivers->add("auto", 0, NULL, (char *)"auto");
-            if (xorg_drivers) {
-                while (fgets(buf, sizeof(buf), xorg_drivers)) {
-                    buf[strlen(buf) - 1] = '\0';
-                    ui->xorg_drivers->add(buf, 0, NULL, buf);
-                }
-                fclose(xorg_drivers);
-            }
-
-            config_getvar(config2, "XORG_DRIVER", buf, sizeof(buf));
-            if ((m = ui->xorg_drivers->find_item(buf)))
-                ui->xorg_drivers->value(m);
-            else if ((m = ui->xorg_drivers->find_item("auto")))
-                ui->xorg_drivers->value(m);
-            else
-                ui->xorg_drivers->value(0);
-
-            config_getvar(config2, "XORG_RATE", buf, sizeof(buf));
-            ui->xorg_rate->value(buf);
-            config_getvar(config2, "XORG_HORIZSYNC", buf, sizeof(buf));
-            ui->xorg_horizsync->value(buf);
-            config_getvar(config2, "XORG_VERTREFRESH", buf, sizeof(buf));
-            ui->xorg_vertrefresh->value(buf);
-
-            config_getvar(config2, "XORG_RESX", xorg_w, sizeof(xorg_w));
-            config_getvar(config2, "XORG_RESY", xorg_h, sizeof(xorg_h));
-            if (!my_strcasecmp(xorg_w, "720") &&
-                !my_strcasecmp(xorg_h, "480"))
-                res = GeneratorUI::XORG_RES_720;
-            else if (!my_strcasecmp(xorg_w, "1280") &&
-                     !my_strcasecmp(xorg_h, "720"))
-                res = GeneratorUI::XORG_RES_1280;
-            else if (!my_strcasecmp(xorg_w, "1360") &&
-                     !my_strcasecmp(xorg_h, "768"))
-                res = GeneratorUI::XORG_RES_1360;
-            else if (!my_strcasecmp(xorg_w, "1368") &&
-                     !my_strcasecmp(xorg_h, "768"))
-                res = GeneratorUI::XORG_RES_1368;
-            else if (!my_strcasecmp(xorg_w, "1920") &&
-                     !my_strcasecmp(xorg_h, "1080"))
-                res = GeneratorUI::XORG_RES_1920;
-            else if (!my_strcasecmp(xorg_w, "auto") ||
-                     !my_strcasecmp(xorg_h, "auto"))
-                res = GeneratorUI::XORG_AUTO;
-            else {
-                res = GeneratorUI::XORG_CUSTOM;
-                ui->xorg_custom_w->value(xorg_w);
-                ui->xorg_custom_h->value(xorg_h);
-            }
-            ui->xorg_res->value(res);
-
-            config_destroy(config2);
-        }
-        else {
+        if (!init_video_hdtv(ui)) {
             ui->hdtv->value(0);
             ui->hdtv->deactivate();
         }

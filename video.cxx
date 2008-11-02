@@ -141,7 +141,7 @@ int init_video_tab(GeneratorUI *ui)
     int vgamode;
     int res, depth;
 
-    if (target_arch == TARGET_ARCH_I386) {
+    if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
         config_t *config;
         isolinux_t *isolinux;
 
@@ -151,10 +151,29 @@ int init_video_tab(GeneratorUI *ui)
             fl_alert("Missing isolinux configuration files.\n");
             return 0;
         }
+
+        if (target_arch == TARGET_ARCH_I386) {
         ui->hdtv->value(0);
         if (isolinux_get_default(isolinux) == "hdtv")
             ui->hdtv->value(1);
         isolinux_unload(isolinux);
+        }
+        else
+        {
+            ui->hdtv->value(1);
+            ui->hdtv->deactivate();
+        }
+
+        if (!init_video_hdtv(ui)) {
+            if (target_arch == TARGET_ARCH_I386) {
+                ui->hdtv->value(0);
+                ui->hdtv->deactivate();
+            }
+            else {
+                fl_alert("Missing X.Org configuration files.\n");
+                return 0;
+            }
+        }
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
         if (!config) {
@@ -162,11 +181,7 @@ int init_video_tab(GeneratorUI *ui)
             return 0;
         }
 
-        if (!init_video_hdtv(ui)) {
-            ui->hdtv->value(0);
-            ui->hdtv->deactivate();
-        }
-
+        if (target_arch == TARGET_ARCH_I386) {
         config_getvar_int_location(config, "vga", 1, &vgamode);
         if (vgamode >= 784 && vgamode <= 786) {
             res = GeneratorUI::VESA_RES_640;
@@ -196,6 +211,7 @@ int init_video_tab(GeneratorUI *ui)
         }
         ui->vesa_res->value(res);
         ui->vesa_depth->value(depth);
+        }
 
         config_getvar_location(config, "splash", 1, buf, sizeof(buf));
         ui->video_splash->value(!my_strcasecmp(buf, "silent"));
@@ -232,7 +248,7 @@ int write_video_settings(GeneratorUI *ui)
     int res, depth;
     int vgamode;
 
-    if (target_arch == TARGET_ARCH_I386) {
+    if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
         int i;
         config_t *config, *config2, *config3;
         isolinux_t *isolinux, *pxelinux;

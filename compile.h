@@ -21,6 +21,7 @@
 
 typedef enum {
     TARGET_ARCH_I386,
+    TARGET_ARCH_X86_64,
     TARGET_ARCH_POWERPC
 } target_arch_t;
 

@@ -58,7 +58,7 @@ int init_language_tab(GeneratorUI *ui)
     const Fl_Menu_Item *m;
     config_t *config;
 
-    if (target_arch == TARGET_ARCH_I386) {
+    if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
         if (!config) {
             fl_alert("Missing isolinux configuration files.\n");
@@ -194,7 +194,7 @@ int write_language_settings(GeneratorUI *ui)
     }
     l = (struct lang_info*)ui->menu_lang->mvalue()->user_data();
 
-    if (target_arch == TARGET_ARCH_I386) {
+    if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
         config_t *config, *config2;
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);

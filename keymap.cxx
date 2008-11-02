@@ -49,7 +49,7 @@ int init_keymap_tab(GeneratorUI *ui)
         free((void*)files);
     }
 
-    if (target_arch == TARGET_ARCH_I386) {
+    if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
         config_t *config;
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
@@ -89,7 +89,7 @@ int init_keymap_tab(GeneratorUI *ui)
 
 int write_keymap_settings(GeneratorUI *ui)
 {
-    if (target_arch == TARGET_ARCH_I386) {
+    if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
         config_t *config, *config2;
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);

@@ -39,7 +39,7 @@ int init_lcd_tab(GeneratorUI *ui)
 
     /* only for i386 */
     config = config_open(PATH_BASEISO "/etc/lcddisplay", 1);
-    if (target_arch != TARGET_ARCH_I386 || !config) {
+    if ((target_arch != TARGET_ARCH_I386 && target_arch != TARGET_ARCH_X86_64) || !config) {
         ui->setting_tabs->remove(ui->lcd_tab);
         return 1;
     }
@@ -90,7 +90,7 @@ int write_lcd_settings(GeneratorUI *ui)
 
     /* only for i386 */
     config = config_open(PATH_BASEISO "/etc/lcddisplay", 1);
-    if (target_arch != TARGET_ARCH_I386 || !config) {
+    if ((target_arch != TARGET_ARCH_I386 && target_arch != TARGET_ARCH_X86_64) || !config) {
         return 1;
     }
 

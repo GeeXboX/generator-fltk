@@ -56,7 +56,7 @@ int init_remote_tab(GeneratorUI *ui)
 	return 0;
     }
 
-    if (target_arch == TARGET_ARCH_I386) {
+    if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
         config_t *config;
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);
@@ -105,7 +105,7 @@ int init_remote_tab(GeneratorUI *ui)
 
 int write_remote_settings(GeneratorUI *ui)
 {
-    if (target_arch == TARGET_ARCH_I386) {
+    if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
         config_t *config, *config2;
 
         config = config_open(PATH_BASEISO "/boot/isolinux.cfg", 0);

@@ -56,6 +56,8 @@ const char *get_target_arch_string(void)
     {
     case TARGET_ARCH_I386:
 	return "i386";
+    case TARGET_ARCH_X86_64:
+        return "x86_64";
     case TARGET_ARCH_POWERPC:
 	return "powerpc";
     default:
@@ -153,6 +155,7 @@ static int compile_isoimage(GeneratorUI *ui)
     switch (target_arch)
     {
     case TARGET_ARCH_I386:
+    case TARGET_ARCH_X86_64:
 	mkisofs_arch = "-no-emul-boot -boot-info-table -boot-load-size 4 -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog";
 	break;
     case TARGET_ARCH_POWERPC:
@@ -317,8 +320,10 @@ int init_compile(GeneratorUI *ui)
     char buf[512], *tmp;
     FILE *f;
 
-    if (file_exists(PATH_BASEISO "/boot/isolinux.bin"))
+    if (file_exists(PATH_BASEISO "/usr/share/grub-i386-pc.tar.lzma"))
 	target_arch = TARGET_ARCH_I386;
+    else if (file_exists(PATH_BASEISO "/boot/isolinux.bin"))
+        target_arch = TARGET_ARCH_X86_64;
     else if (file_exists(PATH_BASEISO "/boot/yaboot"))
 	target_arch = TARGET_ARCH_POWERPC;
     else {

@@ -317,7 +317,7 @@ int copy_theme_boot_files(GeneratorUI *ui)
 	unlink(buf2);
     }
 
-    if (target_arch == TARGET_ARCH_I386) {
+    if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
 	sprintf(buf, "themes/theme-%s/splash.png", theme);
 	sprintf(buf2, "ziso/GEEXBOX/boot/splash.png");
 	if (file_exists(buf))

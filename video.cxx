@@ -153,10 +153,10 @@ int init_video_tab(GeneratorUI *ui)
         }
 
         if (target_arch == TARGET_ARCH_I386) {
-        ui->hdtv->value(0);
-        if (isolinux_get_default(isolinux) == "hdtv")
-            ui->hdtv->value(1);
-        isolinux_unload(isolinux);
+            ui->hdtv->value(0);
+            if (isolinux_get_default(isolinux) == "hdtv")
+                ui->hdtv->value(1);
+            isolinux_unload(isolinux);
         }
         else
         {
@@ -182,35 +182,35 @@ int init_video_tab(GeneratorUI *ui)
         }
 
         if (target_arch == TARGET_ARCH_I386) {
-        config_getvar_int_location(config, "vga", 1, &vgamode);
-        if (vgamode >= 784 && vgamode <= 786) {
-            res = GeneratorUI::VESA_RES_640;
-            depth = vgamode - 784;
-        }
-        else if (vgamode >= 787 && vgamode <= 789) {
-            res = GeneratorUI::VESA_RES_800;
-            depth = vgamode - 787;
-        }
-        else if (vgamode >= 790 && vgamode <= 792) {
-            res = GeneratorUI::VESA_RES_1024;
-            depth = vgamode - 790;
-        }
-        else if (vgamode >= 793 && vgamode <= 795) {
-            res = GeneratorUI::VESA_RES_1280;
-            depth = vgamode - 793;
-        }
-        else if (vgamode >= 797 && vgamode <= 799) {
-            res = GeneratorUI::VESA_RES_1600;
-            depth = vgamode - 797;
-        }
-        else {
-            res = GeneratorUI::VESA_CUSTOM;
-            depth = GeneratorUI::VESA_DEPTH_24;
-            sprintf(buf, "%i", vgamode);
-            ui->vesa_custom->value(buf);
-        }
-        ui->vesa_res->value(res);
-        ui->vesa_depth->value(depth);
+            config_getvar_int_location(config, "vga", 1, &vgamode);
+            if (vgamode >= 784 && vgamode <= 786) {
+                res = GeneratorUI::VESA_RES_640;
+                depth = vgamode - 784;
+            }
+            else if (vgamode >= 787 && vgamode <= 789) {
+                res = GeneratorUI::VESA_RES_800;
+                depth = vgamode - 787;
+            }
+            else if (vgamode >= 790 && vgamode <= 792) {
+                res = GeneratorUI::VESA_RES_1024;
+                depth = vgamode - 790;
+            }
+            else if (vgamode >= 793 && vgamode <= 795) {
+                res = GeneratorUI::VESA_RES_1280;
+                depth = vgamode - 793;
+            }
+            else if (vgamode >= 797 && vgamode <= 799) {
+                res = GeneratorUI::VESA_RES_1600;
+                depth = vgamode - 797;
+            }
+            else {
+                res = GeneratorUI::VESA_CUSTOM;
+                depth = GeneratorUI::VESA_DEPTH_24;
+                sprintf(buf, "%i", vgamode);
+                ui->vesa_custom->value(buf);
+            }
+            ui->vesa_res->value(res);
+            ui->vesa_depth->value(depth);
         }
 
         config_getvar_location(config, "splash", 1, buf, sizeof(buf));

@@ -136,7 +136,7 @@ char *valid_theme_font(const char *theme_name, struct charset_info *c)
 
     config_getvar(config, "FONT_CHARSETS", buf, sizeof(buf));
     if (!buf[0])
-	strcpy(buf, "iso-8859-1 ");
+	strcpy(buf, "windows-1252 ");
     else
 	strcat(buf, " ");
 

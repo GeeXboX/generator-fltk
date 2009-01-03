@@ -364,7 +364,7 @@ class GeneratorUI {open
             } {
               Fl_Check_Button goom {
                 label {Audio visuals (GOOM)}
-                tooltip {Consumes CPU power, disable for low configs}
+                tooltip {GOOM consumes CPU power and unexpected behaviours can appear with audio files different of MP3 or WMA.\nEnable it only if you know what you do. We provide no support for this functionality.}
                 callback {update_tabs_status(this);}
                 xywh {55 45 175 25} down_box DOWN_BOX
               }

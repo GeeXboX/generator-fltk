@@ -54,7 +54,7 @@ ndiswrapper.o: config.h fs.h ndiswrapper.h system.h
 network.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H
 network.o: FLU/FLU/Flu_Tree_Browser.h FLU/FLU/Flu_Enumerations.h
 network.o: FLU/FLU/flu_export.h FLU/FLU/FluSimpleString.h config.h
-network.o: configparser.h network.h system.h
+network.o: configparser.h network.h fs.h system.h
 nfs.o: generatorUI.h Fl_Gel_Tabs/FL/Fl_Gel_Tabs.H FLU/FLU/Flu_Tree_Browser.h
 nfs.o: FLU/FLU/Flu_Enumerations.h FLU/FLU/flu_export.h
 nfs.o: FLU/FLU/FluSimpleString.h config.h nfs.h utils.h

@@ -21,6 +21,7 @@
 #include "config.h"
 #include "configparser.h"
 #include "network.h"
+#include "fs.h"
 #include "system.h"
 
 #include <FL/fl_ask.H> /* fl_alert */
@@ -129,6 +130,13 @@ int init_network_tab(GeneratorUI *ui)
     config_getvar(config, "HTTP_SERVER", buf, sizeof(buf));
     ui->server_http->value(!my_strcasecmp(buf, "yes"));
 
+    if (file_exists(PATH_BASEISO "/etc/smb.conf")) {
+        config_getvar(config, "SAMBA_SERVER", buf, sizeof(buf));
+        ui->server_samba->value(!my_strcasecmp(buf, "yes"));
+    }
+    else
+        ui->server_samba->deactivate();
+
     config_getvar(config, "UPNP", buf, sizeof(buf));
     ui->upnp_discovery->value(!my_strcasecmp(buf, "yes"));
 
@@ -235,6 +243,9 @@ int write_network_settings(GeneratorUI *ui)
     config_setvar(config, "TELNET_SERVER", yes_no(ui->server_telnet->value()));
     config_setvar(config, "FTP_SERVER", yes_no(ui->server_ftp->value()));
     config_setvar(config, "HTTP_SERVER", yes_no(ui->server_http->value()));
+
+    if (file_exists(PATH_BASEISO "/etc/smb.conf"))
+        config_setvar(config, "SAMBA_SERVER", yes_no(ui->server_samba->value()));
 
     config_setvar(config, "UPNP", yes_no(ui->upnp_discovery->value()));
 

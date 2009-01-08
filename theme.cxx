@@ -296,7 +296,7 @@ int copy_theme_boot_files(GeneratorUI *ui)
 	/* List of files appended to cpio archive, only ./bootsplash here */
 	f = fopen("./cpio_list", "wb");
 	if (f) {
-	    fprintf(f, bootsplash);
+	    fprintf(f, "%s", bootsplash);
 	    fclose(f);
 	}
 

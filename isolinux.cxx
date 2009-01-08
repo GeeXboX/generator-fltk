@@ -18,6 +18,7 @@
 #include "config.h"
 #include "isolinux.h"
 #include "utils.h"
+#include "string.h"
 
 struct isolinux_s {
     std::string name;

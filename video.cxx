@@ -237,6 +237,8 @@ int init_video_tab(GeneratorUI *ui)
         ui->vesa_res->deactivate();
         ui->vesa_res->value(GeneratorUI::VESA_RES_800);
         ui->vesa_depth->deactivate();
+
+        config_destroy(config);
     }
 
     return 1;

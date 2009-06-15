@@ -28,7 +28,6 @@
 #include "keymap.h"
 #include "language.h"
 #include "lcd.h"
-#include "mplayer.h"
 #include "network.h"
 #include "nfs.h"
 #include "packages.h"
@@ -91,7 +90,6 @@ static int write_geexbox_files(GeneratorUI *ui)
       { "Writing keymap settings...", write_keymap_settings },
       { "Writing audio settings...", write_audio_settings },
       { "Writing video settings...", write_video_settings },
-      { "Writing MPlayer settings...", write_mplayer_settings },
       { "Writing network settings...", write_network_settings },
       { "Writing nfs settings...", write_nfs_settings },
       { "Writing samba settings...", write_samba_settings },

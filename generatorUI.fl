@@ -366,24 +366,6 @@ class GeneratorUI {open
               label Miscellaneous open
               xywh {15 25 740 255} align 2
             } {
-              Fl_Check_Button goom {
-                label {Audio visuals (GOOM)}
-                tooltip {GOOM consumes CPU power and unexpected behaviours can appear with audio files different of MP3 or WMA.\nEnable it only if you know what you do. We provide no support for this functionality.}
-                callback {update_tabs_status(this);}
-                xywh {55 45 175 25} down_box DOWN_BOX
-              }
-              Fl_Input goom_width {
-                label {Width:}
-                xywh {145 75 75 25}
-              }
-              Fl_Input goom_height {
-                label {Height:}
-                xywh {145 105 75 25}
-              }
-              Fl_Input goom_fps {
-                label {Framerate:}
-                xywh {145 135 50 25}
-              }
             }
           }
         }

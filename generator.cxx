@@ -27,7 +27,6 @@
 #include "keymap.h"
 #include "language.h"
 #include "lcd.h"
-#include "mplayer.h"
 #include "ndiswrapper.h"
 #include "network.h"
 #include "nfs.h"
@@ -52,17 +51,6 @@
 
 void update_tabs_status(GeneratorUI *ui)
 {
-    if (ui->goom->value()) {
-        ui->goom_width->activate();
-        ui->goom_height->activate();
-        ui->goom_fps->activate();
-    }
-    else {
-        ui->goom_width->deactivate();
-        ui->goom_height->deactivate();
-        ui->goom_fps->deactivate();
-    }
-
     if (ui->lcd_enabled->value()) {
 	ui->lcd_model->activate();
 	ui->lcd_width->activate();
@@ -264,7 +252,6 @@ static int init_tabs(GeneratorUI *ui)
 	&& init_audio_tab(ui)
 	&& init_video_tab(ui)
 	&& init_remote_tab(ui)
-	&& init_mplayer_tab(ui)
 	&& init_ndiswrapper_tab(ui)
 	&& init_network_tab(ui)
 	&& init_nfs_tab(ui)

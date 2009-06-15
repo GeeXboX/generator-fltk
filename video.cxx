@@ -29,6 +29,7 @@
 
 #include <string>
 
+#define yes_no(x) ((x) ? "yes" : "no")
 
 const char *get_target_resolution(GeneratorUI *ui)
 {
@@ -139,6 +140,7 @@ int init_video_tab(GeneratorUI *ui)
     char buf[256];
     int vgamode;
     int res, depth;
+    config_t *config_video;
 
     if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
         config_t *config;
@@ -241,6 +243,17 @@ int init_video_tab(GeneratorUI *ui)
         config_destroy(config);
     }
 
+    config_video = config_open(PATH_BASEISO "/etc/video", 1);
+    if (!config_video) {
+        fl_alert("Missing video configuration files.\n");
+        return 0;
+    }
+
+    config_getvar(config_video, "MT_DECODING", buf, sizeof(buf));
+    ui->mt_decoding->value(!my_strcasecmp(buf, "yes"));
+
+    config_destroy(config_video);
+
     return 1;
 }
 
@@ -248,6 +261,7 @@ int write_video_settings(GeneratorUI *ui)
 {
     int res, depth;
     int vgamode;
+    config_t *config_video;
 
     if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
         int i, bootlabel_nb;
@@ -421,6 +435,17 @@ int write_video_settings(GeneratorUI *ui)
         config_destroy(config);
         config_destroy(config2);
     }
+
+    config_video = config_open(PATH_BASEISO "/etc/video", 1);
+    if (!config_video) {
+        fl_alert("Failed to open for write video configuration.\n");
+        return 0;
+    }
+
+    config_setvar(config_video, "MT_DECODING", yes_no(ui->mt_decoding->value()));
+
+    config_write(config_video, PATH_BASEISO "/etc/video");
+    config_destroy(config_video);
 
     return 1;
 }

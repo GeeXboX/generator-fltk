@@ -357,6 +357,10 @@ class GeneratorUI {open
                   xywh {625 150 70 25}
                 }
               }
+              Fl_Check_Button mt_decoding {
+                label {Multi-threaded video decoding}
+                xywh {55 220 220 25} down_box DOWN_BOX
+              }
             }
             Fl_Group videomisc_subtab {
               label Miscellaneous open

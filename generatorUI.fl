@@ -218,140 +218,140 @@ class GeneratorUI {open
           label {Video} open
           xywh {15 25 740 270} hide
         } {
-              Fl_Check_Button video_splash {
-                label {Bootsplash screen}
-                xywh {55 160 210 25} down_box DOWN_BOX
-              }
-              Fl_Choice vesa_res {
-                label {Resolution / Color:}
-                callback {update_tabs_status(this);}
-                xywh {180 80 110 25} down_box BORDER_BOX
-              } {
-                MenuItem {} {
-                  label 640x480
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label 800x600
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label 1024x768
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label 1280x1024
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label 1600x1200
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label Custom
-                  xywh {10 10 34 21}
-                }
-              }
-              Fl_Choice vesa_depth {
-                xywh {295 80 75 25} down_box BORDER_BOX
-              } {
-                MenuItem {} {
-                  label {15 bits}
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label {16 bits}
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label {24 bits}
-                  xywh {10 10 34 21}
-                }
-              }
-              Fl_Input vesa_custom {
-                label {VESA mode (dec):}
-                xywh {180 120 80 25}
-              }
-              Fl_Choice xorg_res {
-                label {Resolution:}
-                callback {update_tabs_status(this);}
-                xywh {180 80 110 25} down_box BORDER_BOX
-              } {
-                MenuItem {} {
-                  label auto
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label 720x480
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label 1280x720
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label 1360x768
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label 1368x768
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label 1920x1080
-                  xywh {10 10 34 21}
-                }
-                MenuItem {} {
-                  label Custom
-                  xywh {10 10 34 21}
-                }
-              }
-              Fl_Choice xorg_drivers {
-                label {Driver:}
-                xywh {350 80 130 25} down_box BORDER_BOX
-              } {}
-              Fl_Input xorg_custom_w {
-                label {Width:}
-                xywh {180 120 80 25}
-              }
-              Fl_Input xorg_custom_h {
-                label {Height:}
-                xywh {330 120 80 25}
-              }
-              Fl_Check_Button hdtv {
-                label {HDTV (X.Org)}
-                callback {update_tabs_status(this);}
-                xywh {55 45 125 25} down_box DOWN_BOX
-              }
-              Fl_Check_Button xorg_auto {
-                label {Auto settings}
-                callback {update_tabs_status(this);}
-                xywh {180 45 125 25} down_box DOWN_BOX
-              }
-              Fl_Group {xorg_monitor} {
-                label {Monitor Settings} open
-                xywh {520 70 190 120} box ENGRAVED_FRAME align 5
-              } {
-                Fl_Input xorg_rate {
-                  label {Refresh rate:}
-                  tooltip {Desired screen refresh rate, under the form "60" or "auto"}
-                  xywh {625 80 70 25}
-                }
-                Fl_Input xorg_horizsync {
-                  label {Horiz. sync:}
-                  tooltip {Monitor horizontal sync, under the form "28-51" or "auto"}
-                  xywh {625 115 70 25}
-                }
-                Fl_Input xorg_vertrefresh {
-                  label {Vert. refresh:}
-                  tooltip {Monitor vertical refresh, under the form "43-60" or "auto"}
-                  xywh {625 150 70 25}
-                }
-              }
-              Fl_Check_Button mt_decoding {
-                label {Multi-threaded video decoding}
-                xywh {55 220 220 25} down_box DOWN_BOX
-              }
+          Fl_Check_Button video_splash {
+            label {Bootsplash screen}
+            xywh {55 160 210 25} down_box DOWN_BOX
+          }
+          Fl_Choice vesa_res {
+            label {Resolution / Color:}
+            callback {update_tabs_status(this);}
+            xywh {180 80 110 25} down_box BORDER_BOX
+          } {
+            MenuItem {} {
+              label 640x480
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 800x600
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1024x768
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1280x1024
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1600x1200
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label Custom
+              xywh {10 10 34 21}
+            }
+          }
+          Fl_Choice vesa_depth {
+            xywh {295 80 75 25} down_box BORDER_BOX
+          } {
+            MenuItem {} {
+              label {15 bits}
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label {16 bits}
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label {24 bits}
+              xywh {10 10 34 21}
+            }
+          }
+          Fl_Input vesa_custom {
+            label {VESA mode (dec):}
+            xywh {180 120 80 25}
+          }
+          Fl_Choice xorg_res {
+            label {Resolution:}
+            callback {update_tabs_status(this);}
+            xywh {180 80 110 25} down_box BORDER_BOX
+          } {
+            MenuItem {} {
+              label auto
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 720x480
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1280x720
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1360x768
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1368x768
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label 1920x1080
+              xywh {10 10 34 21}
+            }
+            MenuItem {} {
+              label Custom
+              xywh {10 10 34 21}
+            }
+          }
+          Fl_Choice xorg_drivers {
+            label {Driver:}
+            xywh {350 80 130 25} down_box BORDER_BOX
+          } {}
+          Fl_Input xorg_custom_w {
+            label {Width:}
+            xywh {180 120 80 25}
+          }
+          Fl_Input xorg_custom_h {
+            label {Height:}
+            xywh {330 120 80 25}
+          }
+          Fl_Check_Button hdtv {
+            label {HDTV (X.Org)}
+            callback {update_tabs_status(this);}
+            xywh {55 45 125 25} down_box DOWN_BOX
+          }
+          Fl_Check_Button xorg_auto {
+            label {Auto settings}
+            callback {update_tabs_status(this);}
+            xywh {180 45 125 25} down_box DOWN_BOX
+          }
+          Fl_Group {xorg_monitor} {
+            label {Monitor Settings} open
+            xywh {520 70 190 120} box ENGRAVED_FRAME align 5
+          } {
+            Fl_Input xorg_rate {
+              label {Refresh rate:}
+              tooltip {Desired screen refresh rate, under the form "60" or "auto"}
+              xywh {625 80 70 25}
+            }
+            Fl_Input xorg_horizsync {
+              label {Horiz. sync:}
+              tooltip {Monitor horizontal sync, under the form "28-51" or "auto"}
+              xywh {625 115 70 25}
+            }
+            Fl_Input xorg_vertrefresh {
+              label {Vert. refresh:}
+              tooltip {Monitor vertical refresh, under the form "43-60" or "auto"}
+              xywh {625 150 70 25}
+            }
+          }
+          Fl_Check_Button mt_decoding {
+            label {Multi-threaded video decoding}
+            xywh {55 220 220 25} down_box DOWN_BOX
+          }
         }
         Fl_Group {} {
           label {Remote Control} open

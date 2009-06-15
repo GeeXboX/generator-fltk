@@ -218,15 +218,6 @@ class GeneratorUI {open
           label {Video} open
           xywh {15 25 740 270} hide
         } {
-          Fl_Tabs video_tabs {open
-            xywh {15 25 740 270} box NO_BOX align 2
-            code0 {\#include <FL/Fl_Gel_Tabs.H>}
-            class Fl_Gel_Tabs
-          } {
-            Fl_Group video_subtab {
-              label {Configuration} open
-              xywh {15 25 740 255} align 2
-            } {
               Fl_Check_Button video_splash {
                 label {Bootsplash screen}
                 xywh {55 160 210 25} down_box DOWN_BOX
@@ -361,13 +352,6 @@ class GeneratorUI {open
                 label {Multi-threaded video decoding}
                 xywh {55 220 220 25} down_box DOWN_BOX
               }
-            }
-            Fl_Group videomisc_subtab {
-              label Miscellaneous open
-              xywh {15 25 740 255} align 2
-            } {
-            }
-          }
         }
         Fl_Group {} {
           label {Remote Control} open

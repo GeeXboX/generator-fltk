@@ -48,7 +48,7 @@ static const char *path_lzma, *path_cpio, *path_gzip;
 static archive_type_t get_archive_type(const char *archive)
 {
     FILE *fd;
-    uint8_t buf[16];
+    unsigned char buf[16];
 
     if (!archive)
         return ARCHIVE_ERROR;

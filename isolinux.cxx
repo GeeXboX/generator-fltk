@@ -20,6 +20,8 @@
 #include "utils.h"
 #include "string.h"
 
+#include <stdio.h>
+
 struct isolinux_s {
     std::string name;
     std::string value;

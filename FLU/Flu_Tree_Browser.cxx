@@ -2983,7 +2983,7 @@ Flu_Tree_Browser::Node* Flu_Tree_Browser :: add_leaf( const char* path, const ch
 
 /*
  * These methods are broken with x86_64 where the pointers are 64 bits and the
- * integer are 32 bits.
+ * integers are 32 bits.
  */
 #if 0
 unsigned int Flu_Tree_Browser :: remove( const char *fullpath )

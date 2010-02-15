@@ -23,7 +23,7 @@
 #include <unistd.h> /* unlink */
 #include <stdlib.h> /* malloc, free */
 
-#include <FL/Fl.H> 
+#include <FL/Fl.H>
 #include <curl/curl.h>
 #include <md5.h>
 #include <bzlib.h>
@@ -45,13 +45,13 @@ my_progress_func(void *data, double dltot, double dlnow, double ultotal, double 
 
     if (dltot > 0)
     {
-	prog->value(dlnow*100.0/dltot + *((int*) prog->user_data()));
-	Fl::check();
+        prog->value(dlnow*100.0/dltot + *((int*) prog->user_data()));
+        Fl::check();
     }
 
     return 0;
 }
-										    
+
 int download_progress(Fl_Button *b, Fl_Progress *prog, const char *url, curl_write_callback write_func, void *write_data)
 {
     CURLMsg *msg; /* for picking up messages with the transfer status */
@@ -63,14 +63,14 @@ int download_progress(Fl_Button *b, Fl_Progress *prog, const char *url, curl_wri
     void *cb_data = NULL;
 
     while ((msg = curl_multi_info_read(multi_handle, &msgs_left)))
-	;
+        ;
 
     if (b)
     {
-	cb_func = b->callback();
-	cb_data = b->user_data();
+        cb_func = b->callback();
+        cb_data = b->user_data();
 
-	b->callback(stop_download, &still_running);
+        b->callback(stop_download, &still_running);
     }
 
     h = curl_easy_init();
@@ -81,67 +81,67 @@ int download_progress(Fl_Button *b, Fl_Progress *prog, const char *url, curl_wri
 
     if (prog)
     {
-	curl_easy_setopt(h, CURLOPT_NOPROGRESS, 0);
-	curl_easy_setopt(h, CURLOPT_PROGRESSFUNCTION, my_progress_func);
-	curl_easy_setopt(h, CURLOPT_PROGRESSDATA, prog);
+        curl_easy_setopt(h, CURLOPT_NOPROGRESS, 0);
+        curl_easy_setopt(h, CURLOPT_PROGRESSFUNCTION, my_progress_func);
+        curl_easy_setopt(h, CURLOPT_PROGRESSDATA, prog);
     }
 
     curl_multi_add_handle(multi_handle, h);
 
     while(CURLM_CALL_MULTI_PERFORM == curl_multi_perform(multi_handle, &still_running))
-	;
+        ;
 
     Fl::check();
 
     ret = 0;
     while (still_running)
     {
-	struct timeval timeout;
-	int rc;
+        struct timeval timeout;
+        int rc;
 
-	fd_set fdread;
-	fd_set fdwrite;
-	fd_set fdexcep;
-	int maxfd;
+        fd_set fdread;
+        fd_set fdwrite;
+        fd_set fdexcep;
+        int maxfd;
 
-	FD_ZERO(&fdread);
-	FD_ZERO(&fdwrite);
-	FD_ZERO(&fdexcep);
+        FD_ZERO(&fdread);
+        FD_ZERO(&fdwrite);
+        FD_ZERO(&fdexcep);
 
-	timeout.tv_sec = 0;
-	timeout.tv_usec = 500;
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 500;
 
-	curl_multi_fdset(multi_handle, &fdread, &fdwrite, &fdexcep, &maxfd);
+        curl_multi_fdset(multi_handle, &fdread, &fdwrite, &fdexcep, &maxfd);
 
-	rc = ::select(maxfd+1, &fdread, &fdwrite, &fdexcep, &timeout);
-	if (rc > 0)
-	    while(CURLM_CALL_MULTI_PERFORM == curl_multi_perform(multi_handle, &still_running))
-		;
+        rc = ::select(maxfd+1, &fdread, &fdwrite, &fdexcep, &timeout);
+        if (rc > 0)
+            while(CURLM_CALL_MULTI_PERFORM == curl_multi_perform(multi_handle, &still_running))
+                ;
 
-	if (ret++ == 10) {
-	    Fl::check();
-	    ret = 0;
-	}
+        if (ret++ == 10) {
+            Fl::check();
+            ret = 0;
+        }
     }
 
     ret = 1;
     while ((msg = curl_multi_info_read(multi_handle, &msgs_left)))
-	if (msg->easy_handle == h && msg->msg == CURLMSG_DONE && msg->data.result == CURLE_OK)
-	    ret = 0;
+        if (msg->easy_handle == h && msg->msg == CURLMSG_DONE && msg->data.result == CURLE_OK)
+            ret = 0;
 
     curl_multi_remove_handle(multi_handle, h);
     curl_easy_cleanup(h);
 
     if (b)
-	b->callback(cb_func, cb_data);
+        b->callback(cb_func, cb_data);
 
     return ret;
 }
 
-#define FILE_WRITE_MODE_MD5	0x001
-#define FILE_WRITE_MODE_BZ2	0x002
+#define FILE_WRITE_MODE_MD5     0x001
+#define FILE_WRITE_MODE_BZ2     0x002
 
-#define BZ2_BUF_SIZE		0x10000
+#define BZ2_BUF_SIZE            0x10000
 
 struct file_write_data {
     unsigned int mode;
@@ -159,44 +159,44 @@ file_writefunction(char *buf, size_t size, size_t nmemb, void *stream)
     size_t realsize = size * nmemb;
 
     if (data->mode & FILE_WRITE_MODE_MD5)
-	MD5Update(&data->md5_context, (unsigned char*)buf, realsize);
+        MD5Update(&data->md5_context, (unsigned char*)buf, realsize);
 
     if (data->mode & FILE_WRITE_MODE_BZ2) {
-	bz_stream *strm = &data->bz2_strm;
-	size_t len;
-	int ret;
+        bz_stream *strm = &data->bz2_strm;
+        size_t len;
+        int ret;
 
-	if (data->bz2_done)
-	    return 0;
+        if (data->bz2_done)
+            return 0;
 
-	strm->next_in = buf;
-	strm->avail_in = realsize;
+        strm->next_in = buf;
+        strm->avail_in = realsize;
 
-	for (;;)
-	{
-	    strm->next_out = data->bz2_buf;
-	    strm->avail_out = BZ2_BUF_SIZE;
+        for (;;)
+        {
+            strm->next_out = data->bz2_buf;
+            strm->avail_out = BZ2_BUF_SIZE;
 
-	    ret = BZ2_bzDecompress(strm);
-	    if (ret == BZ_OK || ret == BZ_STREAM_END) {
-		len = BZ2_BUF_SIZE - strm->avail_out;
-		if (len)
-		    if (fwrite(data->bz2_buf, sizeof(char), len, data->f) != len)
-			return 0;
-		if (ret == BZ_STREAM_END) {
-		    data->bz2_done++;
-		    if (strm->avail_in)
-			return 0;
-		}
-		if (strm->avail_in == 0)
-		    break;
-	    } else {
-		return 0;
-	    }
-	}
+            ret = BZ2_bzDecompress(strm);
+            if (ret == BZ_OK || ret == BZ_STREAM_END) {
+                len = BZ2_BUF_SIZE - strm->avail_out;
+                if (len)
+                    if (fwrite(data->bz2_buf, sizeof(char), len, data->f) != len)
+                        return 0;
+                if (ret == BZ_STREAM_END) {
+                    data->bz2_done++;
+                    if (strm->avail_in)
+                        return 0;
+                }
+                if (strm->avail_in == 0)
+                    break;
+            } else {
+                return 0;
+            }
+        }
     } else {
-	if (fwrite(buf, size, nmemb, data->f) != nmemb)
-	    return 0;
+        if (fwrite(buf, size, nmemb, data->f) != nmemb)
+            return 0;
     }
 
     return realsize;
@@ -210,10 +210,10 @@ static int match_end_clear(char *str, const char *end)
     end_len = strlen(end);
 
     if (str_len >= end_len && !strcmp(&str[str_len - end_len], end)) {
-	str[str_len - end_len] = '\0';
-	return 1;
+        str[str_len - end_len] = '\0';
+        return 1;
     } else {
-	return 0;
+        return 0;
     }
 }
 
@@ -227,52 +227,52 @@ int download_file(Fl_Button *b, Fl_Progress *prog, const char *url, char *filena
     data.mode = 0;
 
     if (md5 && *md5) {
-	data.mode |= FILE_WRITE_MODE_MD5;
-	MD5Init(&data.md5_context);
+        data.mode |= FILE_WRITE_MODE_MD5;
+        MD5Init(&data.md5_context);
     }
 
     if (match_end_clear(filename, ".bz2")) {
-	data.mode |= FILE_WRITE_MODE_BZ2;
-	data.bz2_done = 0;
-	data.bz2_buf = (char*)malloc(BZ2_BUF_SIZE);
-	data.bz2_strm.bzalloc = NULL;
-	data.bz2_strm.bzfree = NULL;
-	data.bz2_strm.opaque = NULL;
-	BZ2_bzDecompressInit(&data.bz2_strm, 0, 0);
+        data.mode |= FILE_WRITE_MODE_BZ2;
+        data.bz2_done = 0;
+        data.bz2_buf = (char*)malloc(BZ2_BUF_SIZE);
+        data.bz2_strm.bzalloc = NULL;
+        data.bz2_strm.bzfree = NULL;
+        data.bz2_strm.opaque = NULL;
+        BZ2_bzDecompressInit(&data.bz2_strm, 0, 0);
     }
 
     if (strchr(filename, '/') != NULL) {
-	for (i = strlen(filename) - 1; filename[i] != '/'; i--);
-	strcpy(dir, filename);
-	dir[i] = '\0';
-	if (!fl_filename_isdir(dir))
-	    my_mkdir(dir);
+        for (i = strlen(filename) - 1; filename[i] != '/'; i--);
+        strcpy(dir, filename);
+        dir[i] = '\0';
+        if (!fl_filename_isdir(dir))
+            my_mkdir(dir);
     }
 
     data.f = fopen(filename, "wb");
     if (data.f)
     {
-	ret = download_progress(b, prog, url, file_writefunction, &data);
-	fclose(data.f);
+        ret = download_progress(b, prog, url, file_writefunction, &data);
+        fclose(data.f);
 
-	if (!ret && data.mode & FILE_WRITE_MODE_MD5)
-	{
-	    char buf[33];
-	    MD5End(&data.md5_context, buf);
-	    if (md5 && strcmp(buf, md5))
-		ret = 3;
-	}
+        if (!ret && data.mode & FILE_WRITE_MODE_MD5)
+        {
+            char buf[33];
+            MD5End(&data.md5_context, buf);
+            if (md5 && strcmp(buf, md5))
+                ret = 3;
+        }
 
-	if (!ret && data.mode & FILE_WRITE_MODE_BZ2 && !data.bz2_done)
-	    ret = 4;
+        if (!ret && data.mode & FILE_WRITE_MODE_BZ2 && !data.bz2_done)
+            ret = 4;
 
-	if (ret)
-	    unlink(filename);
+        if (ret)
+            unlink(filename);
     }
 
     if (data.mode & FILE_WRITE_MODE_BZ2) {
-	free(data.bz2_buf);
-	BZ2_bzDecompressEnd(&data.bz2_strm);
+        free(data.bz2_buf);
+        BZ2_bzDecompressEnd(&data.bz2_strm);
     }
 
     return ret;
@@ -282,7 +282,7 @@ int init_curl(void)
 {
     multi_handle = curl_multi_init();
     if (!multi_handle)
-	return 0;
+        return 0;
 
     return 1;
 }

@@ -38,22 +38,22 @@ int init_remote_tab(GeneratorUI *ui)
 
     if ((num_files = fl_filename_list(PATH_BASEISO "/etc/lirc/", &files, NULL)) > 0)
     {
-	for (i = 0; i < num_files; i++)
-	{
-	    fname = files[i]->d_name;
-	    if (!strncmp("lircd_", fname, 6) &&
-		    strcmp(".conf", &fname[strlen(fname)-5]))
-		ui->lirc_receiver->add(&fname[6]);
-	    else if (!strncmp("lircrc_", fname, 7))
-		ui->lirc_remote->add(&fname[7]);
-	    free((void*)files[i]);
-	}
-	free((void*)files);
+        for (i = 0; i < num_files; i++)
+        {
+            fname = files[i]->d_name;
+            if (!strncmp("lircd_", fname, 6) &&
+                    strcmp(".conf", &fname[strlen(fname)-5]))
+                ui->lirc_receiver->add(&fname[6]);
+            else if (!strncmp("lircrc_", fname, 7))
+                ui->lirc_remote->add(&fname[7]);
+            free((void*)files[i]);
+        }
+        free((void*)files);
     }
 
     if (ui->lirc_receiver->size() < 1 || ui->lirc_remote->size() < 1) {
-	fl_alert("Missing remote/receiver configuration files.\n");
-	return 0;
+        fl_alert("Missing remote/receiver configuration files.\n");
+        return 0;
     }
 
     if (target_arch == TARGET_ARCH_I386 || target_arch == TARGET_ARCH_X86_64) {
@@ -87,18 +87,18 @@ int init_remote_tab(GeneratorUI *ui)
     }
 
     if ((m = ui->lirc_receiver->find_item(receiver)))
-	ui->lirc_receiver->value(m);
+        ui->lirc_receiver->value(m);
     else if ((m = ui->lirc_receiver->find_item("atiusb")))
-	ui->lirc_receiver->value(m);
+        ui->lirc_receiver->value(m);
     else
-	ui->lirc_receiver->value(0);
+        ui->lirc_receiver->value(0);
 
     if ((m = ui->lirc_remote->find_item(remote)))
-	ui->lirc_remote->value(m);
+        ui->lirc_remote->value(m);
     else if ((m = ui->lirc_remote->find_item("atiusb")))
-	ui->lirc_remote->value(m);
+        ui->lirc_remote->value(m);
     else
-	ui->lirc_remote->value(0);
+        ui->lirc_remote->value(0);
 
     return 1;
 }

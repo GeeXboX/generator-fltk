@@ -25,7 +25,7 @@
 
 #include <FL/fl_ask.H> /* fl_alert */
 
-#define yes_no(x) ((x) ? "yes" : "no") 
+#define yes_no(x) ((x) ? "yes" : "no")
 
 int init_lcd_tab(GeneratorUI *ui)
 {

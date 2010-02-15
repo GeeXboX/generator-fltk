@@ -29,7 +29,7 @@
 
 #include <string>
 
-#define yes_no(x) ((x) ? "yes" : "no") 
+#define yes_no(x) ((x) ? "yes" : "no")
 
 int init_network_tab(GeneratorUI *ui)
 {
@@ -39,30 +39,30 @@ int init_network_tab(GeneratorUI *ui)
 
     config = config_open(PATH_BASEISO "/etc/network", 1);
     if (!config) {
-	fl_alert("Missing network configuration files.\n");
-	return 0;
+        fl_alert("Missing network configuration files.\n");
+        return 0;
     }
 
     config2 = config_open(PATH_BASEISO "/etc/ftp", 1);
     if (!config2) {
-	fl_alert("Missing ftp configuration files.\n");
-	return 0;
+        fl_alert("Missing ftp configuration files.\n");
+        return 0;
     }
 
     config_getvar(config, "PHY_TYPE", buf, sizeof(buf));
-    ui->phy_iface->value(!my_strcasecmp(buf, "wifi") ? 
+    ui->phy_iface->value(!my_strcasecmp(buf, "wifi") ?
                                 GeneratorUI::NETWORK_PHY_IFACE_WIFI :
                          !my_strcasecmp(buf, "ethernet") ?
                                 GeneratorUI::NETWORK_PHY_IFACE_ETHER :
                                 GeneratorUI::NETWORK_PHY_IFACE_AUTO);
 
     config_getvar(config, "WIFI_MODE", buf, sizeof(buf));
-    ui->wifi_mode->value(!my_strcasecmp(buf, "ad-hoc") ? 
+    ui->wifi_mode->value(!my_strcasecmp(buf, "ad-hoc") ?
                                 GeneratorUI::WIFI_MODE_ADHOC :
                                 GeneratorUI::WIFI_MODE_MANAGED);
 
     config_getvar(config, "WIFI_ENC", buf, sizeof(buf));
-    ui->wifi_enc->value(!my_strcasecmp(buf, "WEP") ? 
+    ui->wifi_enc->value(!my_strcasecmp(buf, "WEP") ?
                                 GeneratorUI::WIFI_ENC_WEP :
                         !my_strcasecmp(buf, "WPA") ?
                                 GeneratorUI::WIFI_ENC_WPA :
@@ -90,7 +90,7 @@ int init_network_tab(GeneratorUI *ui)
         ui->wifi_channel->value(0);
 
     config_getvar(config, "WPA_DRV", buf, sizeof(buf));
-    ui->wpa_drv->value(!my_strcasecmp(buf, "atmel") ? 
+    ui->wpa_drv->value(!my_strcasecmp(buf, "atmel") ?
                                 GeneratorUI::WPA_DRV_ATMEL :
                                 GeneratorUI::WPA_DRV_WEXT );
 
@@ -183,14 +183,14 @@ int write_network_settings(GeneratorUI *ui)
 
     config = config_open(PATH_BASEISO "/etc/network", 1);
     if (!config) {
-	fl_alert("Failed to write network configuration.\n");
-	return 0;
+        fl_alert("Failed to write network configuration.\n");
+        return 0;
     }
 
     config2 = config_open(PATH_BASEISO "/etc/ftp", 1);
     if (!config) {
-	fl_alert("Failed to write ftp configuration.\n");
-	return 0;
+        fl_alert("Failed to write ftp configuration.\n");
+        return 0;
     }
 
     switch (ui->phy_iface->value())
@@ -236,7 +236,7 @@ int write_network_settings(GeneratorUI *ui)
     config_setvar(config, "SUBNET", manual ? ui->network_subnet->value() : "");
     config_setvar(config, "GATEWAY", manual ? ui->network_gateway->value() : "");
     config_setvar(config, "DNS_SERVER", manual ? ui->network_dns->value() : "");
-    
+
     config_setvar(config, "SMB_USER", ui->samba_user->value());
     config_setvar(config, "SMB_PWD", ui->samba_pass->value());
 

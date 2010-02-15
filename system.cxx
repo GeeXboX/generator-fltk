@@ -47,7 +47,7 @@ int execute_bg_program(char *string)
     char cmd[2048];
 
     if (bg_program) /* someone is already running program in background */
-	return -1;
+        return -1;
 
     ZeroMemory (&si, sizeof(si));
     si.cb = sizeof(si);
@@ -55,14 +55,14 @@ int execute_bg_program(char *string)
     snprintf(cmd, sizeof(cmd), "cmd.exe /c %s", string);
     if (!CreateProcess(NULL, cmd, NULL, NULL, FALSE, 0 | CREATE_NO_WINDOW,
                        NULL, NULL, &si, &pi))
-	return -1;
+        return -1;
 
     bg_program++;
     while (WaitForSingleObject(pi.hProcess, 50) == WAIT_TIMEOUT)
     {
-	Fl::check();
-	if (!bg_program) /* destroy_bg_program was called while in Fl::check */
-	    return -1;
+        Fl::check();
+        if (!bg_program) /* destroy_bg_program was called while in Fl::check */
+            return -1;
     }
     bg_program--;
 
@@ -73,22 +73,22 @@ int execute_bg_program(char *string)
     return (int)exitcode;
 #else
     if (bg_pid != -1) /* someone is already running program in background */
-	return -1;
+        return -1;
 
     if ((bg_pid = vfork()) < 0)
-	return -1;
+        return -1;
 
     if (!bg_pid)
     {
-	execl(_PATH_BSHELL, "sh", "-c", string, (char*)NULL);
-	_exit(127);
+        execl(_PATH_BSHELL, "sh", "-c", string, (char*)NULL);
+        _exit(127);
     }
 
     bg_status = 100;
     while (!waitpid(bg_pid, &bg_status, WNOHANG))
     {
-	Fl::check();
-	my_msleep(10);
+        Fl::check();
+        my_msleep(10);
     }
     bg_pid = -1;
 
@@ -100,7 +100,7 @@ void destroy_bg_program(void)
 {
 #ifdef _WIN32
     if (!bg_program)
-	return;
+        return;
     TerminateProcess(pi.hProcess, 100);
     WaitForSingleObject(pi.hProcess, INFINITE);
     CloseHandle(pi.hProcess);
@@ -108,7 +108,7 @@ void destroy_bg_program(void)
     bg_program--;
 #else
     if (bg_pid == -1)
-	return;
+        return;
     kill(bg_pid, SIGKILL);
     waitpid(bg_pid, &bg_status, 0);
     bg_pid = -1;

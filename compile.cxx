@@ -54,13 +54,13 @@ const char *get_target_arch_string(void)
     switch (target_arch)
     {
     case TARGET_ARCH_I386:
-	return "i386";
+        return "i386";
     case TARGET_ARCH_X86_64:
         return "x86_64";
     case TARGET_ARCH_POWERPC:
-	return "powerpc";
+        return "powerpc";
     default:
-	return NULL;
+        return NULL;
     }
 }
 
@@ -78,8 +78,8 @@ void update_progress(GeneratorUI *ui, const char *msg)
 static int write_geexbox_files(GeneratorUI *ui)
 {
     const struct {
-	const char *name;
-	int (*func) (GeneratorUI *ui);
+        const char *name;
+        int (*func) (GeneratorUI *ui);
     } funcs[] = {
       { "Copying theme files...", copy_theme_files },
       { "Copying language files...", copy_language_files },
@@ -98,9 +98,9 @@ static int write_geexbox_files(GeneratorUI *ui)
     unsigned int i;
     for (i = 0; i < sizeof(funcs)/sizeof(funcs[0]); i++)
     {
-	update_progress(ui, funcs[i].name);
-	if (!(funcs[i].func)(ui) || copy_errors > 0)
-	    return 0;
+        update_progress(ui, funcs[i].name);
+        if (!(funcs[i].func)(ui) || copy_errors > 0)
+            return 0;
     }
     return 1;
 }
@@ -154,11 +154,11 @@ static int compile_isoimage(GeneratorUI *ui)
     {
     case TARGET_ARCH_I386:
     case TARGET_ARCH_X86_64:
-	mkisofs_arch = "-no-emul-boot -boot-info-table -boot-load-size 4 -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog";
-	break;
+        mkisofs_arch = "-no-emul-boot -boot-info-table -boot-load-size 4 -b GEEXBOX/boot/isolinux.bin -c GEEXBOX/boot/boot.catalog";
+        break;
     case TARGET_ARCH_POWERPC:
-	mkisofs_arch = "-hfs -part -no-desktop -map maps -hfs-volid GEEXBOX -hfs-bless ziso/GEEXBOX/boot";
-	break;
+        mkisofs_arch = "-hfs -part -no-desktop -map maps -hfs-volid GEEXBOX -hfs-bless ziso/GEEXBOX/boot";
+        break;
     }
 
     sprintf(iso_image, "geexbox-%s-%s.%s.iso", geexbox_version, ((struct lang_info*)ui->menu_lang->mvalue()->user_data())->shortname, get_target_arch_string());
@@ -220,18 +220,18 @@ static int real_compile_iso(GeneratorUI *ui)
     cleanup_isotree();
 
     if (!write_geexbox_files(ui))
-	return 0;
+        return 0;
 
     update_progress(ui, "Creating ziso tree...");
     cleanup_zisotree();
     if (my_mkdir("ziso") < 0) {
-	fl_alert("Failed to create temporary ziso directory.\n");
-	return 0;
+        fl_alert("Failed to create temporary ziso directory.\n");
+        return 0;
     }
 
     if (!compile_zisotree()) {
-	fl_alert("Failed to create ziso tree.\n");
-	return 0;
+        fl_alert("Failed to create ziso tree.\n");
+        return 0;
     }
 
     update_progress(ui, "Cleaning temporary files...");
@@ -242,7 +242,7 @@ static int real_compile_iso(GeneratorUI *ui)
     multi_copy("iso/GEEXBOX/boot/", "ziso/GEEXBOX/boot/", "");
 
     if (!copy_theme_boot_files(ui) || copy_errors > 0)
-	return 0;
+        return 0;
 
     update_progress(ui, "Copying extra files...");
     compile_extrafiles(ui);
@@ -250,8 +250,8 @@ static int real_compile_iso(GeneratorUI *ui)
 
     update_progress(ui, "Compiling iso file...");
     if (!compile_isoimage(ui)) {
-	fl_alert("Failed to create ISO image.\n");
-	return 0;
+        fl_alert("Failed to create ISO image.\n");
+        return 0;
     }
 
     update_progress(ui, "Cleaning ziso tree...");
@@ -319,26 +319,26 @@ int init_compile(GeneratorUI *ui)
     FILE *f;
 
     if (file_exists(PATH_BASEISO "/usr/share/grub-i386-pc.tar.lzma"))
-	target_arch = TARGET_ARCH_I386;
+        target_arch = TARGET_ARCH_I386;
     else if (file_exists(PATH_BASEISO "/boot/isolinux.bin"))
         target_arch = TARGET_ARCH_X86_64;
     else if (file_exists(PATH_BASEISO "/boot/yaboot"))
-	target_arch = TARGET_ARCH_POWERPC;
+        target_arch = TARGET_ARCH_POWERPC;
     else {
-	fl_alert("Failed to detect iso target arch.");
-	return 0;
+        fl_alert("Failed to detect iso target arch.");
+        return 0;
     }
 
     f = fopen("VERSION", "r");
     if (!f || !fgets(buf, sizeof(buf), f)) {
-	if (f)
-	    fclose(f);
-	fl_alert("Failed to detect GeeXboX version.");
-	return 0;
+        if (f)
+            fclose(f);
+        fl_alert("Failed to detect GeeXboX version.");
+        return 0;
     }
     fclose(f);
     if ((tmp = strchr(buf, '\n')))
-	*tmp = '\0';
+        *tmp = '\0';
     geexbox_version = strdup(buf);
 
     sprintf(buf, "GeeXboX Generator %s %s", geexbox_version, get_target_arch_string());
@@ -355,27 +355,27 @@ int find_geexbox_tree(const char *prog)
     char *orig_cwd;
     char *prog_path, *tmp;
 
-    if (fl_filename_isdir(PATH_BASEISO)) 
-	return 1;
+    if (fl_filename_isdir(PATH_BASEISO))
+        return 1;
 
     orig_cwd  = getcwd(0, 4096);
     prog_path = strdup(prog);
     if (prog_path) {
-	tmp = (char*)fl_filename_name(prog_path);
-	if (tmp != prog_path) {
-	    *tmp = '\0';
-	    if (!chdir(prog_path) && fl_filename_isdir(PATH_BASEISO)) {
-		free(prog_path);
-		if (orig_cwd)
-		    free(orig_cwd);
-		return 1;
-	    }
-	}
-	free(prog_path);
+        tmp = (char*)fl_filename_name(prog_path);
+        if (tmp != prog_path) {
+            *tmp = '\0';
+            if (!chdir(prog_path) && fl_filename_isdir(PATH_BASEISO)) {
+                free(prog_path);
+                if (orig_cwd)
+                    free(orig_cwd);
+                return 1;
+            }
+        }
+        free(prog_path);
     }
     fl_alert("Failed to find GeeXboX iso directory.\nOriginal working directory is: '%s'.\n", orig_cwd ? orig_cwd : "unknown");
     if (orig_cwd)
-	free(orig_cwd);
+        free(orig_cwd);
     return 0;
 }
 
@@ -388,31 +388,31 @@ int tree_corrupted(void)
 
     f = fopen(PATH_BASEISO "/sbin/init", "rb");
     if (f) {
-	if (fgets(buf, sizeof(buf)-1, f)) {
-	    if (strchr(buf, '\r'))
-	    {
-		msg = "CR/LF";
-		err++;
-	    }
-	} else {
-	    err++;
-	}
-	fclose(f);
+        if (fgets(buf, sizeof(buf)-1, f)) {
+            if (strchr(buf, '\r'))
+            {
+                msg = "CR/LF";
+                err++;
+            }
+        } else {
+            err++;
+        }
+        fclose(f);
     } else {
-	err++;
+        err++;
     }
 
     if (!fl_filename_isdir(PATH_BASEISO "/usr/share/fonts")) {
-	msg2 = "empty directories";
-	err++;
+        msg2 = "empty directories";
+        err++;
     }
 
     if (msg || msg2)
-	fl_alert("GeeXboX generator files are corrupted.\nThis probably means you have extracted the archive with WinZIP\n"
-		 "or any kind of unarchiver that can't handle %s%s%s properly.\n\nPlease use real software like 7Zip (http://www.7-zip.org).",
-		 msg ? msg : (msg2 ? msg2 : ""), (msg && msg2) ? " and " : "", (msg && msg2) ? msg2 : "");
+        fl_alert("GeeXboX generator files are corrupted.\nThis probably means you have extracted the archive with WinZIP\n"
+                 "or any kind of unarchiver that can't handle %s%s%s properly.\n\nPlease use real software like 7Zip (http://www.7-zip.org).",
+                 msg ? msg : (msg2 ? msg2 : ""), (msg && msg2) ? " and " : "", (msg && msg2) ? msg2 : "");
     else if (err)
-	fl_alert("GeeXboX generator files are corrupted.\n\nPlease use real software like 7Zip (http://www.7-zip.org) to extract the archive.");
+        fl_alert("GeeXboX generator files are corrupted.\n\nPlease use real software like 7Zip (http://www.7-zip.org) to extract the archive.");
 
     return (err > 0);
 }

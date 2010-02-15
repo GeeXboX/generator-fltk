@@ -56,7 +56,7 @@ int config_write(config_t *config, const char *filename)
   FILE *f;
   item_t *item;
   char *it;
-  
+
   f = fopen(filename, "wb");
   if (f == NULL)
     return 0;
@@ -129,7 +129,7 @@ static int config_add_item(config_t *config, const char *value, size_t value_len
   item_t *item;
 
   if (value_len == 0 && name_len == 0)
-    return 1; 
+    return 1;
 
   item = malloc(sizeof(item_t));
   if (!item)
@@ -142,7 +142,7 @@ static int config_add_item(config_t *config, const char *value, size_t value_len
       free(item);
       return 0;
     }
-  
+
   if (name_len == 0)
     {
       item->name = NULL;
@@ -152,16 +152,16 @@ static int config_add_item(config_t *config, const char *value, size_t value_len
       item->name = config_dup_string(name, name_len, config->shell_escape);
       if (!item->name)
         {
-	  free(item->value);
-	  free(item);
-	  return 0;
-	}
+          free(item->value);
+          free(item);
+          return 0;
+        }
     }
 
   *config->item_list_end = item;
   config->item_list_end = &item->next;
   config->item_list_tail = item;
- 
+
   return 1;
 }
 
@@ -190,46 +190,46 @@ static int config_read_line(config_t *config, char *line)
       {
         name_end = name = equal-1;
         while (name >= line && !isspace(*name))
-	  name--;
-	name++;
-	
-	if (name <= name_end && (name == line || isspace(name[-1])))
-	{
-	  value = equal + 1;
-	  if (config->shell_escape && (*value == '\"' || *value == '\''))
-	    {
-	      char strtype = *value++;
-	      value_end = value;
-	      do
-	        {
-		  value_end = strchr(value_end, strtype);
-	        }
-	      while (*(value_end - 1) == '\\' && value_end++);
+          name--;
+        name++;
 
-	      if (value_end)
-	        {
-		  next_line = value_end-- + 1;
-		}
-	    }
-	  else
-	    {
-	      for (value_end = value; !isspace(*value_end); value_end++)
-	        ;
-	      next_line = value_end--;
-	    }
+        if (name <= name_end && (name == line || isspace(name[-1])))
+        {
+          value = equal + 1;
+          if (config->shell_escape && (*value == '\"' || *value == '\''))
+            {
+              char strtype = *value++;
+              value_end = value;
+              do
+                {
+                  value_end = strchr(value_end, strtype);
+                }
+              while (*(value_end - 1) == '\\' && value_end++);
+
+              if (value_end)
+                {
+                  next_line = value_end-- + 1;
+                }
+            }
+          else
+            {
+              for (value_end = value; !isspace(*value_end); value_end++)
+                ;
+              next_line = value_end--;
+            }
 
           if (value_end)
-	    {
-	      if (!config_add_item(config, line, name - line, NULL, 0) || 
-	          !config_add_item(config, value, value_end - value + 1, name, name_end - name + 1))
-		{
-		  return 0;
-		}
+            {
+              if (!config_add_item(config, line, name - line, NULL, 0) ||
+                  !config_add_item(config, value, value_end - value + 1, name, name_end - name + 1))
+                {
+                  return 0;
+                }
 
-	      line = next_line;
-	      continue;
-	    }
-	}
+              line = next_line;
+              continue;
+            }
+        }
       }
 
     break;
@@ -243,7 +243,7 @@ static int config_read(config_t *config, const char *filename)
   FILE *f;
   char buf[1024], *line;
   char *marker;
-  
+
   if (config->item_list)
     return 0;
 
@@ -257,7 +257,7 @@ static int config_read(config_t *config, const char *filename)
     if (marker)
       {
         *marker++ = '\n';
-	*marker++ = '\0';
+        *marker++ = '\0';
       }
 
     if (!config_read_line(config, line))
@@ -298,7 +298,7 @@ static int config_fix_tail(config_t *config)
 config_t *config_open(const char *filename, int shell_escape)
 {
   config_t *config;
-  
+
   config = config_create(shell_escape);
   if (!config)
     return NULL;
@@ -321,10 +321,10 @@ int config_getvar_location (config_t *config, const char *name, int location, ch
     {
       if (item->name && !strcmp(item->name, name) && (++current_location == location))
         {
-	  strncpy(dst, item->value, dstlen);
-	  dst[dstlen-1] = '\0';
-	  return 1;
-	}
+          strncpy(dst, item->value, dstlen);
+          dst[dstlen-1] = '\0';
+          return 1;
+        }
     }
 
   *dst = '\0';
@@ -362,17 +362,17 @@ int config_setvar_location (config_t *config, const char *name, int location, co
     {
       if (item->name && !strcmp(item->name, name) && (location == 0 || location == ++current_location))
         {
-	  found = 1;
-	  free(item->value);
+          found = 1;
+          free(item->value);
           if (value)
             {
-	      item->value = strdup(value);
-	      if (!item->value)
-	        return 0;
+              item->value = strdup(value);
+              if (!item->value)
+                return 0;
             }
           else
             item->value = NULL;
-	}
+        }
     }
 
   if (found)

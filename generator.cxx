@@ -52,14 +52,14 @@
 void update_tabs_status(GeneratorUI *ui)
 {
     if (ui->lcd_enabled->value()) {
-	ui->lcd_model->activate();
-	ui->lcd_width->activate();
-	ui->lcd_height->activate();
+        ui->lcd_model->activate();
+        ui->lcd_width->activate();
+        ui->lcd_height->activate();
     }
     else {
-	ui->lcd_model->deactivate();
-	ui->lcd_width->deactivate();
-	ui->lcd_height->deactivate();
+        ui->lcd_model->deactivate();
+        ui->lcd_width->deactivate();
+        ui->lcd_height->deactivate();
     }
 
     if (ui->xorg_auto->value()) {
@@ -141,23 +141,23 @@ void update_tabs_status(GeneratorUI *ui)
     }
 
     if (ui->streaming_shoutcasttv->value()) {
-	ui->streaming_whitelist->activate();
-	ui->streaming_blacklist->activate();
+        ui->streaming_whitelist->activate();
+        ui->streaming_blacklist->activate();
     }
     else {
-	ui->streaming_whitelist->deactivate();
-	ui->streaming_blacklist->deactivate();
+        ui->streaming_whitelist->deactivate();
+        ui->streaming_blacklist->deactivate();
     }
 
     if (ui->override_sub_font->value())
-	ui->sub_font->activate();
+        ui->sub_font->activate();
     else
-	ui->sub_font->deactivate();
+        ui->sub_font->deactivate();
 
     if (ui->override_menu_font->value())
-	ui->menu_font->activate();
+        ui->menu_font->activate();
     else
-	ui->menu_font->deactivate();
+        ui->menu_font->deactivate();
 
     if (ui->server_ftp->value()) {
         ui->ftp_user->activate();
@@ -171,63 +171,63 @@ void update_tabs_status(GeneratorUI *ui)
     switch (ui->soundcard_mode->value())
     {
     case GeneratorUI::SOUNDCARD_MODE_SPDIF:
-	ui->hwac3->activate();
-	ui->ac97_spsa->activate();
-	break;
+        ui->hwac3->activate();
+        ui->ac97_spsa->activate();
+        break;
     case GeneratorUI::SOUNDCARD_MODE_ANALOG:
-	ui->hwac3->deactivate();
-	ui->channels->activate();
-	ui->ac97_spsa->deactivate();
-	break;
+        ui->hwac3->deactivate();
+        ui->channels->activate();
+        ui->ac97_spsa->deactivate();
+        break;
     }
 
     switch (ui->phy_iface->value())
     {
     case GeneratorUI::NETWORK_PHY_IFACE_AUTO:
     case GeneratorUI::NETWORK_PHY_IFACE_WIFI:
-	ui->wifi_settings->activate();
-	break;
+        ui->wifi_settings->activate();
+        break;
     case GeneratorUI::NETWORK_PHY_IFACE_ETHER:
-	ui->wifi_settings->deactivate();
-	break;
+        ui->wifi_settings->deactivate();
+        break;
     }
 
     switch (ui->wifi_enc->value())
     {
     case GeneratorUI::WIFI_ENC_WPA:
-	ui->wifi_key->activate();
-	ui->wpa_drv->activate();
-	ui->wpa_scan->activate();
-	ui->key_ascii->deactivate();
-	break;
+        ui->wifi_key->activate();
+        ui->wpa_drv->activate();
+        ui->wpa_scan->activate();
+        ui->key_ascii->deactivate();
+        break;
     case GeneratorUI::WIFI_ENC_WEP:
-	ui->wifi_key->activate();
-	ui->wpa_drv->deactivate();
-	ui->wpa_scan->deactivate();
-	ui->key_ascii->activate();
-	break;
+        ui->wifi_key->activate();
+        ui->wpa_drv->deactivate();
+        ui->wpa_scan->deactivate();
+        ui->key_ascii->activate();
+        break;
     case GeneratorUI::WIFI_ENC_NONE:
-	ui->wifi_key->deactivate();
-	ui->wpa_drv->deactivate();
-	ui->wpa_scan->deactivate();
-	ui->key_ascii->deactivate();
-	break;
+        ui->wifi_key->deactivate();
+        ui->wpa_drv->deactivate();
+        ui->wpa_scan->deactivate();
+        ui->key_ascii->deactivate();
+        break;
     }
 
     switch (ui->network_conf->value())
     {
     case GeneratorUI::NETWORK_CONF_MANUAL:
-	ui->network_ip->activate();
-	ui->network_subnet->activate();
-	ui->network_gateway->activate();
-	ui->network_dns->activate();
-	break;
+        ui->network_ip->activate();
+        ui->network_subnet->activate();
+        ui->network_gateway->activate();
+        ui->network_dns->activate();
+        break;
     case GeneratorUI::NETWORK_CONF_DHCP:
-	ui->network_ip->deactivate();
-	ui->network_subnet->deactivate();
-	ui->network_gateway->deactivate();
-	ui->network_dns->deactivate();
-	break;
+        ui->network_ip->deactivate();
+        ui->network_subnet->deactivate();
+        ui->network_gateway->deactivate();
+        ui->network_dns->deactivate();
+        break;
     }
 
     update_theme_tab(ui);
@@ -243,25 +243,25 @@ void generator_exit(GeneratorUI *ui)
 
 static int init_tabs(GeneratorUI *ui)
 {
-    return 1 
-	&& init_compile(ui)
-	&& init_language_tab(ui)
-	&& init_autoplay_tab(ui)
-	&& init_dvdnav_tab(ui)
-	&& init_keymap_tab(ui)
-	&& init_audio_tab(ui)
-	&& init_video_tab(ui)
-	&& init_remote_tab(ui)
-	&& init_ndiswrapper_tab(ui)
-	&& init_network_tab(ui)
-	&& init_nfs_tab(ui)
-	&& init_samba_tab(ui)
-	&& init_lcd_tab(ui)
-	&& init_theme_tab(ui)
-	&& init_curl()
-	&& init_packages_tab(ui)
-	&& init_extrafiles_tab(ui)
-	;
+    return 1
+        && init_compile(ui)
+        && init_language_tab(ui)
+        && init_autoplay_tab(ui)
+        && init_dvdnav_tab(ui)
+        && init_keymap_tab(ui)
+        && init_audio_tab(ui)
+        && init_video_tab(ui)
+        && init_remote_tab(ui)
+        && init_ndiswrapper_tab(ui)
+        && init_network_tab(ui)
+        && init_nfs_tab(ui)
+        && init_samba_tab(ui)
+        && init_lcd_tab(ui)
+        && init_theme_tab(ui)
+        && init_curl()
+        && init_packages_tab(ui)
+        && init_extrafiles_tab(ui)
+        ;
 }
 
 #ifdef __APPLE__
@@ -274,26 +274,26 @@ void setMacResources(const char *filename)
     short rref;         /* Resource Reference */
 
     if (FSPathMakeRef((const UInt8*)filename, &fsref, NULL))
-	return;
-      
+        return;
+
     if (FSGetCatalogInfo(&fsref, kFSCatInfoNone, NULL, NULL, &fsspec, NULL))
-	return;
+        return;
 
     rref = FSpOpenResFile(&fsspec, fsRdPerm);
     switch (ResError())
     {
     case eofErr:
-	FSpCreateResFile(&fsspec, 0, 0, smCurrentScript);
-	break;
+        FSpCreateResFile(&fsspec, 0, 0, smCurrentScript);
+        break;
     case 0:
-	CloseResFile(rref);
-	break;
+        CloseResFile(rref);
+        break;
     }
 }
 #endif
 
 int
-main(int argc, char **argv) 
+main(int argc, char **argv)
 {
 #ifdef __APPLE__
     setMacResources(argv[0]);
@@ -313,11 +313,11 @@ main(int argc, char **argv)
 #endif
 
     if (!find_geexbox_tree(argv[0]) || tree_corrupted())
-	return 1;
+        return 1;
 
     if (!init_tabs(ui)) {
-	fprintf(stderr, "Tabs initilizing failed.\n");
-	return 1;
+        fprintf(stderr, "Tabs initilizing failed.\n");
+        return 1;
     }
     ui->license_window = NULL;
 

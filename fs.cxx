@@ -45,7 +45,7 @@ int file_exists(const char *file)
 {
     struct stat st;
     if (stat(file, &st) < 0)
-	return 0;
+        return 0;
     return 1;
 }
 
@@ -57,28 +57,28 @@ int _copy_file(const char *src, const char *dst, int append)
 
     fi = open(src, O_RDONLY | O_BINARY, 0);
     if (fi < 0)
-	return 1;
+        return 1;
     if (fstat(fi, &st) < 0) {
-	close(fi);
-	return 1;
+        close(fi);
+        return 1;
     }
     fo = open(dst, append ? (O_APPEND | O_WRONLY | O_BINARY) : (O_CREAT | O_TRUNC | O_WRONLY | O_BINARY),
                         (int) (st.st_mode & 0777));
     if (fo < 0) {
-	close(fi);
-	return 1;
+        close(fi);
+        return 1;
     }
 
-    for (x = 1; x > 0;) 
+    for (x = 1; x > 0;)
     {
-	x = read(fi, buf, 512);
-	if (x > 0 && write(fo, buf, x) < x)
-	{
-	    close(fo);
-	    close(fi);
-	    unlink(dst);
-	    return 1;
-	}
+        x = read(fi, buf, 512);
+        if (x > 0 && write(fo, buf, x) < x)
+        {
+            close(fo);
+            close(fi);
+            unlink(dst);
+            return 1;
+        }
     }
 
     close(fo);
@@ -91,7 +91,7 @@ int copy_file(const char *src, const char *dst)
 {
     int ret = _copy_file(src, dst, 0);
     if (ret && copy_errors++ < 3)
-	fl_alert("Failed to copy file '%s'\n to '%s'.\n", src, dst);
+        fl_alert("Failed to copy file '%s'\n to '%s'.\n", src, dst);
     return ret;
 }
 
@@ -105,32 +105,32 @@ int multi_copy(const char *srcdir, const char *dstdir, const char *exclude)
     size_t exclude_len = strlen(exclude);
 
     if ((num_files = fl_filename_list(srcdir, &files, NULL)) <= 0)
-	return 0;
+        return 0;
 
     for (i = 0; i < num_files; i++)
     {
-	fname = files[i]->d_name;
-	if (strcmp(fname, ".") && strcmp(fname, "./")
-	    && strcmp(fname, "..") && strcmp(fname, "../")
-	    && (strncmp(fname, exclude, exclude_len) || (fname[exclude_len] != '/' && fname[exclude_len] != '\0')))
-	{ 
-	    strcpy(srcfile, srcdir);
-	    strcat(srcfile, fname);
-	    strcpy(dstfile, dstdir);
-	    strcat(dstfile, fname);
+        fname = files[i]->d_name;
+        if (strcmp(fname, ".") && strcmp(fname, "./")
+            && strcmp(fname, "..") && strcmp(fname, "../")
+            && (strncmp(fname, exclude, exclude_len) || (fname[exclude_len] != '/' && fname[exclude_len] != '\0')))
+        {
+            strcpy(srcfile, srcdir);
+            strcat(srcfile, fname);
+            strcpy(dstfile, dstdir);
+            strcat(dstfile, fname);
 
-	    if (fl_filename_isdir(srcfile)) {
-		my_mkdir(dstfile);
-		if (srcfile[strlen(srcfile)-1] != '/')
-		    strcat(srcfile, "/");
-		if (dstfile[strlen(dstfile)-1] != '/')
-		    strcat(dstfile, "/");
-		errors += multi_copy(srcfile, dstfile, exclude);
-	    } else {
-		errors += copy_file(srcfile, dstfile);
-	    }
-	}
-	free((void*)files[i]);
+            if (fl_filename_isdir(srcfile)) {
+                my_mkdir(dstfile);
+                if (srcfile[strlen(srcfile)-1] != '/')
+                    strcat(srcfile, "/");
+                if (dstfile[strlen(dstfile)-1] != '/')
+                    strcat(dstfile, "/");
+                errors += multi_copy(srcfile, dstfile, exclude);
+            } else {
+                errors += copy_file(srcfile, dstfile);
+            }
+        }
+        free((void*)files[i]);
     }
     free((void*)files);
 
@@ -145,31 +145,31 @@ void multi_delete(const char *dir, const char *prefix, const char *suffix, const
     struct dirent **files;
 
     if ((num_files = fl_filename_list(dir, &files, NULL)) <= 0)
-	return;
+        return;
 
     for (i = 0; i < num_files; i++)
     {
-	fname = files[i]->d_name;
-	if (strcmp(fname, ".") && strcmp(fname, "./")
-	    && strcmp(fname, "..") && strcmp(fname, "../")
-	    && (!prefix || !strncmp(prefix, fname, strlen(prefix)))
+        fname = files[i]->d_name;
+        if (strcmp(fname, ".") && strcmp(fname, "./")
+            && strcmp(fname, "..") && strcmp(fname, "../")
+            && (!prefix || !strncmp(prefix, fname, strlen(prefix)))
             && (!suffix || !strcmp(suffix, &fname[strlen(fname)-strlen(suffix)]))
-	    )
-	{ 
-	    strcpy(file, dir);
-	    strcat(file, fname);
-	    if (fl_filename_isdir(file)) {
-		if (recursive) {
-		    if (file[strlen(file)-1] != '/')
-			strcat(file, "/");
-		    multi_delete(file, prefix, suffix, recursive);
-		    rmdir(file);
-		}
-	    } else {
-		unlink(file);
-	    }
-	}
-	free((void*)files[i]);
+            )
+        {
+            strcpy(file, dir);
+            strcat(file, fname);
+            if (fl_filename_isdir(file)) {
+                if (recursive) {
+                    if (file[strlen(file)-1] != '/')
+                        strcat(file, "/");
+                    multi_delete(file, prefix, suffix, recursive);
+                    rmdir(file);
+                }
+            } else {
+                unlink(file);
+            }
+        }
+        free((void*)files[i]);
     }
     free((void*)files);
 }

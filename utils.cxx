@@ -24,8 +24,8 @@
 void replace_char (char *str, const char o, const char n)
 {
     for (; *str; str++)
-	if (*str == o)
-	    *str = n;
+        if (*str == o)
+            *str = n;
 }
 
 std::string get_str_nospace(char *buf, int loc)

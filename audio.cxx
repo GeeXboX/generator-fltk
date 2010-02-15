@@ -32,19 +32,19 @@ int init_audio_tab(GeneratorUI *ui)
     config_t *config = config_open(PATH_BASEISO "/etc/audio", 1);
 
     const char *ac97_spsa[] = {
-	"PCM1",
-	"PCM2, PCM1 (rear)",
-	"Centre and LFE",
-	"PCM3, Modem, Dedicated SPDIF"
+        "PCM1",
+        "PCM2, PCM1 (rear)",
+        "Centre and LFE",
+        "PCM3, Modem, Dedicated SPDIF"
     };
 
     if (!config) {
-	fl_alert("Missing audio configuration files.\n");
-	return 0;
+        fl_alert("Missing audio configuration files.\n");
+        return 0;
     }
 
     for (k = 0; k < sizeof(ac97_spsa)/sizeof(ac97_spsa[0]); k++) {
-	ui->ac97_spsa->add(ac97_spsa[k], 0, NULL, (void *)ac97_spsa[k]);
+        ui->ac97_spsa->add(ac97_spsa[k], 0, NULL, (void *)ac97_spsa[k]);
     }
 
     config_getvar_int(config, "ALSA_CARD", &i);
@@ -83,8 +83,8 @@ int write_audio_settings(GeneratorUI *ui)
     int i = 0;
 
     if (!config) {
-	fl_alert("Failed to write audio configuration.\n");
-	return 0;
+        fl_alert("Failed to write audio configuration.\n");
+        return 0;
     }
 
     config_setvar_int(config, "ALSA_CARD", (int)ui->alsacard_id->value());
